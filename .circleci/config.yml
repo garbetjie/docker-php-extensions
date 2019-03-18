@@ -25,7 +25,8 @@ jobs:
       SRC_TAG: "7.3.2-fpm-alpine3.9"
     steps: *steps
 
-workflow:
+workflows:
+  version: 2
   build:
     jobs:
       - build-7.2
