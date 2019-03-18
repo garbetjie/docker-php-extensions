@@ -4,6 +4,8 @@ aliases:
     - setup_remote_docker
     - run: docker pull "${DOCKER_HUB_REPO}/php:${PHP_VERSION}-fpm" || true
     - run: docker build -t "${DOCKER_HUB_REPO}/php:${PHP_VERSION}-fpm" --cache-from="${DOCKER_HUB_REPO}/php:${PHP_VERSION}-fpm" --build-arg SRC_TAG=${SRC_TAG} .
+    - run: echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" --password-stdin
+    - run: docker push "${DOCKER_HUB_REPO}/php:${PHP_VERSION}-fpm"
 
 version: 2
 jobs:
