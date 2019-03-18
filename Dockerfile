@@ -68,4 +68,49 @@ RUN set -ex; set -o pipefail; \
     apk del --purge .build-deps; \
     docker-php-source delete
 
-RUN docker-php-ext-enable amqp xdebug redis igbinary memcached msgpack newrelic opencensus
+RUN set -e; \
+    docker-php-ext-enable amqp xdebug redis igbinary memcached msgpack newrelic opencensus; \
+    rm -rf ${PHP_INI_DIR}/php.ini-* /usr/local/etc/php-fpm.conf.default /usr/local/etc/php-fpm.d; \
+    apk add --no-cache gettext; \
+    mkdir /app && chown www-data:www-data /app
+
+ENTRYPOINT /docker-entrypoint.sh
+WORKDIR /app
+
+COPY fs/ /
+
+ENV \
+    # FPM-specific configuration.
+    PM=dynamic \
+    MAX_CHILDREN=0 \
+    MIN_SPARE_SERVERS=1 \
+    MAX_SPARE_SERVERS=3 \
+    MAX_REQUESTS=10000 \
+    \
+    # PHP-specific configuration.
+    DISPLAY_ERRORS="Off" \
+    ERROR_REPORTING="E_ALL & ~E_DEPRECATED & ~E_STRICT" \
+    HTML_ERRORS="Off" \
+    MAX_EXECUTION_TIME=30 \
+    MAX_INPUT_TIME=30 \
+    MAX_REQUEST_SIZE="8M" \
+    MEMORY_LIMIT="64M" \
+    NEWRELIC_ENABLED="false" \
+    NEWRELIC_APP_NAME="" \
+    NEWRELIC_AUTORUM_ENABLED=0 \
+    NEWRELIC_LABELS="" \
+    NEWRELIC_LICENCE="" \
+    NEWRELIC_RECORD_SQL="obfuscated" \
+    SESSION_SAVE_HANDLER="files" \
+    SESSION_SAVE_PATH="/tmp/sessions" \
+    TIMEZONE="Etc/UTC" \
+    UPLOAD_MAX_FILESIZE="8M" \
+    XDEBUG_ENABLED="false" \
+    XDEBUG_IDE_KEY="IDEKEY" \
+    XDEBUG_REMOTE_AUTOSTART=0 \
+    XDEBUG_REMOTE_HOST="192.168.99.1" \
+    XDEBUG_REMOTE_PORT=9000 \
+    XDEBUG_SERVER_NAME="\$server_name" \
+    \
+    # Generic configuration.
+    TIMEOUT=60
