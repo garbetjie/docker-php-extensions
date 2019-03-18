@@ -74,7 +74,7 @@ RUN set -e; \
     apk add --no-cache gettext; \
     mkdir /app && chown www-data:www-data /app
 
-ENTRYPOINT /docker-entrypoint.sh
+ENTRYPOINT ["/docker-entrypoint.sh"]
 WORKDIR /app
 
 COPY fs/ /
