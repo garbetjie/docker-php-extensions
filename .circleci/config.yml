@@ -1,7 +1,32 @@
+aliases:
+  steps: &steps
+    - checkout
+    - setup_remote_docker
+    - run: docker pull "${DOCKER_HUB_REPO}/php:${PHP_VERSION}-fpm" || true
+    - run: docker build -t "${DOCKER_HUB_REPO}/php:${PHP_VERSION}-fpm" --cache-from="${DOCKER_HUB_REPO}/php:${PHP_VERSION}-fpm" --build-arg SRC_TAG=${SRC_TAG} .
+
 version: 2
 jobs:
-  build:
+  build-7.2:
     docker:
       - image: circleci/python:3.7.2-stretch
-    steps:
-      - run: echo "Hello"
+    context: docker-hub
+    environment:
+      PHP_VERSION: "7.2"
+      SRC_TAG: "7.2.15-fpm-alpine3.9"
+    steps: *steps
+
+  build-7.3:
+    docker:
+      - image: circleci/python:3.7.2-stretch
+    context: docker-hub
+    environment:
+      PHP_VERSION: "7.3"
+      SRC_TAG: "7.3.2-fpm-alpine3.9"
+    steps: *steps
+
+workflow:
+  build:
+    jobs:
+      - build-7.2
+      - build-7.3
