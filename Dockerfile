@@ -1,7 +1,7 @@
 ARG SRC_TAG=""
 FROM php:${SRC_TAG}
 
-ENV NEWRELIC_VERSION="8.5.0.235" \
+ENV NEWRELIC_VERSION="8.6.0.238" \
     OPENCENSUS_RELEASE="d1512abf456761165419a7b236e046a38b61219e"
 
 RUN set -ex; set -o pipefail; \
@@ -81,7 +81,7 @@ COPY fs/ /
 
 ENV \
     # FPM-specific configuration.
-    PM=dynamic \
+    PM="static" \
     MAX_CHILDREN=0 \
     MIN_SPARE_SERVERS=1 \
     MAX_SPARE_SERVERS=3 \
