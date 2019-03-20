@@ -72,6 +72,7 @@ RUN set -e; \
     docker-php-ext-enable amqp xdebug redis igbinary memcached msgpack newrelic opencensus; \
     rm -rf ${PHP_INI_DIR}/php.ini-* /usr/local/etc/php-fpm.conf.default /usr/local/etc/php-fpm.d; \
     apk add --no-cache gettext; \
+    mkdir -p /var/log/newrelic; \
     mkdir /app && chown www-data:www-data /app
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
