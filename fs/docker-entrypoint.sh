@@ -17,8 +17,10 @@ fi
 
 if [[ $MAX_CHILDREN -lt 1 ]]; then
     # See https://github.com/moby/moby/issues/20688#issuecomment-188923858 for why we check memory.limit_in_bytes first.
+    # Need to convert it from bytes to KB though.
     if [[ -f /sys/fs/cgroup/memory/memory.limit_in_bytes ]]; then
         total_memory="$(cat /sys/fs/cgroup/memory/memory.limit_in_bytes)"
+        total_memory="$(expr "$total_memory" / 1024)"
     else
         total_memory="$(grep MemTotal /proc/meminfo | awk '{print $2}')"
     fi
