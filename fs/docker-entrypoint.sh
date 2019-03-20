@@ -2,12 +2,12 @@
 set -e
 
 # Remove NewRelic configuration file if not enabled.
-if [ "$NEWRELIC_ENABLED" != "true" ]; then
+if [[ "$NEWRELIC_ENABLED" != "true" ]]; then
     rm "${PHP_INI_DIR}/conf.d/docker-php-ext-newrelic.ini"
 fi
 
 # Remove XDebug configuration if not enabled.
-if [ "$XDEBUG_ENABLED" != "true" ]; then
+if [[ "$XDEBUG_ENABLED" != "true" ]]; then
     rm "${PHP_INI_DIR}/conf.d/docker-php-ext-xdebug.ini"
 fi
 
@@ -16,7 +16,13 @@ fi
 #
 
 if [[ $MAX_CHILDREN -lt 1 ]]; then
-    total_memory="$(grep MemTotal /proc/meminfo | awk '{print $2}')"
+    # See https://github.com/moby/moby/issues/20688#issuecomment-188923858 for why we check memory.limit_in_bytes first.
+    if [[ -f /sys/fs/cgroup/memory/memory.limit_in_bytes ]]; then
+        total_memory="$(cat /sys/fs/cgroup/memory/memory.limit_in_bytes)"
+    else
+        total_memory="$(grep MemTotal /proc/meminfo | awk '{print $2}')"
+    fi
+
     clean_memory_limit="$(echo "$MEMORY_LIMIT" | grep -oE '[0-9]+')"
     export MAX_CHILDREN=`expr "${total_memory}" "*" 95 "/" 100 "/" 1024 "/" "${clean_memory_limit}"`
 fi
