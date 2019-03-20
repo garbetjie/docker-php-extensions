@@ -2,10 +2,19 @@ aliases:
   steps: &steps
     - checkout
     - setup_remote_docker
+
     - run: docker pull "${DOCKER_HUB_REPO}/php:${PHP_VERSION}-fpm" || true
-    - run: docker build -t "${DOCKER_HUB_REPO}/php:${PHP_VERSION}-fpm" --cache-from="${DOCKER_HUB_REPO}/php:${PHP_VERSION}-fpm" --build-arg SRC_TAG=${SRC_TAG} .
+    - run: docker pull "${DOCKER_HUB_REPO}/php:${PHP_VERSION}-fpm-composer" || true
+
+    - run: docker build -t "build/php:${PHP_VERSION}-fpm" --cache-from="${DOCKER_HUB_REPO}/php:${PHP_VERSION}-fpm" --build-arg SRC_TAG=${SRC_TAG} .
+    - run: docker build -t "build/php:${PHP_VERSION}-fpm-composer" --cache-from="${DOCKER_HUB_REPO}/php:${PHP_VERSION}-fpm-composer" --build-arg PHP_VERSION=${PHP_VERSION} -f Dockerfile-composer .
+
+    - run: docker tag "build/php:${PHP_VERSION}-fpm" "${DOCKER_HUB_REPO}/php:${PHP_VERSION}-fpm"
+    - run: docker tag "build/php:${PHP_VERSION}-fpm-composer" "${DOCKER_HUB_REPO}/php:${PHP_VERSION}-fpm-composer"
+
     - run: echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" --password-stdin
     - run: docker push "${DOCKER_HUB_REPO}/php:${PHP_VERSION}-fpm"
+    - run: docker push "${DOCKER_HUB_REPO}/php:${PHP_VERSION}-fpm-composer"
 
 version: 2
 jobs:

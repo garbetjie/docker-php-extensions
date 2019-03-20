@@ -1,0 +1,16 @@
+ARG PHP_VERSION=""
+FROM build/php:${PHP_VERSION}-fpm
+
+ENV COMPOSER_VERSION="1.8.4" \
+    COMPOSER_HASH="1722826c8fbeaf2d6cdd31c9c9af38694d6383a0f2bf476fe6bbd30939de058a"
+
+RUN set -e -o pipefail; \
+    cd /tmp; \
+    wget https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar; \
+    if [ "$(sha256sum ./composer.phar | awk '{ print $1; }')" != "$COMPOSER_HASH" ]; then \
+        echo "Composer file checksum doesn't match. This version of composer might be corrupted."; \
+        exit 1; \
+    fi; \
+    chmod +x composer.phar; \
+    mv composer.phar /usr/local/bin/composer; \
+    composer global require hirak/prestissimo
