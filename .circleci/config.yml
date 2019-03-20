@@ -23,7 +23,7 @@ jobs:
       - image: circleci/python:3.7.2-stretch
     environment:
       PHP_VERSION: "7.2"
-      SRC_TAG: "7.2.15-fpm-alpine3.9"
+      SRC_TAG: "7.2.16-fpm-alpine3.9"
     steps: *steps
 
   build-7.3:
@@ -31,7 +31,7 @@ jobs:
       - image: circleci/python:3.7.2-stretch
     environment:
       PHP_VERSION: "7.3"
-      SRC_TAG: "7.3.2-fpm-alpine3.9"
+      SRC_TAG: "7.3.3-fpm-alpine3.9"
     steps: *steps
 
 workflows:
