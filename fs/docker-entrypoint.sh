@@ -24,7 +24,7 @@ if [[ $MAX_CHILDREN -lt 1 ]]; then
     fi
 
     clean_memory_limit="$(echo "$MEMORY_LIMIT" | grep -oE '[0-9]+')"
-    export MAX_CHILDREN=`expr "${total_memory}" "*" 95 "/" 100 "/" 1024 "/" "${clean_memory_limit}"`
+    export MAX_CHILDREN=`expr "${total_memory}" "*" 90 "/" 100 "/" 1024 "/" "${clean_memory_limit}"`
 fi
 
 # Substitute values in the php-fpm file.
