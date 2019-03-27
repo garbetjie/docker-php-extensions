@@ -29,6 +29,11 @@ if [[ $MAX_CHILDREN -lt 1 ]]; then
     export MAX_CHILDREN=`expr "${total_memory}" "*" 90 "/" 100 "/" 1024 "/" "${clean_memory_limit}"`
 fi
 
+# Ensure we always have at least one child.
+if [[ "$MAX_CHILDREN" -lt 1 ]]; then
+    export MAX_CHILDREN=1
+fi
+
 # Substitute values in the php-fpm file.
 envsubst '$PM
           $MAX_CHILDREN
