@@ -18,15 +18,21 @@ fi
 if [[ $MAX_CHILDREN -lt 1 ]]; then
     # See https://github.com/moby/moby/issues/20688#issuecomment-188923858 for why we check memory.limit_in_bytes first.
     # Need to convert it from bytes to KB though.
-    if [[ -f /sys/fs/cgroup/memory/memory.limit_in_bytes ]]; then
-        total_memory="$(cat /sys/fs/cgroup/memory/memory.limit_in_bytes)"
-        total_memory="$(expr "$total_memory" / 1024)"
+    cgroups_mem="$(cat /sys/fs/cgroup/memory/memory.limit_in_bytes)"
+    meminfo_mem="$(expr "$(grep MemTotal /proc/meminfo | awk '{print $2}')" "*" "1024")"
+
+    # See https://github.com/carlossg/openjdk/blob/e8bfbbc39ef4aea0fcf07ad6dc43bd11993d3f5b/docker-jvm-opts.sh for the
+    # logic of comparing cgroup memory and meminfo memory.
+    if [[ $meminfo_mem -gt $cgroups_mem ]]; then
+        available_mem="$cgroups_mem"
     else
-        total_memory="$(grep MemTotal /proc/meminfo | awk '{print $2}')"
+        available_mem="$meminfo_mem"
     fi
 
+    # Convert B down to MB.
+    available_mem="$(expr "$available_mem" "/" 1024 "/" 1024)"
     clean_memory_limit="$(echo "$MEMORY_LIMIT" | grep -oE '[0-9]+')"
-    export MAX_CHILDREN=`expr "${total_memory}" "*" 90 "/" 100 "/" 1024 "/" "${clean_memory_limit}"`
+    export MAX_CHILDREN=`expr "${available_mem}" "*" 90 "/" 100 "/" "${clean_memory_limit}"`
 fi
 
 # Ensure we always have at least one child.
