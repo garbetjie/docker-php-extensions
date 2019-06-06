@@ -1,0 +1,90 @@
+---
+steps:
+
+# Build 7.3 images.
+
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    id: 73-pull
+    waitFor: ['-']
+    args: ['-c', 'docker pull gcr.io/$PROJECT_ID/shared/php:7.3 || exit 0']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    waitFor: [73-pull]
+    id: 73-build
+    args: ['build', '-t', 'build/php:7.3', '--cache-from', 'gcr.io/$PROJECT_ID/shared/php:7.3', '--build-arg', 'SRC_TAG=7.3.3-fpm-alpine3.9', '.']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    waitFor: [73-build]
+    args: ['tag', 'build/php:7.3', 'gcr.io/$PROJECT_ID/shared/php:7.3']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    waitFor: [73-build]
+    entrypoint: 'bash'
+    args: ['-c', 'docker tag build/php:7.3 "gcr.io/$PROJECT_ID/shared/php:7.3-$(date +%Y%m%d)"']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    waitFor: [73-pull]
+    id: 73-composer-pull
+    args: ['-c', 'docker pull gcr.io/$PROJECT_ID/shared/php:7.3-composer || exit 0']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    waitFor: [73-composer-pull, 73-build]
+    id: 73-composer-build
+    args: ['build', '-t', 'build/php:7.3-composer', '--cache-from', 'gcr.io/$PROJECT_ID/shared/php:7.3-composer', '--build-arg', 'PHP_VERSION=7.3', '-f', 'Dockerfile-composer', '.']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    waitFor: [73-composer-build]
+    args: ['tag', 'build/php:7.3-composer', 'gcr.io/$PROJECT_ID/shared/php:7.3-composer']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    waitFor: [73-composer-build]
+    entrypoint: 'bash'
+    args: ['-c', 'docker tag build/php:7.3-composer "gcr.io/$PROJECT_ID/shared/php:7.3-$(date +%Y%m%d)-composer"']
+
+# Build 7.2 images.
+
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    id: 72-pull
+    waitFor: ['-']
+    args: ['-c', 'docker pull gcr.io/$PROJECT_ID/shared/php:7.2 || exit 0']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    waitFor: [72-pull]
+    id: 72-build
+    args: ['build', '-t', 'build/php:7.2', '--cache-from', 'gcr.io/$PROJECT_ID/shared/php:7.2', '--build-arg', 'SRC_TAG=7.2.19-fpm-alpine3.9', '.']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    waitFor: [72-build]
+    args: ['tag', 'build/php:7.2', 'gcr.io/$PROJECT_ID/shared/php:7.2']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    waitFor: [72-build]
+    entrypoint: 'bash'
+    args: ['-c', 'docker tag build/php:7.2 "gcr.io/$PROJECT_ID/shared/php:7.2-$(date +%Y%m%d)"']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    waitFor: [72-pull]
+    id: 72-composer-pull
+    args: ['-c', 'docker pull gcr.io/$PROJECT_ID/shared/php:7.2-composer || exit 0']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    waitFor: [72-composer-pull, 72-build]
+    id: 72-composer-build
+    args: ['build', '-t', 'build/php:7.2-composer', '--cache-from', 'gcr.io/$PROJECT_ID/shared/php:7.2-composer', '--build-arg', 'PHP_VERSION=7.2', '-f', 'Dockerfile-composer', '.']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    waitFor: [72-composer-build]
+    args: ['tag', 'build/php:7.2-composer', 'gcr.io/$PROJECT_ID/shared/php:7.2-composer']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    waitFor: [72-composer-build]
+    entrypoint: 'bash'
+    args: ['-c', 'docker tag build/php:7.2-composer "gcr.io/$PROJECT_ID/shared/php:7.2-$(date +%Y%m%d)-composer"']
+
+images:
+  - 'gcr.io/$PROJECT_ID/shared/php'
+
