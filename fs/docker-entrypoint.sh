@@ -11,6 +11,11 @@ if [[ "$XDEBUG_ENABLED" != "true" ]]; then
     rm "${PHP_INI_DIR}/conf.d/docker-php-ext-xdebug.ini"
 fi
 
+# Function used to compare version numbers.
+version() {
+    echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'
+}
+
 #
 # Update FPM configuration.
 #
@@ -47,6 +52,12 @@ envsubst '$PM
           $MAX_SPARE_SERVERS
           $MAX_REQUESTS
           $TIMEOUT' < /usr/local/etc/php-fpm.conf > /tmp/.php-fpm.conf
+
+# Comment out configuration that isn't available in 7.2
+if [[ "$(version "$PHP_VERSION")" -lt "$(version 7.3.0)" ]]; then
+    sed 's/^decorate_workers_output/#decorate_workers_output/;s/^log_limit/#log_limit/' /tmp/.php-fpm.conf | tee /tmp/.php-fpm.conf 1>/dev/null
+fi
+
 mv /tmp/.php-fpm.conf /usr/local/etc/php-fpm.conf
 
 
