@@ -55,7 +55,7 @@ envsubst '$PM
 
 # Comment out configuration that isn't available in 7.2
 if [[ "$(version "$PHP_VERSION")" -lt "$(version 7.3.0)" ]]; then
-    sed 's/^decorate_workers_output/#decorate_workers_output/;s/^log_limit/#log_limit/' /tmp/.php-fpm.conf | tee /tmp/.php-fpm.conf 1>/dev/null
+    sed 's/^decorate_workers_output/\;decorate_workers_output/;s/^log_limit/\;log_limit/' /tmp/.php-fpm.conf | tee /tmp/.php-fpm.conf 1>/dev/null
 fi
 
 mv /tmp/.php-fpm.conf /usr/local/etc/php-fpm.conf
