@@ -1,4 +1,7 @@
 ---
+# Allow builds to run for up to 30 minutes.
+timeout: 1800s
+
 steps:
 
 # Build 7.3 images.
