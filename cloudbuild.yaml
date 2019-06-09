@@ -19,13 +19,8 @@ steps:
 
   - name: 'gcr.io/cloud-builders/docker'
     waitFor: [73-build]
-    args: ['tag', 'build/php:7.3-fpm', '$_DOCKER_HUB_REPO/php:7.3-fpm']
-
-  - name: 'gcr.io/cloud-builders/docker'
-    waitFor: [73-build]
     id: 73-tag
-    entrypoint: 'bash'
-    args: ['-c', 'docker tag build/php:7.3-fpm "$_DOCKER_HUB_REPO/php:7.3-fpm-$(date +%Y%m%d)"']
+    args: ['tag', 'build/php:7.3-fpm', '$_DOCKER_HUB_REPO/php:7.3-fpm']
 
   - name: 'gcr.io/cloud-builders/docker'
     entrypoint: 'bash'
@@ -40,13 +35,8 @@ steps:
 
   - name: 'gcr.io/cloud-builders/docker'
     waitFor: [73-composer-build]
-    args: ['tag', 'build/php:7.3-fpm-composer', '$_DOCKER_HUB_REPO/php:7.3-fpm-composer']
-
-  - name: 'gcr.io/cloud-builders/docker'
-    waitFor: [73-composer-build]
     id: 73-composer-tag
-    entrypoint: 'bash'
-    args: ['-c', 'docker tag build/php:7.3-fpm-composer "$_DOCKER_HUB_REPO/php:7.3-fpm-composer-$(date +%Y%m%d)"']
+    args: ['tag', 'build/php:7.3-fpm-composer', '$_DOCKER_HUB_REPO/php:7.3-fpm-composer']
 
 
 # Build 7.2 images.
@@ -64,13 +54,8 @@ steps:
 
   - name: 'gcr.io/cloud-builders/docker'
     waitFor: [72-build]
-    args: ['tag', 'build/php:7.2-fpm', '$_DOCKER_HUB_REPO/php:7.2-fpm']
-
-  - name: 'gcr.io/cloud-builders/docker'
-    waitFor: [72-build]
-    entrypoint: 'bash'
     id: 72-tag
-    args: ['-c', 'docker tag build/php:7.2-fpm "$_DOCKER_HUB_REPO/php:7.2-fpm-$(date +%Y%m%d)"']
+    args: ['tag', 'build/php:7.2-fpm', '$_DOCKER_HUB_REPO/php:7.2-fpm']
 
   - name: 'gcr.io/cloud-builders/docker'
     entrypoint: 'bash'
@@ -85,13 +70,8 @@ steps:
 
   - name: 'gcr.io/cloud-builders/docker'
     waitFor: [72-composer-build]
-    args: ['tag', 'build/php:7.2-fpm-composer', '$_DOCKER_HUB_REPO/php:7.2-fpm-composer']
-
-  - name: 'gcr.io/cloud-builders/docker'
-    waitFor: [72-composer-build]
-    entrypoint: 'bash'
     id: 72-composer-tag
-    args: ['-c', 'docker tag build/php:7.2-fpm-composer "$_DOCKER_HUB_REPO/php:7.2-fpm-composer-$(date +%Y%m%d)"']
+    args: ['tag', 'build/php:7.2-fpm-composer', '$_DOCKER_HUB_REPO/php:7.2-fpm-composer']
 
 # Login and push images.
   - name: 'gcr.io/cloud-builders/gcloud'
