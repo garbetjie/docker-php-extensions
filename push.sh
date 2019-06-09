@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
 
 project="$1"
+docker_hub_repo="$2"
 tag="$(date "+%Y%m%d")"
 
 # Ensure we have a project id.
-[[ "$project" = "" ]] && { echo "GCP project id is required."; exit 1; }
+if [[ "$#" -lt 2 ]]; then
+    echo "Usage: GOOGLE_PROJECT_ID DOCKER_HUB_REPO"
+    exit 1
+fi
 
 # Change into this directory.
 cd "$(cd "$(dirname "$0")" && pwd)"
@@ -24,4 +28,7 @@ fi
 
 # Submit the build.
 printf "\n\e[38;5;116mSubmitting build.\e[0m\n"
-gcloud builds submit --project "$project" --config ./cloudbuild.yaml .
+gcloud builds submit \
+    --project "$project" \
+    --substitutions "_DOCKER_HUB_REPO=${docker_hub_repo}" \
+    --config ./cloudbuild.yaml .
