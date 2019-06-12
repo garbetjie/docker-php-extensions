@@ -51,15 +51,13 @@ envsubst '$PM
           $MIN_SPARE_SERVERS
           $MAX_SPARE_SERVERS
           $MAX_REQUESTS
-          $TIMEOUT' < /usr/local/etc/php-fpm.conf > /tmp/.php-fpm.conf
+          $STATUS_PATH
+          $TIMEOUT' < /usr/local/etc/php-fpm.conf | tee /usr/local/etc/php-fpm.conf 1>/dev/null
 
 # Comment out configuration that isn't available in 7.2
 if [[ "$(version "$PHP_VERSION")" -lt "$(version 7.3.0)" ]]; then
-    sed 's/^decorate_workers_output/\;decorate_workers_output/;s/^log_limit/\;log_limit/' /tmp/.php-fpm.conf | tee /tmp/.php-fpm.conf 1>/dev/null
+    sed -i 's/^decorate_workers_output/\;decorate_workers_output/;s/^log_limit/\;log_limit/' /usr/local/etc/php-fpm.conf
 fi
-
-mv /tmp/.php-fpm.conf /usr/local/etc/php-fpm.conf
-
 
 # Substitute values in the PHP ini files.
 for src_file in `find $PHP_INI_DIR -type f -iname '*.ini'`; do

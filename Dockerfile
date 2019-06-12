@@ -87,6 +87,7 @@ ENV \
     MIN_SPARE_SERVERS=1 \
     MAX_SPARE_SERVERS=3 \
     MAX_REQUESTS=10000 \
+    STATUS_PATH="/_/status" \
     \
     # PHP-specific configuration.
     DISPLAY_ERRORS="Off" \
