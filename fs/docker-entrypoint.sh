@@ -52,7 +52,9 @@ envsubst '$PM
           $MAX_SPARE_SERVERS
           $MAX_REQUESTS
           $STATUS_PATH
-          $TIMEOUT' < /usr/local/etc/php-fpm.conf | tee /usr/local/etc/php-fpm.conf 1>/dev/null
+          $TIMEOUT' < /usr/local/etc/php-fpm.conf > /usr/local/etc/php-fpm.conf.tmp
+
+mv /usr/local/etc/php-fpm.conf.tmp /usr/local/etc/php-fpm.conf
 
 # Comment out configuration that isn't available in 7.2
 if [[ "$(version "$PHP_VERSION")" -lt "$(version 7.3.0)" ]]; then
@@ -61,7 +63,7 @@ fi
 
 # Substitute values in the PHP ini files.
 for src_file in `find $PHP_INI_DIR -type f -iname '*.ini'`; do
-    temporary_file="/tmp/.$(basename $src_file)"
+    temporary_file="${src_file}.tmp"
 
     envsubst '$DISPLAY_ERRORS
               $ERROR_REPORTING
