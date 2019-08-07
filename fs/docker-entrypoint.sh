@@ -3,12 +3,12 @@ set -e
 
 # Remove NewRelic configuration file if not enabled.
 if [[ "$NEWRELIC_ENABLED" != "true" ]]; then
-    rm "${PHP_INI_DIR}/conf.d/docker-php-ext-newrelic.ini"
+    rm -f "${PHP_INI_DIR}/conf.d/docker-php-ext-newrelic.ini"
 fi
 
 # Remove XDebug configuration if not enabled.
 if [[ "$XDEBUG_ENABLED" != "true" ]]; then
-    rm "${PHP_INI_DIR}/conf.d/docker-php-ext-xdebug.ini"
+    rm -f "${PHP_INI_DIR}/conf.d/docker-php-ext-xdebug.ini"
 fi
 
 # Function used to compare version numbers.
