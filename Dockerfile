@@ -7,20 +7,22 @@ ENV NEWRELIC_VERSION="8.7.0.242" \
 RUN set -ex; set -o pipefail; \
     docker-php-source extract; \
     apk add --no-cache --virtual .build-deps \
+        autoconf \
+        build-base \
         bzip2-dev \
         gd-dev \
-        libpng-dev \
         gettext-dev \
         gmp-dev \
-        imap-dev \
         icu-dev \
+        imap-dev \
+        libjpeg-turbo-dev \
+        libmemcached-dev \
+        libpng-dev \
         libxml2-dev \
         libzip-dev \
-        autoconf \
-        rabbitmq-c-dev \
-        libmemcached-dev \
-        build-base; \
+        rabbitmq-c-dev; \
     docker-php-ext-configure zip --with-libzip; \
+    docker-php-ext-configure gd --with-jpeg-dir=/usr/lib; \
     docker-php-ext-install \
         bcmath \
         bz2 \
@@ -42,15 +44,16 @@ RUN set -ex; set -o pipefail; \
         memcached \
         msgpack; \
     apk add --no-cache \
-        libzip \
-        rabbitmq-c \
-        libmemcached \
-        libbz2 \
-        libpng \
-        libintl \
-        icu-libs \
+        c-client \
         gmp \
-        c-client; \
+        icu-libs \
+        libbz2 \
+        libintl \
+        libjpeg \
+        libmemcached \
+        libpng \
+        libzip \
+        rabbitmq-c; \
     wget https://download.newrelic.com/php_agent/archive/${NEWRELIC_VERSION}/newrelic-php5-${NEWRELIC_VERSION}-linux-musl.tar.gz -O- | tar -xz -C /tmp; \
         mv /tmp/newrelic-php5-*${NEWRELIC_VERSION}-linux-musl /opt/newrelic; \
         find /opt/newrelic/agent/x64 -type f ! -name "newrelic-$(php -n -i | grep -F 'PHP Extension =' | sed -e 's/PHP Extension => //').so" -delete; \
