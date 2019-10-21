@@ -45,6 +45,7 @@ RUN set -ex; set -o pipefail; \
         msgpack; \
     apk add --no-cache \
         c-client \
+        gettext \
         gmp \
         icu-libs \
         libbz2 \
@@ -67,14 +68,22 @@ RUN set -ex; set -o pipefail; \
         make; \
         echo 'n' | make test; \
         make install; \
+	docker-php-ext-enable \
+		amqp \
+		igbinary \
+		memcached \
+		msgpack \
+		newrelic \
+		opencensus \
+		redis \
+		xdebug; \
     rm -rf /tmp/pear* /tmp/opencensus*; \
     apk del --purge .build-deps; \
     docker-php-source delete
 
+# Run cleanup of configuration files..
 RUN set -e; \
-    docker-php-ext-enable amqp xdebug redis igbinary memcached msgpack newrelic opencensus; \
     rm -rf ${PHP_INI_DIR}/php.ini-* /usr/local/etc/php-fpm.conf.default /usr/local/etc/php-fpm.d; \
-    apk add --no-cache gettext; \
     mkdir -p /var/log/newrelic; \
     mkdir /app && chown www-data:www-data /app
 
