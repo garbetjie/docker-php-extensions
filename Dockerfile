@@ -33,6 +33,7 @@ RUN set -ex; set -o pipefail; \
         imap \
         intl \
         opcache \
+        pcntl \
         pdo_mysql \
         soap \
         zip; \
