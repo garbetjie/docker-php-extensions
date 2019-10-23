@@ -36,6 +36,7 @@ RUN set -ex; set -o pipefail; \
         pcntl \
         pdo_mysql \
         soap \
+        sockets \
         zip; \
     pecl install \
         amqp \
