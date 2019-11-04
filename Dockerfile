@@ -1,8 +1,8 @@
 ARG SRC_TAG=""
 FROM php:${SRC_TAG}
 
-ENV NEWRELIC_VERSION="8.7.0.242" \
-    OPENCENSUS_RELEASE="d1512abf456761165419a7b236e046a38b61219e"
+ENV NEWRELIC_VERSION="9.2.0.247" \
+    OPENCENSUS_RELEASE="31dc521ba3fab9653a215a10e65d5b7fe9e2c6ac"
 
 RUN set -ex; set -o pipefail; \
     docker-php-source extract; \
