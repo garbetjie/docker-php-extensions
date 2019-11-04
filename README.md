@@ -156,3 +156,4 @@ Zend OPcache
     * The New Relic daemon is now started manually (ie: outside of PHP). The container's command will now wait `$NEWRELIC_DAEMON_WAIT`
       seconds for the daemon to start before being executed.
     * Remove unused `$XDEBUG_SERVER_NAME` configuration variable.
+    * Update composer version to 1.9.1.
