@@ -1,5 +1,4 @@
 #!/usr/bin/env sh
-set -x
 
 # If New Relic is disabled, then don't do anything.
 if [ "$NEWRELIC_ENABLED" != "true" ]; then
