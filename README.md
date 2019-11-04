@@ -151,5 +151,8 @@ Zend OPcache
 
 ## Changelog
 
-* **2019-11-04:** The New Relic daemon is now started manually (ie: outside of PHP), and the container command won't
-                  start until the agent is running. 
+* **2019-11-04**
+    * Update the README to include configuration of various SAPIs, as well as New Relic and XDebug extensions.
+    * The New Relic daemon is now started manually (ie: outside of PHP). The container's command will now wait `$NEWRELIC_DAEMON_WAIT`
+      seconds for the daemon to start before being executed.
+    * Remove unused `$XDEBUG_SERVER_NAME` configuration variable.
