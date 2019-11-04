@@ -88,8 +88,7 @@ for src_file in "$PHP_INI_DIR"/**/*.ini /opt/newrelic/newrelic.cfg; do
               $XDEBUG_IDE_KEY
               $XDEBUG_REMOTE_AUTOSTART
               $XDEBUG_REMOTE_HOST
-              $XDEBUG_REMOTE_PORT
-              $XDEBUG_SERVER_NAME' < "$src_file" > "$temporary_file"
+              $XDEBUG_REMOTE_PORT' < "$src_file" > "$temporary_file"
 
     mv "$temporary_file" "$src_file"
 done

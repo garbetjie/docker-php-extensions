@@ -29,42 +29,57 @@ Additional images can be found at https://hub.docker.com/r/garbetjie/php.
 
 ### FPM
 
-| Name              | FPM conf equivalent                                                                                                | Default   |
-|-------------------|--------------------------------------------------------------------------------------------------------------------|-----------|
-| PM                | [pm](https://www.php.net/manual/en/install.fpm.configuration.php#pm)                                               | static    |
-| MAX_CHILDREN      | [pm.max_children](https://www.php.net/manual/en/install.fpm.configuration.php#pm.max-children)                     | 0         |
-| MIN_SPARE_SERVERS | [pm.min_spare_servers](https://www.php.net/manual/en/install.fpm.configuration.php#pm.min-spare-servers)           | 1         |
-| MAX_SPARE_SERVERS | [pm.max_spare_servers](https://www.php.net/manual/en/install.fpm.configuration.php#pm.max-spare-servers)           | 3         |
-| MAX_REQUESTS      | [pm.max_requests](https://www.php.net/manual/en/install.fpm.configuration.php#pm.max-requests)                     | 10000     |
-| STATUS_PATH       | [pm.status_path](https://www.php.net/manual/en/install.fpm.configuration.php#pm.status-path)                       | /_/status |
-| TIMEOUT           | [request_terminate_timeout](https://www.php.net/manual/en/install.fpm.configuration.php#request-terminate-timeout) | 60        |
+| Name              | FPM INI equivalent                                                                                                 | Default     |
+|-------------------|--------------------------------------------------------------------------------------------------------------------|-------------|
+| PM                | [pm](https://www.php.net/manual/en/install.fpm.configuration.php#pm)                                               | "static"    |
+| MAX_CHILDREN      | [pm.max_children](https://www.php.net/manual/en/install.fpm.configuration.php#pm.max-children)                     | 0           |
+| MIN_SPARE_SERVERS | [pm.min_spare_servers](https://www.php.net/manual/en/install.fpm.configuration.php#pm.min-spare-servers)           | 1           |
+| MAX_SPARE_SERVERS | [pm.max_spare_servers](https://www.php.net/manual/en/install.fpm.configuration.php#pm.max-spare-servers)           | 3           |
+| MAX_REQUESTS      | [pm.max_requests](https://www.php.net/manual/en/install.fpm.configuration.php#pm.max-requests)                     | 10000       |
+| STATUS_PATH       | [pm.status_path](https://www.php.net/manual/en/install.fpm.configuration.php#pm.status-path)                       | "/_/status" |
+| TIMEOUT           | [request_terminate_timeout](https://www.php.net/manual/en/install.fpm.configuration.php#request-terminate-timeout) | 60          |
 
 ### PHP
 
 The environment variables below control the behaviour of PHP itself, and are enforced regardless of whether the FPM or
 CLI SAPI is used:
 
-| Name                 | INI equivalent                                                                                           | Default                           |
-|----------------------|----------------------------------------------------------------------------------------------------------|-----------------------------------|
-| DISPLAY_ERRORS       | [display_errors](https://www.php.net/manual/en/errorfunc.configuration.php#ini.display-errors)           | Off                               |
-| ERROR_REPORTING      | [error_reporting](https://www.php.net/manual/en/errorfunc.configuration.php#ini.error-reporting)         | E_ALL & ~E_DEPRECATED & ~E_STRICT |
-| HTML_ERRORS          | [html_errors](https://www.php.net/manual/en/errorfunc.configuration.php#ini.html-errors)                 | Off                               |
-| MAX_EXECUTION_TIME   | [max_execution_time](https://www.php.net/manual/en/info.configuration.php#ini.max-execution-time)        | 30                                |
-| MAX_INPUT_TIME       | [max_input_time](https://www.php.net/manual/en/info.configuration.php#ini.max-input-time)                | 30                                |
-| MAX_REQUEST_SIZE     | [post_max_size](https://www.php.net/manual/en/ini.core.php#ini.post-max-size)                            | 8M                                |
-| MEMORY_LIMIT         | [memory_limit](https://www.php.net/manual/en/ini.core.php#ini.memory-limit)                              | 64M                               |
-| SESSION_SAVE_HANDLER | [session.save_handler](https://www.php.net/manual/en/session.configuration.php#ini.session.save-handler) | files                             |
-| SESSION_SAVE_PATH    | [session.save_path](https://www.php.net/manual/en/session.configuration.php#ini.session.save-path)       | /tmp/sessions                     |
-| TIMEZONE             | [date.timezone](https://www.php.net/manual/en/datetime.configuration.php#ini.date.timezone)              | Etc/UTC                           |
-| UPLOAD_MAX_FILESIZE  | [upload_max_filesize](https://www.php.net/manual/en/ini.core.php#ini.upload-max-filesize)                | 8M                                |
+| Name                 | INI equivalent                                                                                           | Default                             |
+|----------------------|----------------------------------------------------------------------------------------------------------|-------------------------------------|
+| DISPLAY_ERRORS       | [display_errors](https://www.php.net/manual/en/errorfunc.configuration.php#ini.display-errors)           | "Off"                               |
+| ERROR_REPORTING      | [error_reporting](https://www.php.net/manual/en/errorfunc.configuration.php#ini.error-reporting)         | "E_ALL & ~E_DEPRECATED & ~E_STRICT" |
+| HTML_ERRORS          | [html_errors](https://www.php.net/manual/en/errorfunc.configuration.php#ini.html-errors)                 | "Off"                               |
+| MAX_EXECUTION_TIME   | [max_execution_time](https://www.php.net/manual/en/info.configuration.php#ini.max-execution-time)        | 30                                  |
+| MAX_INPUT_TIME       | [max_input_time](https://www.php.net/manual/en/info.configuration.php#ini.max-input-time)                | 30                                  |
+| MAX_REQUEST_SIZE     | [post_max_size](https://www.php.net/manual/en/ini.core.php#ini.post-max-size)                            | "8M"                                |
+| MEMORY_LIMIT         | [memory_limit](https://www.php.net/manual/en/ini.core.php#ini.memory-limit)                              | "64M"                               |
+| SESSION_SAVE_HANDLER | [session.save_handler](https://www.php.net/manual/en/session.configuration.php#ini.session.save-handler) | "files"                             |
+| SESSION_SAVE_PATH    | [session.save_path](https://www.php.net/manual/en/session.configuration.php#ini.session.save-path)       | "/tmp/sessions"                     |
+| TIMEZONE             | [date.timezone](https://www.php.net/manual/en/datetime.configuration.php#ini.date.timezone)              | "Etc/UTC"                           |
+| UPLOAD_MAX_FILESIZE  | [upload_max_filesize](https://www.php.net/manual/en/ini.core.php#ini.upload-max-filesize)                | "8M"                                |
 
 ### New Relic
 
-    Coming soon.
+| Name                     | New Relic INI equivalent                                                                                                                            | Default            |
+|--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|
+| NEWRELIC_ENABLED         | N/A (Used to enable/disable the New Relic extension)                                                                                                | false              |
+| NEWRELIC_APP_NAME        | [newrelic.appname](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-appname)                            | ""                 |
+| NEWRELIC_AUTORUM_ENABLED | [newrelic.browser_monitoring.auto_instrument](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-autorum) | 0                  |
+| NEWRELIC_DAEMON_PORT     | [newrelic.daemon.port](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-daemon-port)                    | "@newrelic-daemon" |
+| NEWRELIC_DAEMON_WAIT     | N/A (Number of seconds to wait for New Relic daemon to start up)                                                                                    | 5                  |
+| NEWRELIC_LABELS          | [newrelic.labels](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-labels)                              | ""                 |
+| NEWRELIC_LICENCE         | [newrelic.license](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-license)                            | ""                 |
+| NEWRELIC_RECORD_SQL      | [newrelic.transaction_tracer.record_sql](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-tt-sql)       | "obfuscated"       |
 
 ### XDebug
 
-    Coming soon.
+| Name                    | INI equivalent                                                                   | Default        |
+|-------------------------|----------------------------------------------------------------------------------|----------------|
+| XDEBUG_ENABLED          | N/A (Used to enable/disable the XDebug extension)                                | false          |
+| XDEBUG_IDE_KEY          | [xdebug.idekey](https://xdebug.org/docs/all_settings#idekey)                     | "IDEKEY"       |
+| XDEBUG_REMOTE_AUTOSTART | [xdebug.remote_autostart](https://xdebug.org/docs/all_settings#remote_autostart) | 0              |
+| XDEBUG_REMOTE_HOST      | [xdebug.remote_host](https://xdebug.org/docs/all_settings#remote_host)           | "192.168.99.1" |
+| XDEBUG_REMOTE_PORT      | [xdebug.remote_port](https://xdebug.org/docs/all_settings#remote_port)           | 9000           |
 
 ## Available extensions
 

@@ -102,6 +102,7 @@ ENV \
     MAX_SPARE_SERVERS=3 \
     MAX_REQUESTS=10000 \
     STATUS_PATH="/_/status" \
+    TIMEOUT=60 \
     \
     # PHP-specific configuration.
     DISPLAY_ERRORS="Off" \
@@ -127,8 +128,4 @@ ENV \
     XDEBUG_IDE_KEY="IDEKEY" \
     XDEBUG_REMOTE_AUTOSTART=0 \
     XDEBUG_REMOTE_HOST="192.168.99.1" \
-    XDEBUG_REMOTE_PORT=9000 \
-    XDEBUG_SERVER_NAME="\$server_name" \
-    \
-    # Generic configuration.
-    TIMEOUT=60
+    XDEBUG_REMOTE_PORT=9000
