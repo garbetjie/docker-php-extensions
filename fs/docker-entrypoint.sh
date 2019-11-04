@@ -95,7 +95,7 @@ done
 
 # Start the daemon, before executing the main script.
 set +e
-/usr/local/bin/start-newrelic-daemon
+/usr/local/bin/start-newrelic-daemon.sh
 set -e
 
 if [ $# -lt 1 ]; then

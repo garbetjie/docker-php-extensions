@@ -41,7 +41,7 @@ fi
 started="$(date +%s)"
 while : ; do
   # shellcheck disable=SC2086
-  curl $connect_args --connect-timeout "$NEWRELIC_DAEMON_WAIT" "$connect_host"
+  curl $connect_args --connect-timeout "$NEWRELIC_DAEMON_WAIT" "$connect_host" 1>/dev/null 2>/dev/null
   exit_status=$?
 
   # If we receive `curl: (56) Recv failure: Connection reset by peer`, then we know that we can connect to the daemon.
@@ -50,7 +50,7 @@ while : ; do
   fi
 
   if [ $(($(date +%s) - started)) -lt "$NEWRELIC_DAEMON_WAIT" ]; then
-    sleep 1
+    sleep 0.1
   else
     break
   fi
