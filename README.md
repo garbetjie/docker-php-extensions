@@ -158,4 +158,3 @@ Zend OPcache
     * Remove unused `$XDEBUG_SERVER_NAME` configuration variable.
     * Update composer version to 1.9.1.
     * Update New Relic agent to 9.2.0.247.
-    * Update OpenCensus release to 31dc521ba3fab9653a215a10e65d5b7fe9e2c6ac.
