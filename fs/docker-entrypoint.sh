@@ -63,7 +63,7 @@ if [ "$(version "$PHP_VERSION")" -lt "$(version 7.3.0)" ]; then
 fi
 
 # Substitute values in the PHP ini files.
-for src_file in "$PHP_INI_DIR"/**/*.ini /opt/newrelic/newrelic.cfg; do
+for src_file in "$PHP_INI_DIR"/**/*.ini "$PHP_INI_DIR"/*.ini /opt/newrelic/newrelic.cfg; do
     temporary_file="${src_file}.tmp"
 
     # shellcheck disable=SC2016
