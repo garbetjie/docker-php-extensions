@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-apk add coreutils
+
 # If New Relic is disabled, then don't do anything.
 if [ "$NEWRELIC_ENABLED" != "true" ]; then
   exit 0
