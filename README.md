@@ -65,8 +65,9 @@ CLI SAPI is used:
 | NEWRELIC_ENABLED         | N/A (Used to enable/disable the New Relic extension)                                                                                                | false              |
 | NEWRELIC_APP_NAME        | [newrelic.appname](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-appname)                            | ""                 |
 | NEWRELIC_AUTORUM_ENABLED | [newrelic.browser_monitoring.auto_instrument](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-autorum) | 0                  |
+| NEWRELIC_DAEMON_LOGLEVEL | [newrelic.daemon.loglevel](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-daemon-loglevel)            | "error"            |
 | NEWRELIC_DAEMON_PORT     | [newrelic.daemon.port](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-daemon-port)                    | "@newrelic-daemon" |
-| NEWRELIC_DAEMON_WAIT     | N/A (Number of seconds to wait for New Relic daemon to start up)                                                                                    | 5                  |
+| NEWRELIC_DAEMON_WAIT     | N/A (Number of seconds to wait for New Relic daemon to connect to the reporting servers)                                                            | 3                  |
 | NEWRELIC_LABELS          | [newrelic.labels](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-labels)                              | ""                 |
 | NEWRELIC_LICENCE         | [newrelic.license](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-license)                            | ""                 |
 | NEWRELIC_RECORD_SQL      | [newrelic.transaction_tracer.record_sql](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-tt-sql)       | "obfuscated"       |
@@ -150,6 +151,11 @@ Zend OPcache
 
 
 ## Changelog
+
+* **2019-11-11**
+    * Add `$NEWRELIC_DAEMON_LOGLEVEL` for configuring the daemon logging level.
+    * Update the starting of the Daemon process to implement a throwaway PHP process used to "prime" the daemon.
+    * Change the default value of `$NEWRELIC_DAEMON_WAIT` from `5` to `3`.
 
 * **2019-11-04**
     * Update the README to include configuration of various SAPIs, as well as New Relic and XDebug extensions.

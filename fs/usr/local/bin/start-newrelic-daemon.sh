@@ -1,60 +1,31 @@
 #!/usr/bin/env sh
-
+apk add coreutils
 # If New Relic is disabled, then don't do anything.
 if [ "$NEWRELIC_ENABLED" != "true" ]; then
   exit 0
 fi
 
 # If there is a ":" in the daemon's address, then it means we're connecting to a remote daemon, and we shouldn't start it
-# locally.
-if ! echo "$NEWRELIC_DAEMON_PORT" | grep ":"; then
-  /opt/newrelic/daemon.x64 -c /opt/newrelic/newrelic.cfg
+# locally. If this is the case, then we can assume that we don't require the daemon to be "primed" with an initial PHP
+# call.
+if echo "$NEWRELIC_DAEMON_PORT" | grep ":"; then
+  exit 0
 fi
 
-# Wait for the length of time that is specified for the daemon to start listening.
+# Start the daemon, and wait 3s (the default) for it to be started and listening on the local socket.
+/opt/newrelic/daemon.x64 -c /opt/newrelic/newrelic.cfg --wait-for-port 3s
+
+# Now that the daemon is running, we need to execute a PHP script to start the connection process for the daemon.
+# We'll wait a specific amount of time for this to finish (until there's a better way to know whether an app is connected,
+# sleeping is the best way).
+# Ideally, $NEWRELIC_DAEMON_WAIT should be set to a duration in which your app will be able to connect to New Relic's
+# servers. The faster your connection, the less this duration can be.
 if [ "$NEWRELIC_DAEMON_WAIT" = "" ]; then
-  NEWRELIC_DAEMON_WAIT=5
+  NEWRELIC_DAEMON_WAIT=3
 fi
 
-# if port[0] == @ -> --abstract-domain-socket
-# if port contains / -> --unix-socket
-# else, is host.
-connect_args=""
-connect_host="http://collector.newrelic.com"
+# Start the throwaway process used to connect the daemon to collector.newrelic.com
+php -i 1>/dev/null 2>&1
 
-# Abstract UNIX socket.
-if [ "$(echo "$NEWRELIC_DAEMON_PORT" | head -c 1)" = "@" ]; then
-  connect_args='--abstract-unix-socket '"$(echo "$NEWRELIC_DAEMON_PORT" | tail -c +2)"
-# UNIX socket.
-elif echo "$NEWRELIC_DAEMON_PORT" | grep -q -F "/"; then
-  connect_args='--unix-socket '"$NEWRELIC_DAEMON_PORT"
-# Port only.
-elif echo "$NEWRELIC_DAEMON_PORT" | grep -q -E '^[[:digit:]]{1,}$'; then
-  connect_host="http://127.0.0.1:${NEWRELIC_DAEMON_PORT}"
-# Remote host
-else
-  connect_host="http://${NEWRELIC_DAEMON_PORT}"
-fi
-
-
-# Attempt
-started="$(date +%s)"
-while : ; do
-  # shellcheck disable=SC2086
-  curl $connect_args --connect-timeout "$NEWRELIC_DAEMON_WAIT" "$connect_host" 1>/dev/null 2>/dev/null
-  exit_status=$?
-
-  # If we receive `curl: (56) Recv failure: Connection reset by peer`, then we know that we can connect to the daemon.
-  if [ $exit_status = 56 ]; then
-    exit 0
-  fi
-
-  if [ $(($(date +%s) - started)) -lt "$NEWRELIC_DAEMON_WAIT" ]; then
-    sleep 0.1
-  else
-    break
-  fi
-done
-
-# Exit with non-zero status code if we can't connect in the required time-frame.
-exit 1
+# Wait for it to connect.
+sleep $NEWRELIC_DAEMON_WAIT
