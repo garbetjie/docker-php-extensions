@@ -60,17 +60,18 @@ CLI SAPI is used:
 
 ### New Relic
 
-| Name                     | New Relic INI equivalent                                                                                                                            | Default            |
-|--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|
-| NEWRELIC_ENABLED         | N/A (Used to enable/disable the New Relic extension)                                                                                                | false              |
-| NEWRELIC_APP_NAME        | [newrelic.appname](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-appname)                            | ""                 |
-| NEWRELIC_AUTORUM_ENABLED | [newrelic.browser_monitoring.auto_instrument](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-autorum) | 0                  |
-| NEWRELIC_DAEMON_LOGLEVEL | [newrelic.daemon.loglevel](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-daemon-loglevel)            | "error"            |
-| NEWRELIC_DAEMON_PORT     | [newrelic.daemon.port](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-daemon-port)                    | "@newrelic-daemon" |
-| NEWRELIC_DAEMON_WAIT     | N/A (Number of seconds to wait for New Relic daemon to connect to the reporting servers)                                                            | 3                  |
-| NEWRELIC_LABELS          | [newrelic.labels](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-labels)                              | ""                 |
-| NEWRELIC_LICENCE         | [newrelic.license](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-license)                            | ""                 |
-| NEWRELIC_RECORD_SQL      | [newrelic.transaction_tracer.record_sql](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-tt-sql)       | "obfuscated"       |
+| Name                       | New Relic INI equivalent                                                                                                                                     | Default            |
+|----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|
+| NEWRELIC_ENABLED           | N/A (Used to enable/disable the New Relic extension)                                                                                                         | false              |
+| NEWRELIC_APP_NAME          | [newrelic.appname](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-appname)                                     | ""                 |
+| NEWRELIC_AUTORUM_ENABLED   | [newrelic.browser_monitoring.auto_instrument](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-autorum)          | 0                  |
+| NEWRELIC_DAEMON_LOGLEVEL   | [newrelic.daemon.loglevel](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-daemon-loglevel)                     | "error"            |
+| NEWRELIC_DAEMON_PORT       | [newrelic.daemon.port](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-daemon-port)                             | "@newrelic-daemon" |
+| NEWRELIC_DAEMON_WAIT       | N/A (Number of seconds to wait for New Relic daemon to connect to the reporting servers)                                                                     | 3                  |
+| NEWRELIC_HOST_DISPLAY_NAME | [newrelic.process_host.display_name](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-process_host-display_name) | ""                 |
+| NEWRELIC_LABELS            | [newrelic.labels](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-labels)                                       | ""                 |
+| NEWRELIC_LICENCE           | [newrelic.license](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-license)                                     | ""                 |
+| NEWRELIC_RECORD_SQL        | [newrelic.transaction_tracer.record_sql](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-tt-sql)                | "obfuscated"       |
 
 ### XDebug
 
@@ -151,6 +152,9 @@ Zend OPcache
 
 
 ## Changelog
+
+* **2019-11-14**
+    * Add `$NEWRELIC_HOST_DISPLAY_NAME` for configuring the display name of the server in the New Relic UI.
 
 * **2019-11-11**
     * Add `$NEWRELIC_DAEMON_LOGLEVEL` for configuring the daemon logging level.

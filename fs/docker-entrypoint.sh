@@ -78,6 +78,7 @@ for src_file in "$PHP_INI_DIR"/**/*.ini "$PHP_INI_DIR"/*.ini /opt/newrelic/newre
               $NEWRELIC_AUTORUM_ENABLED
               $NEWRELIC_DAEMON_LOGLEVEL
               $NEWRELIC_DAEMON_PORT
+              $NEWRELIC_HOST_DISPLAY_NAME
               $NEWRELIC_LABELS
               $NEWRELIC_LICENCE
               $NEWRELIC_RECORD_SQL
