@@ -65,7 +65,7 @@ RUN ZTS_ENABLED="$(php -ni 2>&1 | grep -qiF 'Thread Safety => enabled' && printf
             phpize; \
             ./configure; \
             make; \
-            echo 'y' | make test; \
+            echo 'n' | make test; \
             make install; \
     fi; \
     wget https://github.com/census-instrumentation/opencensus-php/archive/${OPENCENSUS_RELEASE}.tar.gz -O- | tar -C /tmp -xzf -; \
