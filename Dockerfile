@@ -47,6 +47,9 @@ RUN ZTS_ENABLED="$(php -ni 2>&1 | grep -qiF 'Thread Safety => enabled' && printf
         igbinary \
         memcached \
         msgpack; \
+    if [ "$ZTS_ENABLED" = true ]; then \
+        pecl install parallel; \
+    fi; \
     apk add --no-cache \
         c-client \
         gettext \
@@ -59,15 +62,6 @@ RUN ZTS_ENABLED="$(php -ni 2>&1 | grep -qiF 'Thread Safety => enabled' && printf
         libpng \
         libzip \
         rabbitmq-c; \
-    if [ "$ZTS_ENABLED" = true ]; then \
-        wget https://github.com/krakjoe/pthreads/archive/f55ffa9250f3856c5b542f074b45cd56c5d2db82.tar.gz -O- | tar -C /tmp -xzf -; \
-            cd /tmp/pthreads-*; \
-            phpize; \
-            ./configure; \
-            make; \
-            echo 'n' | make test; \
-            make install; \
-    fi; \
     wget https://github.com/census-instrumentation/opencensus-php/archive/${OPENCENSUS_RELEASE}.tar.gz -O- | tar -C /tmp -xzf -; \
         cd /tmp/opencensus-php-*/ext; \
         phpize; \
@@ -91,7 +85,7 @@ RUN ZTS_ENABLED="$(php -ni 2>&1 | grep -qiF 'Thread Safety => enabled' && printf
 		redis \
 		xdebug; \
     if [ "$ZTS_ENABLED" = true ]; then \
-        docker-php-ext-enable pthreads; \
+        docker-php-ext-enable parallel; \
     fi; \
     rm -rf /tmp/pear* /tmp/opencensus*; \
     apk del --purge .build-deps; \

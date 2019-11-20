@@ -155,7 +155,7 @@ Zend OPcache
 
 * **2019-11-20**
     * Add thread safe images (`7.3-zts-cli` and `7.2-zts-cli`).
-    * Add `pthread` extension in thread safe images.
+    * Add `parallel` extension in thread safe images.
     * Update PHP 7.3 to 7.3.11.
     * Update PHP 7.2 to 7.2.24.
 
