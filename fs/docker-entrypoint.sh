@@ -96,12 +96,10 @@ for src_file in "$PHP_INI_DIR"/**/*.ini "$PHP_INI_DIR"/*.ini /opt/newrelic/newre
 done
 
 # Start the daemon, before executing the main script.
-set +e
-/usr/local/bin/start-newrelic-daemon.sh
-set -e
+/usr/local/bin/start-newrelic-daemon.sh || true
 
 # Attempt to find the FPM binary.
-FPM_BINARY="$(command -v php-fpm)"
+FPM_BINARY="$(command -v php-fpm || true)"
 
 # Only attempt to execute FPM if it is available.
 if [ "$FPM_BINARY" != "" ]; then
