@@ -40,6 +40,33 @@ steps:
       'docker pull $_DOCKER_HUB_REPO/php:7.3-zts-cli; docker pull $_DOCKER_HUB_REPO/php:7.3-zts-cli-composer; exit 0'
     ]
 
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    id: 72-pull-fpm
+    waitFor: ['-']
+    args: [
+      '-c',
+      'docker pull $_DOCKER_HUB_REPO/php:7.2-fpm; docker pull $_DOCKER_HUB_REPO/php:7.2-fpm-composer; exit 0'
+    ]
+
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    id: 72-pull-cli
+    waitFor: ['-']
+    args: [
+      '-c',
+      'docker pull $_DOCKER_HUB_REPO/php:7.2-cli; docker pull $_DOCKER_HUB_REPO/php:7.2-cli-composer; exit 0'
+    ]
+
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    id: 72-pull-zts-cli
+    waitFor: ['-']
+    args: [
+      '-c',
+      'docker pull $_DOCKER_HUB_REPO/php:7.2-zts-cli; docker pull $_DOCKER_HUB_REPO/php:7.2-zts-cli-composer; exit 0'
+    ]
+
 # ----------------------------------------------------------------------------------------------------------------------
 
 # 7.3-fpm
