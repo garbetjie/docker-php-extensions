@@ -4,7 +4,9 @@ FROM php:${SRC_TAG}
 ENV NEWRELIC_VERSION="9.2.0.247" \
     OPENCENSUS_RELEASE="d1512abf456761165419a7b236e046a38b61219e"
 
-RUN set -ex; set -o pipefail; \
+RUN ZTS_ENABLED="$(php -ni 2>&1 | grep -qiF 'Thread Safety => enabled' && printf true || printf false)"; \
+    ZTS_SUFFIX="$(if [ $ZTS_ENABLED = true ]; then printf '-zts'; else printf ''; fi)"; \
+    set -ex; set -o pipefail; \
     docker-php-source extract; \
     apk add --no-cache --virtual .build-deps \
         autoconf \
@@ -23,7 +25,7 @@ RUN set -ex; set -o pipefail; \
         rabbitmq-c-dev; \
     docker-php-ext-configure zip --with-libzip; \
     docker-php-ext-configure gd --with-jpeg-dir=/usr/lib; \
-    docker-php-ext-install \
+    docker-php-ext-install -j4 \
         bcmath \
         bz2 \
         exif \
@@ -57,12 +59,15 @@ RUN set -ex; set -o pipefail; \
         libpng \
         libzip \
         rabbitmq-c; \
-    wget https://download.newrelic.com/php_agent/archive/${NEWRELIC_VERSION}/newrelic-php5-${NEWRELIC_VERSION}-linux-musl.tar.gz -O- | tar -xz -C /tmp; \
-        mv /tmp/newrelic-php5-*${NEWRELIC_VERSION}-linux-musl /opt/newrelic; \
-        find /opt/newrelic/agent/x64 -type f ! -name "newrelic-$(php -n -i | grep -F 'PHP Extension =' | sed -e 's/PHP Extension => //').so" -delete; \
-        mv "$(find /opt/newrelic/agent/x64 -iname '*.so' | head -n 1)" $(php -n -r 'echo ini_get("extension_dir");')/newrelic.so; \
-        mv /opt/newrelic/daemon/newrelic-daemon.x64 /opt/newrelic/daemon.x64; \
-        rm -rf /opt/newrelic/daemon /opt/newrelic/agent/ /opt/newrelic/scripts; \
+    if [ "$ZTS_ENABLED" = true ]; then \
+        wget https://github.com/krakjoe/pthreads/archive/f55ffa9250f3856c5b542f074b45cd56c5d2db82.tar.gz -O- | tar -C /tmp -xzf -; \
+            cd /tmp/pthreads-*; \
+            phpize; \
+            ./configure; \
+            make; \
+            echo 'y' | make test; \
+            make install; \
+    fi; \
     wget https://github.com/census-instrumentation/opencensus-php/archive/${OPENCENSUS_RELEASE}.tar.gz -O- | tar -C /tmp -xzf -; \
         cd /tmp/opencensus-php-*/ext; \
         phpize; \
@@ -70,7 +75,13 @@ RUN set -ex; set -o pipefail; \
         make; \
         echo 'n' | make test; \
         make install; \
-	docker-php-ext-enable \
+    wget https://download.newrelic.com/php_agent/archive/${NEWRELIC_VERSION}/newrelic-php5-${NEWRELIC_VERSION}-linux-musl.tar.gz -O- | tar -xz -C /tmp; \
+        mv /tmp/newrelic-php5-*${NEWRELIC_VERSION}-linux-musl /opt/newrelic; \
+        find /opt/newrelic/agent/x64 -type f ! -name "newrelic-$(php -n -i | grep -F 'PHP Extension =' | sed -e 's/PHP Extension => //')${ZTS_SUFFIX}.so" -delete; \
+        mv "$(find /opt/newrelic/agent/x64 -iname '*.so' | head -n 1)" $(php -n -r 'echo ini_get("extension_dir");')/newrelic.so; \
+        mv /opt/newrelic/daemon/newrelic-daemon.x64 /opt/newrelic/daemon.x64; \
+        rm -rf /opt/newrelic/daemon /opt/newrelic/agent/ /opt/newrelic/scripts; \
+    docker-php-ext-enable \
 		amqp \
 		igbinary \
 		memcached \
@@ -79,6 +90,9 @@ RUN set -ex; set -o pipefail; \
 		opencensus \
 		redis \
 		xdebug; \
+    if [ "$ZTS_ENABLED" = true ]; then \
+        docker-php-ext-enable pthreads; \
+    fi; \
     rm -rf /tmp/pear* /tmp/opencensus*; \
     apk del --purge .build-deps; \
     docker-php-source delete

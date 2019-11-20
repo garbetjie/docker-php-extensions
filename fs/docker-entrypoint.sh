@@ -100,8 +100,21 @@ set +e
 /usr/local/bin/start-newrelic-daemon.sh
 set -e
 
-if [ $# -lt 1 ]; then
-    exec php-fpm
+# Attempt to find the FPM binary.
+FPM_BINARY="$(command -v php-fpm)"
+
+# Only attempt to execute FPM if it is available.
+if [ "$FPM_BINARY" != "" ]; then
+  if [ $# -lt 1 ]; then
+      exec php-fpm
+  else
+      exec "$@"
+  fi
+
+# Executing the CLI image.
 else
-    exec "$@"
+  if [ "${1#-}" != "$1" ]; then
+    set -- php "$@"
+  fi
+  exec "$@"
 fi

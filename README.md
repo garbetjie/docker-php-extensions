@@ -153,6 +153,12 @@ Zend OPcache
 
 ## Changelog
 
+* **2019-11-20**
+    * Add thread safe images (`7.3-zts-cli` and `7.2-zts-cli`).
+    * Add `pthread` extension in thread safe images.
+    * Update PHP 7.3 to 7.3.11.
+    * Update PHP 7.2 to 7.2.24.
+
 * **2019-11-14**
     * Add `$NEWRELIC_HOST_DISPLAY_NAME` for configuring the display name of the server in the New Relic UI.
 
