@@ -25,7 +25,7 @@ RUN ZTS_ENABLED="$(php -ni 2>&1 | grep -qiF 'Thread Safety => enabled' && printf
         rabbitmq-c-dev; \
     docker-php-ext-configure zip --with-libzip; \
     docker-php-ext-configure gd --with-jpeg-dir=/usr/lib; \
-    docker-php-ext-install -j4 \
+    docker-php-ext-install -j5 \
         bcmath \
         bz2 \
         exif \
