@@ -136,7 +136,7 @@ steps:
       'build',
       '-t', '$_DOCKER_HUB_REPO/php:7.3-zts-cli',
       '--cache-from', '$_DOCKER_HUB_REPO/php:7.3-zts-cli',
-      '--build-arg', 'SRC_TAG=7.3.11-alpine3.10',
+      '--build-arg', 'SRC_TAG=7.3.11-zts-alpine3.10',
       '.'
     ]
 
@@ -224,7 +224,7 @@ steps:
       'build',
       '-t', '$_DOCKER_HUB_REPO/php:7.2-zts-cli',
       '--cache-from', '$_DOCKER_HUB_REPO/php:7.2-zts-cli',
-      '--build-arg', 'SRC_TAG=7.2.24-alpine3.10',
+      '--build-arg', 'SRC_TAG=7.2.24-zts-alpine3.10',
       '.'
     ]
 
