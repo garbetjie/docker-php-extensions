@@ -14,6 +14,7 @@ See the [list of available extensions](#available-extensions) to see whether the
     * [FPM](#fpm)
     * [New Relic](#new-relic)
     * [XDebug](#xdebug)
+* [Known Issues](#known-issues)
 * [Available extensions](#available-extensions)
 * [Changelog](#changelog)
 
@@ -41,7 +42,7 @@ Additional images can be found at https://hub.docker.com/r/garbetjie/php.
 
 ### PHP
 
-The environment variables below control the behaviour of PHP itself, and are enforced regardless of whether the FPM or
+The environment variables below control the behaviour of PHP itself, and are used regardless of whether the FPM or
 CLI SAPI is used:
 
 | Name                 | INI equivalent                                                                                           | Default                             |
@@ -73,6 +74,12 @@ CLI SAPI is used:
 | NEWRELIC_LICENCE           | [newrelic.license](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-license)                                     | ""                 |
 | NEWRELIC_RECORD_SQL        | [newrelic.transaction_tracer.record_sql](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-tt-sql)                | "obfuscated"       |
 
+### OpenCensus
+
+| Name               | INI equivalent                                        | Default |
+|--------------------|-------------------------------------------------------|---------|
+| OPENCENSUS_ENABLED | N/A (Used to enable/disable the OpenCensus extension) | false   |
+
 ### XDebug
 
 | Name                    | INI equivalent                                                                   | Default        |
@@ -82,6 +89,12 @@ CLI SAPI is used:
 | XDEBUG_REMOTE_AUTOSTART | [xdebug.remote_autostart](https://xdebug.org/docs/all_settings#remote_autostart) | 0              |
 | XDEBUG_REMOTE_HOST      | [xdebug.remote_host](https://xdebug.org/docs/all_settings#remote_host)           | "192.168.99.1" |
 | XDEBUG_REMOTE_PORT      | [xdebug.remote_port](https://xdebug.org/docs/all_settings#remote_port)           | 9000           |
+
+
+## Known Issues
+
+* When using a version of PHP with thread safety enabled, you cannot use both the `opencensus` and `parallel` extensions
+  at the same time. PHP will exit with a segmentation fault.
 
 ## Available extensions
 
@@ -118,6 +131,7 @@ mysqlnd
 newrelic
 opencensus
 openssl
+parallel  (*-zts-cli versions only)
 pcntl
 pcre
 PDO
@@ -152,6 +166,9 @@ Zend OPcache
 
 
 ## Changelog
+
+* **2019-11-21**
+    * Add ability to enable/disable the `opencensus` extension. Set to disabled by default.
 
 * **2019-11-20**
     * Add thread safe images (`7.3-zts-cli` and `7.2-zts-cli`).

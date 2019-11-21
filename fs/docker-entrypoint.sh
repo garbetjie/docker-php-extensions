@@ -3,12 +3,23 @@ set -e
 
 # Remove NewRelic configuration file if not enabled.
 if [ "$NEWRELIC_ENABLED" != "true" ]; then
-    rm -f "${PHP_INI_DIR}/conf.d/docker-php-ext-newrelic.ini"
+    if test -f "${PHP_INI_DIR}/conf.d/docker-php-ext-newrelic.ini"; then
+        mv "${PHP_INI_DIR}/conf.d/docker-php-ext-newrelic.ini" "${PHP_INI_DIR}/conf.d/docker-php-ext-newrelic.ini.disabled"
+    fi
 fi
 
 # Remove XDebug configuration if not enabled.
 if [ "$XDEBUG_ENABLED" != "true" ]; then
-    rm -f "${PHP_INI_DIR}/conf.d/docker-php-ext-xdebug.ini"
+    if test -f "${PHP_INI_DIR}/conf.d/docker-php-ext-xdebug.ini"; then
+        mv "${PHP_INI_DIR}/conf.d/docker-php-ext-xdebug.ini" "${PHP_INI_DIR}/conf.d/docker-php-ext-xdebug.ini.disabled"
+    fi
+fi
+
+# Remove Opencensus configuration if not enabled.
+if [ "$OPENCENSUS_ENABLED" != true ]; then
+    if test -f "${PHP_INI_DIR}/conf.d/docker-php-ext-opencensus.ini"; then
+      mv "${PHP_INI_DIR}/conf.d/docker-php-ext-opencensus.ini" "${PHP_INI_DIR}/conf.d/docker-php-ext-opencensus.ini.disabled"
+    fi
 fi
 
 # Function used to compare version numbers.
@@ -86,7 +97,6 @@ for src_file in "$PHP_INI_DIR"/**/*.ini "$PHP_INI_DIR"/*.ini /opt/newrelic/newre
               $SESSION_SAVE_PATH
               $TIMEZONE
               $UPLOAD_MAX_FILESIZE
-              $XDEBUG_ENABLED
               $XDEBUG_IDE_KEY
               $XDEBUG_REMOTE_AUTOSTART
               $XDEBUG_REMOTE_HOST
@@ -111,8 +121,5 @@ if [ "$FPM_BINARY" != "" ]; then
 
 # Executing the CLI image.
 else
-  if [ "${1#-}" != "$1" ]; then
-    set -- php "$@"
-  fi
   exec "$@"
 fi
