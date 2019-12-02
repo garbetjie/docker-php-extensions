@@ -2,7 +2,7 @@ ARG SRC_TAG=""
 FROM php:${SRC_TAG}
 
 ENV NEWRELIC_VERSION="9.2.0.247" \
-    OPENCENSUS_RELEASE="d1512abf456761165419a7b236e046a38b61219e"
+    OPENCENSUS_SRC_URL="https://github.com/garbetjie/opencensus-php/archive/failing-tests-7.4.tar.gz"
 
 RUN ZTS_ENABLED="$(php -ni 2>&1 | grep -qiF 'Thread Safety => enabled' && printf true || printf false)"; \
     ZTS_SUFFIX="$(if [ $ZTS_ENABLED = true ]; then printf '-zts'; else printf ''; fi)"; \
@@ -42,7 +42,7 @@ RUN ZTS_ENABLED="$(php -ni 2>&1 | grep -qiF 'Thread Safety => enabled' && printf
         zip; \
     pecl install \
         amqp \
-        xdebug-2.7.0RC2 \
+        xdebug-2.8.0 \
         redis \
         igbinary \
         memcached \
@@ -62,7 +62,7 @@ RUN ZTS_ENABLED="$(php -ni 2>&1 | grep -qiF 'Thread Safety => enabled' && printf
         libpng \
         libzip \
         rabbitmq-c; \
-    wget https://github.com/census-instrumentation/opencensus-php/archive/${OPENCENSUS_RELEASE}.tar.gz -O- | tar -C /tmp -xzf -; \
+    wget "$OPENCENSUS_SRC_URL" -O- | tar -C /tmp -xzf -; \
         cd /tmp/opencensus-php-*/ext; \
         phpize; \
         ./configure --enable-opencensus; \
