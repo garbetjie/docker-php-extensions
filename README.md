@@ -54,6 +54,7 @@ CLI SAPI is used:
 | MAX_INPUT_TIME       | [max_input_time](https://www.php.net/manual/en/info.configuration.php#ini.max-input-time)                | 30                                  |
 | MAX_REQUEST_SIZE     | [post_max_size](https://www.php.net/manual/en/ini.core.php#ini.post-max-size)                            | "8M"                                |
 | MEMORY_LIMIT         | [memory_limit](https://www.php.net/manual/en/ini.core.php#ini.memory-limit)                              | "64M"                               |
+| SESSION_COOKIE_NAME  | [session.name](https://www.php.net/manual/en/session.configuration.php#ini.session.name)                 | "PHPSESSID"                         |
 | SESSION_SAVE_HANDLER | [session.save_handler](https://www.php.net/manual/en/session.configuration.php#ini.session.save-handler) | "files"                             |
 | SESSION_SAVE_PATH    | [session.save_path](https://www.php.net/manual/en/session.configuration.php#ini.session.save-path)       | "/tmp/sessions"                     |
 | TIMEZONE             | [date.timezone](https://www.php.net/manual/en/datetime.configuration.php#ini.date.timezone)              | "Etc/UTC"                           |
@@ -166,6 +167,10 @@ Zend OPcache
 
 
 ## Changelog
+
+* **2019-12-02**
+    * Add PHP 7.4 images.
+    * Add `$SESSION_COOKIE_NAME` configuration, and fix `$SESSSION_SAVE_*` configuration not being used.
 
 * **2019-11-21**
     * Add ability to enable/disable the `opencensus` extension. Set to disabled by default.
