@@ -131,6 +131,7 @@ ENV \
     NEWRELIC_LICENCE="" \
     NEWRELIC_RECORD_SQL="obfuscated" \
     OPENCENSUS_ENABLED="false" \
+    SESSION_COOKIE_NAME="PHPSESSID" \
     SESSION_SAVE_HANDLER="files" \
     SESSION_SAVE_PATH="/tmp/sessions" \
     TIMEZONE="Etc/UTC" \
