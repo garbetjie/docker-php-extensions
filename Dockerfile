@@ -1,7 +1,7 @@
 ARG SRC_TAG=""
 FROM php:${SRC_TAG}
 
-ENV NEWRELIC_VERSION="9.2.0.247" \
+ENV NEWRELIC_VERSION="9.4.1.250" \
     OPENCENSUS_SRC_URL="https://github.com/garbetjie/opencensus-php/archive/failing-tests-7.4.tar.gz"
 
 RUN ZTS_ENABLED="$(php -ni 2>&1 | grep -qiF 'Thread Safety => enabled' && printf true || printf false)"; \

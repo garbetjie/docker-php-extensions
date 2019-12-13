@@ -168,8 +168,9 @@ Zend OPcache
 
 ## Changelog
 
-* **2019-12-02**
+* **2019-12-13**
     * Add PHP 7.4 images.
+    * Upgrade New Relic daemon for PHP 7.4 support.
     * Add `$SESSION_COOKIE_NAME` configuration, and fix `$SESSSION_SAVE_*` configuration not being used.
 
 * **2019-11-21**
