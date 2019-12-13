@@ -1,11 +1,15 @@
 ARG SRC_TAG=""
 FROM php:${SRC_TAG}
 
-ENV NEWRELIC_VERSION="9.4.1.250" \
-    OPENCENSUS_SRC_URL="https://github.com/garbetjie/opencensus-php/archive/failing-tests-7.4.tar.gz"
-
 RUN ZTS_ENABLED="$(php -ni 2>&1 | grep -qiF 'Thread Safety => enabled' && printf true || printf false)"; \
     ZTS_SUFFIX="$(if [ $ZTS_ENABLED = true ]; then printf '-zts'; else printf ''; fi)"; \
+    PHP_VERSION="$(php -nv | grep -E -o 'PHP [0-9]+\.[0-9]+' | cut -f2 -d' ')"; \
+    NEWRELIC_VERSION="9.4.1.250"; \
+    if test "$PHP_VERSION" = "7.4"; then \
+        OPENCENSUS_SRC_URL="https://github.com/garbetjie/opencensus-php/archive/failing-tests-7.4.tar.gz"; \
+    else \
+        OPENCENSUS_SRC_URL="https://github.com/census-instrumentation/opencensus-php/archive/d1512abf456761165419a7b236e046a38b61219e.tar.gz"; \
+    fi; \
     set -ex; set -o pipefail; \
     docker-php-source extract; \
     apk add --no-cache --virtual .build-deps \
