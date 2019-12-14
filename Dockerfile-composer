@@ -5,7 +5,7 @@ FROM ${SRC_IMAGE}:${SRC_TAG}
 ENV COMPOSER_VERSION="1.9.1" \
     COMPOSER_HASH="1f210b9037fcf82670d75892dfc44400f13fe9ada7af9e787f93e50e3b764111"
 
-RUN set -e -o pipefail; \
+RUN set -e -x -o pipefail; \
     cd /tmp; \
     wget https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar; \
     if [ "$(sha256sum ./composer.phar | awk '{ print $1; }')" != "$COMPOSER_HASH" ]; then \
@@ -14,5 +14,5 @@ RUN set -e -o pipefail; \
     fi; \
     chmod +x composer.phar; \
     mv composer.phar /usr/local/bin/composer; \
-    composer global require hirak/prestissimo; \
-    composer update || true
+    php -n /usr/local/bin/composer global require hirak/prestissimo; \
+    php -n /usr/local/bin/composer update || true
