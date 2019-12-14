@@ -8,11 +8,11 @@ RUN ZTS_ENABLED="$(php -ni 2>&1 | grep -qiF 'Thread Safety => enabled' && printf
     if test "$PHP_VERSION" = "7.4"; then \
         OPENCENSUS_SRC_URL="https://github.com/garbetjie/opencensus-php/archive/failing-tests-7.4.tar.gz"; \
         EXT_ZIP_OPTIONS=""; \
-        EXT_GD_OPTIONS="--with-jpeg"; \
+        EXT_GD_OPTIONS="--with-jpeg --with-webp"; \
     else \
         OPENCENSUS_SRC_URL="https://github.com/census-instrumentation/opencensus-php/archive/d1512abf456761165419a7b236e046a38b61219e.tar.gz"; \
         EXT_ZIP_OPTIONS="--with-libzip"; \
-        EXT_GD_OPTIONS="--with-jpeg-dir=/usr/lib"; \
+        EXT_GD_OPTIONS="--with-jpeg-dir=/usr/lib --with-webp-dir=/usr/lib"; \
     fi; \
     set -ex; set -o pipefail; \
     docker-php-source extract; \
@@ -28,11 +28,12 @@ RUN ZTS_ENABLED="$(php -ni 2>&1 | grep -qiF 'Thread Safety => enabled' && printf
         libjpeg-turbo-dev \
         libmemcached-dev \
         libpng-dev \
+        libwebp-dev \
         libxml2-dev \
         libzip-dev \
         rabbitmq-c-dev; \
-    docker-php-ext-configure zip "$EXT_ZIP_OPTIONS"; \
-    docker-php-ext-configure gd "$EXT_GD_OPTIONS"; \
+    docker-php-ext-configure zip $EXT_ZIP_OPTIONS; \
+    docker-php-ext-configure gd $EXT_GD_OPTIONS; \
     docker-php-ext-install -j5 \
         bcmath \
         bz2 \
@@ -68,6 +69,7 @@ RUN ZTS_ENABLED="$(php -ni 2>&1 | grep -qiF 'Thread Safety => enabled' && printf
         libjpeg \
         libmemcached \
         libpng \
+        libwebp \
         libzip \
         rabbitmq-c; \
     wget "$OPENCENSUS_SRC_URL" -O- | tar -C /tmp -xzf -; \

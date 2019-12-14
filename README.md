@@ -168,6 +168,9 @@ Zend OPcache
 
 ## Changelog
 
+* **2019-12-14**
+    * Add WebP support to GD.
+
 * **2019-12-13**
     * Add PHP 7.4 images.
     * Upgrade New Relic daemon for PHP 7.4 support.
