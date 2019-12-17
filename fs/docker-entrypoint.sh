@@ -2,14 +2,14 @@
 set -e
 
 # Remove NewRelic configuration file if not enabled.
-if [ "$NEWRELIC_ENABLED" != "true" ]; then
+if [ "$NEWRELIC_ENABLED" != true ]; then
     if test -f "${PHP_INI_DIR}/conf.d/docker-php-ext-newrelic.ini"; then
         mv "${PHP_INI_DIR}/conf.d/docker-php-ext-newrelic.ini" "${PHP_INI_DIR}/conf.d/docker-php-ext-newrelic.ini.disabled"
     fi
 fi
 
 # Remove XDebug configuration if not enabled.
-if [ "$XDEBUG_ENABLED" != "true" ]; then
+if [ "$XDEBUG_ENABLED" != true ]; then
     if test -f "${PHP_INI_DIR}/conf.d/docker-php-ext-xdebug.ini"; then
         mv "${PHP_INI_DIR}/conf.d/docker-php-ext-xdebug.ini" "${PHP_INI_DIR}/conf.d/docker-php-ext-xdebug.ini.disabled"
     fi
@@ -19,6 +19,13 @@ fi
 if [ "$OPENCENSUS_ENABLED" != true ]; then
     if test -f "${PHP_INI_DIR}/conf.d/docker-php-ext-opencensus.ini"; then
       mv "${PHP_INI_DIR}/conf.d/docker-php-ext-opencensus.ini" "${PHP_INI_DIR}/conf.d/docker-php-ext-opencensus.ini.disabled"
+    fi
+fi
+
+# Remove Parallel configuration if not enabled.
+if [ "$PARALLEL_ENABLED" != true ]; then
+    if test -f "${PHP_INI_DIR}/conf.d/docker-php-ext-parallel.ini"; then
+      mv "${PHP_INI_DIR}/conf.d/docker-php-ext-parallel.ini" "${PHP_INI_DIR}/conf.d/docker-php-ext-parallel.ini.disabled"
     fi
 fi
 

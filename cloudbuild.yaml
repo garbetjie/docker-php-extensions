@@ -1,10 +1,4 @@
 ---
-# garbetjie/php:7.3-fpm
-# garbetjie/php:7.3-fpm-composer
-# garbetjie/php:7.3-cli
-# garbetjie/php:7.3-cli-composer
-# garbetjie/php:7.3-zts-cli
-# garbetjie/php:7.3-zts-cli-composer
 
 # Allow builds to run for up to 30 minutes.
 timeout: 1800s
@@ -33,11 +27,11 @@ steps:
 
   - name: 'gcr.io/cloud-builders/docker'
     entrypoint: 'bash'
-    id: 74-pull-zts-cli
+    id: 74-pull-cli
     waitFor: ['-']
     args: [
       '-c',
-      'docker pull $_DOCKER_HUB_REPO/php:7.4-zts-cli; docker pull $_DOCKER_HUB_REPO/php:7.4-zts-cli-composer; exit 0'
+      'docker pull $_DOCKER_HUB_REPO/php:7.4-cli; docker pull $_DOCKER_HUB_REPO/php:7.4-cli-composer; exit 0'
     ]
 
   - name: 'gcr.io/cloud-builders/docker'
@@ -60,11 +54,11 @@ steps:
 
   - name: 'gcr.io/cloud-builders/docker'
     entrypoint: 'bash'
-    id: 73-pull-zts-cli
+    id: 73-pull-cli
     waitFor: ['-']
     args: [
       '-c',
-      'docker pull $_DOCKER_HUB_REPO/php:7.3-zts-cli; docker pull $_DOCKER_HUB_REPO/php:7.3-zts-cli-composer; exit 0'
+      'docker pull $_DOCKER_HUB_REPO/php:7.3-cli; docker pull $_DOCKER_HUB_REPO/php:7.3-cli-composer; exit 0'
     ]
 
   - name: 'gcr.io/cloud-builders/docker'
@@ -87,11 +81,11 @@ steps:
 
   - name: 'gcr.io/cloud-builders/docker'
     entrypoint: 'bash'
-    id: 72-pull-zts-cli
+    id: 72-pull-cli
     waitFor: ['-']
     args: [
       '-c',
-      'docker pull $_DOCKER_HUB_REPO/php:7.2-zts-cli; docker pull $_DOCKER_HUB_REPO/php:7.2-zts-cli-composer; exit 0'
+      'docker pull $_DOCKER_HUB_REPO/php:7.2-cli; docker pull $_DOCKER_HUB_REPO/php:7.2-cli-composer; exit 0'
     ]
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -125,7 +119,6 @@ steps:
       '.'
     ]
 
-
   # 7.4-cli
 
   - name: 'gcr.io/cloud-builders/docker'
@@ -135,7 +128,7 @@ steps:
       'build',
       '-t', '$_DOCKER_HUB_REPO/php:7.4-cli',
       '--cache-from', '$_DOCKER_HUB_REPO/php:7.4-cli',
-      '--build-arg', 'SRC_TAG=7.4.0-alpine3.10',
+      '--build-arg', 'SRC_TAG=7.4.0-zts-alpine3.10',
       '.'
     ]
 
@@ -150,34 +143,6 @@ steps:
       '--cache-from', '$_DOCKER_HUB_REPO/php:7.4-cli-composer',
       '--build-arg', 'SRC_IMAGE=$_DOCKER_HUB_REPO/php',
       '--build-arg', 'SRC_TAG=7.4-cli',
-      '-f', 'Dockerfile-composer',
-      '.'
-    ]
-
-  # 7.4-zts-cli
-
-  - name: 'gcr.io/cloud-builders/docker'
-    waitFor: [74-pull-zts-cli]
-    id: 74-build-zts-cli
-    args: [
-      'build',
-      '-t', '$_DOCKER_HUB_REPO/php:7.4-zts-cli',
-      '--cache-from', '$_DOCKER_HUB_REPO/php:7.4-zts-cli',
-      '--build-arg', 'SRC_TAG=7.4.0-zts-alpine3.10',
-      '.'
-    ]
-
-  # 7.4-zts-cli-composer
-
-  - name: 'gcr.io/cloud-builders/docker'
-    waitFor: [74-build-zts-cli]
-    id: 74-build-zts-cli-composer
-    args: [
-      'build',
-      '-t', '$_DOCKER_HUB_REPO/php:7.4-zts-cli-composer',
-      '--cache-from', '$_DOCKER_HUB_REPO/php:7.4-zts-cli-composer',
-      '--build-arg', 'SRC_IMAGE=$_DOCKER_HUB_REPO/php',
-      '--build-arg', 'SRC_TAG=7.4-zts-cli',
       '-f', 'Dockerfile-composer',
       '.'
     ]
@@ -213,7 +178,6 @@ steps:
       '.'
     ]
 
-
 # 7.3-cli
 
   - name: 'gcr.io/cloud-builders/docker'
@@ -223,7 +187,7 @@ steps:
       'build',
       '-t', '$_DOCKER_HUB_REPO/php:7.3-cli',
       '--cache-from', '$_DOCKER_HUB_REPO/php:7.3-cli',
-      '--build-arg', 'SRC_TAG=7.3.11-alpine3.10',
+      '--build-arg', 'SRC_TAG=7.3.11-zts-alpine3.10',
       '.'
     ]
 
@@ -238,34 +202,6 @@ steps:
       '--cache-from', '$_DOCKER_HUB_REPO/php:7.3-cli-composer',
       '--build-arg', 'SRC_IMAGE=$_DOCKER_HUB_REPO/php',
       '--build-arg', 'SRC_TAG=7.3-cli',
-      '-f', 'Dockerfile-composer',
-      '.'
-    ]
-
-# 7.3-zts-cli
-
-  - name: 'gcr.io/cloud-builders/docker'
-    waitFor: [73-pull-zts-cli]
-    id: 73-build-zts-cli
-    args: [
-      'build',
-      '-t', '$_DOCKER_HUB_REPO/php:7.3-zts-cli',
-      '--cache-from', '$_DOCKER_HUB_REPO/php:7.3-zts-cli',
-      '--build-arg', 'SRC_TAG=7.3.11-zts-alpine3.10',
-      '.'
-    ]
-
-# 7.3-zts-cli-composer
-
-  - name: 'gcr.io/cloud-builders/docker'
-    waitFor: [73-build-zts-cli]
-    id: 73-build-zts-cli-composer
-    args: [
-      'build',
-      '-t', '$_DOCKER_HUB_REPO/php:7.3-zts-cli-composer',
-      '--cache-from', '$_DOCKER_HUB_REPO/php:7.3-zts-cli-composer',
-      '--build-arg', 'SRC_IMAGE=$_DOCKER_HUB_REPO/php',
-      '--build-arg', 'SRC_TAG=7.3-zts-cli',
       '-f', 'Dockerfile-composer',
       '.'
     ]
@@ -301,7 +237,6 @@ steps:
       '.'
     ]
 
-
 # 7.2-cli
 
   - name: 'gcr.io/cloud-builders/docker'
@@ -311,7 +246,7 @@ steps:
       'build',
       '-t', '$_DOCKER_HUB_REPO/php:7.2-cli',
       '--cache-from', '$_DOCKER_HUB_REPO/php:7.2-cli',
-      '--build-arg', 'SRC_TAG=7.2.24-alpine3.10',
+      '--build-arg', 'SRC_TAG=7.2.24-zts-alpine3.10',
       '.'
     ]
 
@@ -326,34 +261,6 @@ steps:
       '--cache-from', '$_DOCKER_HUB_REPO/php:7.2-cli-composer',
       '--build-arg', 'SRC_IMAGE=$_DOCKER_HUB_REPO/php',
       '--build-arg', 'SRC_TAG=7.2-cli',
-      '-f', 'Dockerfile-composer',
-      '.'
-    ]
-
-# 7.2-zts-cli
-
-  - name: 'gcr.io/cloud-builders/docker'
-    waitFor: [72-pull-zts-cli]
-    id: 72-build-zts-cli
-    args: [
-      'build',
-      '-t', '$_DOCKER_HUB_REPO/php:7.2-zts-cli',
-      '--cache-from', '$_DOCKER_HUB_REPO/php:7.2-zts-cli',
-      '--build-arg', 'SRC_TAG=7.2.24-zts-alpine3.10',
-      '.'
-    ]
-
-# 7.2-zts-cli-composer
-
-  - name: 'gcr.io/cloud-builders/docker'
-    waitFor: [72-build-zts-cli]
-    id: 72-build-zts-cli-composer
-    args: [
-      'build',
-      '-t', '$_DOCKER_HUB_REPO/php:7.2-zts-cli-composer',
-      '--cache-from', '$_DOCKER_HUB_REPO/php:7.2-zts-cli-composer',
-      '--build-arg', 'SRC_IMAGE=$_DOCKER_HUB_REPO/php',
-      '--build-arg', 'SRC_TAG=7.2-zts-cli',
       '-f', 'Dockerfile-composer',
       '.'
     ]
@@ -389,13 +296,10 @@ steps:
     waitFor:
       - 72-build-fpm-composer
       - 72-build-cli-composer
-      - 72-build-zts-cli-composer
       - 73-build-fpm-composer
       - 73-build-cli-composer
-      - 73-build-zts-cli-composer
       - 74-build-fpm-composer
       - 74-build-cli-composer
-      - 74-build-zts-cli-composer
       - decrypt-hub-username
       - decrypt-hub-password
     entrypoint: 'bash'

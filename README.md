@@ -168,6 +168,11 @@ Zend OPcache
 
 ## Changelog
 
+* **2019-12-17**
+    * Remove non-ZTS CLI image.
+    * Disable parallel extension by default.
+    * Move build commands into separate files.
+    
 * **2019-12-14**
     * Add WebP support to GD.
 

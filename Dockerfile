@@ -1,105 +1,14 @@
 ARG SRC_TAG=""
 FROM php:${SRC_TAG}
 
-RUN ZTS_ENABLED="$(php -ni 2>&1 | grep -qiF 'Thread Safety => enabled' && printf true || printf false)"; \
-    ZTS_SUFFIX="$(if [ $ZTS_ENABLED = true ]; then printf '-zts'; else printf ''; fi)"; \
-    PHP_VERSION="$(php -nv | grep -E -o 'PHP [0-9]+\.[0-9]+' | cut -f2 -d' ')"; \
-    NEWRELIC_VERSION="9.4.1.250"; \
-    if test "$PHP_VERSION" = "7.4"; then \
-        OPENCENSUS_SRC_URL="https://github.com/garbetjie/opencensus-php/archive/failing-tests-7.4.tar.gz"; \
-        EXT_ZIP_OPTIONS=""; \
-        EXT_GD_OPTIONS="--with-jpeg --with-webp"; \
-    else \
-        OPENCENSUS_SRC_URL="https://github.com/census-instrumentation/opencensus-php/archive/d1512abf456761165419a7b236e046a38b61219e.tar.gz"; \
-        EXT_ZIP_OPTIONS="--with-libzip"; \
-        EXT_GD_OPTIONS="--with-jpeg-dir=/usr/lib --with-webp-dir=/usr/lib"; \
-    fi; \
-    set -ex; set -o pipefail; \
-    docker-php-source extract; \
-    apk add --no-cache --virtual .build-deps \
-        autoconf \
-        build-base \
-        bzip2-dev \
-        gd-dev \
-        gettext-dev \
-        gmp-dev \
-        icu-dev \
-        imap-dev \
-        libjpeg-turbo-dev \
-        libmemcached-dev \
-        libpng-dev \
-        libwebp-dev \
-        libxml2-dev \
-        libzip-dev \
-        rabbitmq-c-dev; \
-    docker-php-ext-configure zip $EXT_ZIP_OPTIONS; \
-    docker-php-ext-configure gd $EXT_GD_OPTIONS; \
-    docker-php-ext-install -j5 \
-        bcmath \
-        bz2 \
-        exif \
-        gd \
-        gettext \
-        gmp \
-        imap \
-        intl \
-        opcache \
-        pcntl \
-        pdo_mysql \
-        soap \
-        sockets \
-        zip; \
-    pecl install \
-        amqp \
-        xdebug-2.8.0 \
-        redis \
-        igbinary \
-        memcached \
-        msgpack; \
-    if [ "$ZTS_ENABLED" = true ]; then \
-        pecl install parallel; \
-    fi; \
-    apk add --no-cache \
-        c-client \
-        gettext \
-        gmp \
-        icu-libs \
-        libbz2 \
-        libintl \
-        libjpeg \
-        libmemcached \
-        libpng \
-        libwebp \
-        libzip \
-        rabbitmq-c; \
-    wget "$OPENCENSUS_SRC_URL" -O- | tar -C /tmp -xzf -; \
-        cd /tmp/opencensus-php-*/ext; \
-        phpize; \
-        ./configure --enable-opencensus; \
-        make; \
-        echo 'n' | make test; \
-        make install; \
-    wget https://download.newrelic.com/php_agent/archive/${NEWRELIC_VERSION}/newrelic-php5-${NEWRELIC_VERSION}-linux-musl.tar.gz -O- | tar -xz -C /tmp; \
-        mv /tmp/newrelic-php5-*${NEWRELIC_VERSION}-linux-musl /opt/newrelic; \
-        find /opt/newrelic/agent/x64 -type f ! -name "newrelic-$(php -n -i | grep -F 'PHP Extension =' | sed -e 's/PHP Extension => //')${ZTS_SUFFIX}.so" -delete; \
-        mv "$(find /opt/newrelic/agent/x64 -iname '*.so' | head -n 1)" $(php -n -r 'echo ini_get("extension_dir");')/newrelic.so; \
-        mv /opt/newrelic/daemon/newrelic-daemon.x64 /opt/newrelic/daemon.x64; \
-        rm -rf /opt/newrelic/daemon /opt/newrelic/agent/ /opt/newrelic/scripts; \
-    docker-php-ext-enable \
-		amqp \
-		igbinary \
-		memcached \
-		msgpack \
-		newrelic \
-		opencensus \
-		redis \
-		xdebug; \
-    if [ "$ZTS_ENABLED" = true ]; then \
-        docker-php-ext-enable parallel; \
-    fi; \
-    rm -rf /tmp/pear* /tmp/opencensus*; \
-    apk del --purge .build-deps; \
-    docker-php-source delete
+COPY /build /build
+RUN set -ex; set -o pipefail; \
+    source /build/setup.sh; \
+    /build/build-deps.sh; \
+    /build/configure.sh;  \
+    /build/install.sh; \
+    /build/deps.sh; \
+    /build/teardown.sh
 
 # Run cleanup of configuration files..
 RUN set -e; \
@@ -140,7 +49,8 @@ ENV \
     NEWRELIC_LABELS="" \
     NEWRELIC_LICENCE="" \
     NEWRELIC_RECORD_SQL="obfuscated" \
-    OPENCENSUS_ENABLED="false" \
+    OPENCENSUS_ENABLED="true" \
+    PARALLEL_ENABLED="false" \
     SESSION_COOKIE_NAME="PHPSESSID" \
     SESSION_SAVE_HANDLER="files" \
     SESSION_SAVE_PATH="/tmp/sessions" \
