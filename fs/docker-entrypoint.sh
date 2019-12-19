@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+
 set -e
 
 # Remove NewRelic configuration file if not enabled.
@@ -64,16 +65,7 @@ if [ "$MAX_CHILDREN" -lt 1 ]; then
 fi
 
 # Substitute values in the php-fpm file.
-# shellcheck disable=SC2016
-envsubst '$PM
-          $MAX_CHILDREN
-          $MIN_SPARE_SERVERS
-          $MAX_SPARE_SERVERS
-          $MAX_REQUESTS
-          $STATUS_PATH
-          $TIMEOUT' < /usr/local/etc/php-fpm.conf > /usr/local/etc/php-fpm.conf.tmp
-
-mv /usr/local/etc/php-fpm.conf.tmp /usr/local/etc/php-fpm.conf
+esh -o /usr/local/etc/php-fpm.conf /usr/local/etc/php-fpm.conf
 
 # Comment out configuration that isn't available in 7.2
 if [ "$(version "$PHP_VERSION")" -lt "$(version 7.3.0)" ]; then
@@ -81,52 +73,39 @@ if [ "$(version "$PHP_VERSION")" -lt "$(version 7.3.0)" ]; then
 fi
 
 # Substitute values in the PHP ini files.
-for src_file in "$PHP_INI_DIR"/**/*.ini "$PHP_INI_DIR"/*.ini /opt/newrelic/newrelic.cfg; do
-    temporary_file="${src_file}.tmp"
-
-    # shellcheck disable=SC2016
-    envsubst '$DISPLAY_ERRORS
-              $ERROR_REPORTING
-              $HTML_ERRORS
-              $MAX_EXECUTION_TIME
-              $MAX_INPUT_TIME
-              $MAX_REQUEST_SIZE
-              $MEMORY_LIMIT
-              $NEWRELIC_APP_NAME
-              $NEWRELIC_AUTORUM_ENABLED
-              $NEWRELIC_DAEMON_LOGLEVEL
-              $NEWRELIC_DAEMON_PORT
-              $NEWRELIC_HOST_DISPLAY_NAME
-              $NEWRELIC_LABELS
-              $NEWRELIC_LICENCE
-              $NEWRELIC_RECORD_SQL
-              $SESSION_SAVE_HANDLER
-              $SESSION_SAVE_PATH
-              $TIMEZONE
-              $UPLOAD_MAX_FILESIZE
-              $XDEBUG_IDE_KEY
-              $XDEBUG_REMOTE_AUTOSTART
-              $XDEBUG_REMOTE_HOST
-              $XDEBUG_REMOTE_PORT' < "$src_file" > "$temporary_file"
-
-    mv "$temporary_file" "$src_file"
+for src_file in "$PHP_INI_DIR"/**/*.ini "$PHP_INI_DIR"/**/*.ini.disabled "$PHP_INI_DIR"/*.ini /opt/newrelic/newrelic.cfg; do
+  esh -o "$src_file" "$src_file"
 done
+
+# If nginx is available, then substitute values in the nginx configuration files.
+if command -v nginx 1>/dev/null; then
+  for src_file in /etc/nginx/*.conf /etc/nginx/**/*.conf; do
+    esh -o "$src_file" "$src_file"
+  done
+fi
 
 # Start the daemon, before executing the main script.
 /usr/local/bin/start-newrelic-daemon.sh || true
 
-# Attempt to find the FPM binary.
-FPM_BINARY="$(command -v php-fpm || true)"
+# Only start runit if FPM is available.
+if [ $# -lt 1 ] && (echo "$PHP_EXTRA_CONFIGURE_ARGS" | grep -q -F -- '-fpm'); then
+  terminate() {
+    pkill -SIGHUP runsvdir
+  }
 
-# Only attempt to execute FPM if it is available.
-if [ "$FPM_BINARY" != "" ]; then
-  if [ $# -lt 1 ]; then
-      exec php-fpm
-  else
-      exec "$@"
-  fi
+  trap terminate TERM INT
+  runsvdir -P /etc/services &
+  wait "$!"
 
-# Executing the CLI image.
-else
+  exit 0
+fi
+
+# Start the interactive PHP interpreter if there is no FPM, and no arguments given.
+if [ $# -lt 1 ] && (! echo "$PHP_EXTRA_CONFIGURE_ARGS" | grep -q -F -- '-fpm'); then
+  exec php -a
+fi
+
+# Arguments were given. Simply execute whatever was provided.
+if [ $# -gt 0 ]; then
   exec "$@"
 fi

@@ -1,22 +1,152 @@
-ARG SRC_TAG=""
-FROM php:${SRC_TAG}
+ARG IMAGE
+FROM $IMAGE
 
-COPY /build /build
-RUN set -ex; set -o pipefail; \
-    source /build/setup.sh; \
-    /build/build-deps.sh; \
-    /build/configure.sh;  \
-    /build/install.sh; \
-    /build/deps.sh; \
-    /build/teardown.sh
+RUN set -ex -o pipefail; \
+    \
+    # Set up useful variables for the build environment.
+    ZTS_ENABLED="$(php -ni 2>&1 | grep -qiF 'Thread Safety => enabled' && printf true || printf false)"; \
+    ZTS_SUFFIX="$(if [ $ZTS_ENABLED = true ]; then printf '-zts'; else printf ''; fi)"; \
+    PHP_VERSION="$(php -nv | grep -E -o 'PHP [0-9]+\.[0-9]+' | cut -f2 -d' ')"; \
+    NEWRELIC_VERSION="9.4.1.250"; \
+    OS="$(. /etc/os-release; printf "%s" "$ID")"; \
+    docker-php-source extract; \
+    \
+    \
+    # Add build dependencies.
+    apk add --no-cache --virtual .build-deps \
+        autoconf \
+        build-base \
+        bzip2-dev \
+        gd-dev \
+        gettext-dev \
+        gmp-dev \
+        icu-dev \
+        imap-dev \
+        libjpeg-turbo-dev \
+        libmemcached-dev \
+        libpng-dev \
+        libwebp-dev \
+        libxml2-dev \
+        libzip-dev \
+        rabbitmq-c-dev; \
+    \
+    \
+    # Configure extensions
+    if [ "$PHP_VERSION" = "7.4" ]; then \
+        ext_zip_options=""; \
+        ext_gd_options="--with-jpeg --with-webp"; \
+    else \
+        ext_zip_options="--with-libzip"; \
+        ext_gd_options="--with-jpeg-dir=/usr/lib --with-webp-dir=/usr/lib"; \
+    fi; \
+    docker-php-ext-configure zip $ext_zip_options; \
+    docker-php-ext-configure gd $ext_gd_options; \
+    \
+    \
+    # Install extensions.
+    docker-php-ext-install -j5 \
+        bcmath \
+        bz2 \
+        exif \
+        gd \
+        gettext \
+        gmp \
+        imap \
+        intl \
+        opcache \
+        pcntl \
+        pdo_mysql \
+        soap \
+        sockets \
+        zip; \
+    \
+    \
+    # Install pecl extensions.
+    pecl install -s \
+        amqp \
+        igbinary \
+        memcached \
+        msgpack \
+        redis \
+        xdebug-2.8.0; \
+    if test "$ZTS_ENABLED" = true; then \
+        pecl install parallel; \
+    fi; \
+    \
+    \
+    # Install OpenCensus.
+    if [ "$PHP_VERSION" = "7.4" ]; then \
+        opencensus_src_url="https://github.com/garbetjie/opencensus-php/archive/failing-tests-7.4.tar.gz"; \
+    else \
+        opencensus_src_url="https://github.com/census-instrumentation/opencensus-php/archive/d1512abf456761165419a7b236e046a38b61219e.tar.gz"; \
+    fi; \
+    wget "$opencensus_src_url" -O- | tar -C /tmp -xzf -; \
+    cd /tmp/opencensus-php-*/ext; \
+    phpize; \
+    ./configure --enable-opencensus; \
+    make; \
+    echo 'n' | make test; \
+    make install; \
+    \
+    \
+    # Install New Relic.
+    wget https://download.newrelic.com/php_agent/archive/${NEWRELIC_VERSION}/newrelic-php5-${NEWRELIC_VERSION}-linux-musl.tar.gz -O- | tar -xz -C /tmp; \
+    mv /tmp/newrelic-php5-*${NEWRELIC_VERSION}-linux-musl /opt/newrelic; \
+    find /opt/newrelic/agent/x64 -type f ! -name "newrelic-$(php -n -i | grep -F 'PHP Extension =' | sed -e 's/PHP Extension => //')$(if [ $ZTS_ENABLED = true ]; then printf -- '-zts'; else printf ''; fi).so" -delete; \
+    mv "$(find /opt/newrelic/agent/x64 -iname '*.so' | head -n 1)" $(php -n -r 'echo ini_get("extension_dir");')/newrelic.so; \
+    mv /opt/newrelic/daemon/newrelic-daemon.x64 /opt/newrelic/daemon.x64; \
+    rm -rf /opt/newrelic/daemon /opt/newrelic/agent/ /opt/newrelic/scripts; \
+    \
+    \
+    # Enable extensions not installed through `docker-php-ext-install`.
+    docker-php-ext-enable \
+        amqp \
+        igbinary \
+        memcached \
+        msgpack \
+        newrelic \
+        opencensus \
+        redis \
+        xdebug; \
+    \
+    \
+    # Enable the parallel extension if installed.
+    if [ "$ZTS_ENABLED" = true ]; then \
+      docker-php-ext-enable parallel; \
+    fi; \
+    \
+    \
+    # Add runtime depedencies.
+    apk add --no-cache \
+        c-client \
+        dumb-init \
+        esh \
+        gettext \
+        gmp \
+        icu-libs \
+        libbz2 \
+        libintl \
+        libjpeg \
+        libmemcached \
+        libpng \
+        libwebp \
+        libzip \
+        runit \
+        rabbitmq-c; \
+    \
+    \
+    # Remove build dependencies.
+    rm -rf /tmp/pear* /tmp/opencensus*; \
+    apk del --purge .build-deps; \
+    docker-php-source delete
 
-# Run cleanup of configuration files..
+# Run cleanup of configuration files.
 RUN set -e; \
     rm -rf ${PHP_INI_DIR}/php.ini-* /usr/local/etc/php-fpm.conf.default /usr/local/etc/php-fpm.d; \
     mkdir -p /var/log/newrelic; \
     mkdir /app && chown www-data:www-data /app
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
+ENTRYPOINT ["dumb-init", "/docker-entrypoint.sh"]
 WORKDIR /app
 
 COPY fs/ /
@@ -24,6 +154,7 @@ COPY fs/ /
 ENV \
     # FPM-specific configuration.
     PM="static" \
+    LISTEN="0.0.0.0:9000" \
     MAX_CHILDREN=0 \
     MIN_SPARE_SERVERS=1 \
     MAX_SPARE_SERVERS=3 \
