@@ -200,6 +200,7 @@ Zend OPcache
     * Add NGiNX image.
     * Bump PHP versions (7.4.1, 7.3.13, 7.2.26).
     * Merge build commands into Dockerfile again `-_-`
+    * Add missing templating to New Relic Daemon config.
     
 * **2019-12-17**
     * Remove non-ZTS CLI image.
