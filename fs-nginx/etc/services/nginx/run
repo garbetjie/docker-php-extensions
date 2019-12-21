@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
 # Wait up to 10 seconds for php-fpm to start.
-sv -w 10 check /etc/services/php-fpm
+sv -w 10 check /etc/services/php-fpm 1>/dev/null 2>/dev/null
 
 exec nginx
