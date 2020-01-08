@@ -19,7 +19,7 @@ while [ $(($(date +%s) - $started)) -lt 30 ]; do
         exit 0
     fi
 
-    sleep 1
+    sleep 0.25
 done
 
 # If the loop ends, then there's an error.

@@ -196,6 +196,11 @@ Zend OPcache
 
 ## Changelog
 
+* **2020-01-08**
+    * Bug fix: Incorrect ownership on `/var/tmp/nginx`.
+    * Bug fix: Create PHP session directory if files are being used.
+    * Reduce interval between php-fpm checks to 0.25 seconds from 1 second.
+
 * **2019-12-19**
     * Add NGiNX image.
     * Bump PHP versions (7.4.1, 7.3.13, 7.2.26).

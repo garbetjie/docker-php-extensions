@@ -84,6 +84,13 @@ if command -v nginx 1>/dev/null; then
   done
 fi
 
+# Create the session directory if using files.
+if [ "$(php -r "echo ini_get('session.save_handler');")" = "files" ]; then
+  save_path="$(php -r "echo ini_get('session.save_path');")"
+  mkdir -p "$save_path"
+  chown -R www-data:www-data "$save_path"
+fi
+
 # Start the daemon, before executing the main script.
 /usr/local/bin/start-newrelic-daemon.sh || true
 
