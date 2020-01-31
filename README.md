@@ -203,6 +203,7 @@ Zend OPcache
     * Ensure `$NEWRELIC_DAEMON_LOGLEVEL` is respected.
     * Update Alpine versions to 3.11.
     * Update to PHP 7.2.27, 7.3.14, 7.4.2.
+    * Increase `$NEWRELIC_DAEMON_WAIT` to 5 seconds.
 
 * **2020-01-08**
     * Bug fix: Incorrect ownership on `/var/tmp/nginx`.
