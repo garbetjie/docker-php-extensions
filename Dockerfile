@@ -7,7 +7,7 @@ RUN set -ex -o pipefail; \
     ZTS_ENABLED="$(php -ni 2>&1 | grep -qiF 'Thread Safety => enabled' && printf true || printf false)"; \
     ZTS_SUFFIX="$(if [ $ZTS_ENABLED = true ]; then printf '-zts'; else printf ''; fi)"; \
     PHP_VERSION="$(php -nv | grep -E -o 'PHP [0-9]+\.[0-9]+' | cut -f2 -d' ')"; \
-    NEWRELIC_VERSION="9.4.1.250"; \
+    NEWRELIC_VERSION="9.6.1.256"; \
     OS="$(. /etc/os-release; printf "%s" "$ID")"; \
     docker-php-source extract; \
     \
@@ -179,6 +179,7 @@ ENV \
     NEWRELIC_HOST_DISPLAY_NAME="" \
     NEWRELIC_LABELS="" \
     NEWRELIC_LICENCE="" \
+    NEWRELIC_LOGLEVEL="info" \
     NEWRELIC_RECORD_SQL="obfuscated" \
     OPENCENSUS_ENABLED="true" \
     PARALLEL_ENABLED="false" \

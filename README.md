@@ -82,6 +82,7 @@ The environment variables below apply to all image variants, and are used to con
 |                      | NEWRELIC_HOST_DISPLAY_NAME | [newrelic.process_host.display_name](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-process_host-display_name) | ""                                  |
 |                      | NEWRELIC_LABELS            | [newrelic.labels](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-labels)                                       | ""                                  |
 |                      | NEWRELIC_LICENCE           | [newrelic.license](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-license)                                     | ""                                  |
+|                      | NEWRELIC_LOGLEVEL          | [newrelic.loglevel](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-loglevel)                                   | "info"                              |
 |                      | NEWRELIC_RECORD_SQL        | [newrelic.transaction_tracer.record_sql](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-tt-sql)                | "obfuscated"                        |
 | OpenCensus extension | OPENCENSUS_ENABLED         | N/A (Used to enable/disable the OpenCensus extension)                                                                                                        | false                               |
 | XDebug extension     | XDEBUG_ENABLED             | N/A (Used to enable/disable the XDebug extension)                                                                                                            | false                               |
@@ -195,6 +196,11 @@ Zend OPcache
 
 
 ## Changelog
+
+* **2020-01-31**
+    * Bump New Relic version to 9.6.1.256.
+    * Add `$NEWRELIC_LOGLEVEL` configuration option.
+    * Ensure `$NEWRELIC_DAEMON_LOGLEVEL` is respected.
 
 * **2020-01-08**
     * Bug fix: Incorrect ownership on `/var/tmp/nginx`.
