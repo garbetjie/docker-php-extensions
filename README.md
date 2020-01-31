@@ -201,6 +201,8 @@ Zend OPcache
     * Bump New Relic version to 9.6.1.256.
     * Add `$NEWRELIC_LOGLEVEL` configuration option.
     * Ensure `$NEWRELIC_DAEMON_LOGLEVEL` is respected.
+    * Update Alpine versions to 3.11.
+    * Update to PHP 7.2.27, 7.3.14, 7.4.2.
 
 * **2020-01-08**
     * Bug fix: Incorrect ownership on `/var/tmp/nginx`.
