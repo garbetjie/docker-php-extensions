@@ -5,6 +5,7 @@ RUN set -e; \
     apk add --no-cache nginx; \
     cd /etc/nginx; \
     rm -rf conf.d fastcgi* *.default *_params; \
+    mkdir -p /var/tmp/nginx; \
     chown -R www-data:www-data /var/tmp/nginx;
 
 COPY fs-nginx/ /
