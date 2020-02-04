@@ -114,6 +114,7 @@ PHP-FPM. In some instances, the NGiNX configuration overrides some of the defaul
 | Name                 | NGiNX config equivalent                                                                                 | Default                                                                                                                                                             |
 |----------------------|---------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | GZIP_TYPES           | [gzip_types](http://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip_types)                        | "application/ecmascript application/javascript application/json application/xhtml+xml application/xml text/css text/ecmascript text/javascript text/plain text/xml" |
+| GZIP_PROXIED         | [gzip_types](http://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip_proxied)                      | "any"                                                                                                                                                               |
 | LISTEN               | [fastcgi_pass](http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_pass)                 | "/var/run/php-fpm.sock"                                                                                                                                             |
 | PORT                 | [listen](http://nginx.org/en/docs/http/ngx_http_core_module.html#listen)                                | 80                                                                                                                                                                  |
 | ROOT                 | [root](http://nginx.org/en/docs/http/ngx_http_core_module.html#root)                                    | "/app/public"                                                                                                                                                       |
@@ -196,6 +197,9 @@ Zend OPcache
 
 
 ## Changelog
+
+* **2020-02-04**
+    * Add ability to configure `gzip_proxied` in NGiNX configuration. 
 
 * **2020-01-31**
     * Bump New Relic version to 9.6.1.256.
