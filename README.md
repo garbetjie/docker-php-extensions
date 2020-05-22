@@ -198,6 +198,10 @@ Zend OPcache
 
 ## Changelog
 
+* **2020-05-22**
+    * Bug fix: Incorrect ownership on `/var/lib/nginx`.
+    * Update to PHP 7.4.6, 7.3.18, 7.2.31)
+
 * **2020-02-04**
     * Add ability to configure `gzip_proxied` in NGiNX configuration. 
 

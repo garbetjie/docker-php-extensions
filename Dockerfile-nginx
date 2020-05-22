@@ -6,7 +6,9 @@ RUN set -e; \
     cd /etc/nginx; \
     rm -rf conf.d fastcgi* *.default *_params; \
     mkdir -p /var/tmp/nginx; \
-    chown -R www-data:www-data /var/tmp/nginx;
+    chown -R www-data:www-data /var/tmp/nginx; \
+    find /var/lib -user nginx | xargs chmod www-data; \
+    find /var/lib -group nginx | xargs chgrp www-data;
 
 COPY fs-nginx/ /
 
