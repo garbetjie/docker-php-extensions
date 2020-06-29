@@ -59,37 +59,43 @@ used to build up configuration files. Any custom configuration files can also ma
 
 The environment variables below apply to all image variants, and are used to control the behaviour of PHP itself.
 
-| Section              | Name                       | INI equivalent                                                                                                                                               | Default                             |
-|----------------------|----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------|
-| PHP Core             | DISPLAY_ERRORS             | [display_errors](https://www.php.net/manual/en/errorfunc.configuration.php#ini.display-errors)                                                               | "Off"                               |
-|                      | ERROR_REPORTING            | [error_reporting](https://www.php.net/manual/en/errorfunc.configuration.php#ini.error-reporting)                                                             | "E_ALL & ~E_DEPRECATED & ~E_STRICT" |
-|                      | HTML_ERRORS                | [html_errors](https://www.php.net/manual/en/errorfunc.configuration.php#ini.html-errors)                                                                     | "Off"                               |
-|                      | MAX_EXECUTION_TIME         | [max_execution_time](https://www.php.net/manual/en/info.configuration.php#ini.max-execution-time)                                                            | 30                                  |
-|                      | MAX_INPUT_TIME             | [max_input_time](https://www.php.net/manual/en/info.configuration.php#ini.max-input-time)                                                                    | 30                                  |
-|                      | MAX_REQUEST_SIZE           | [post_max_size](https://www.php.net/manual/en/ini.core.php#ini.post-max-size)                                                                                | "8M"                                |
-|                      | MEMORY_LIMIT               | [memory_limit](https://www.php.net/manual/en/ini.core.php#ini.memory-limit)                                                                                  | "64M"                               |
-|                      | SESSION_COOKIE_NAME        | [session.name](https://www.php.net/manual/en/session.configuration.php#ini.session.name)                                                                     | "PHPSESSID"                         |
-|                      | SESSION_SAVE_HANDLER       | [session.save_handler](https://www.php.net/manual/en/session.configuration.php#ini.session.save-handler)                                                     | "files"                             |
-|                      | SESSION_SAVE_PATH          | [session.save_path](https://www.php.net/manual/en/session.configuration.php#ini.session.save-path)                                                           | "/tmp/sessions"                     |
-|                      | TIMEZONE                   | [date.timezone](https://www.php.net/manual/en/datetime.configuration.php#ini.date.timezone)                                                                  | "Etc/UTC"                           |
-|                      | UPLOAD_MAX_FILESIZE        | [upload_max_filesize](https://www.php.net/manual/en/ini.core.php#ini.upload-max-filesize)                                                                    | "8M"                                |
-| New Relic extension  | NEWRELIC_ENABLED           | N/A (Used to enable/disable the New Relic extension)                                                                                                         | false                               |
-|                      | NEWRELIC_APP_NAME          | [newrelic.appname](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-appname)                                     | ""                                  |
-|                      | NEWRELIC_AUTORUM_ENABLED   | [newrelic.browser_monitoring.auto_instrument](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-autorum)          | 0                                   |
-|                      | NEWRELIC_DAEMON_LOGLEVEL   | [newrelic.daemon.loglevel](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-daemon-loglevel)                     | "error"                             |
-|                      | NEWRELIC_DAEMON_PORT       | [newrelic.daemon.port](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-daemon-port)                             | "@newrelic-daemon"                  |
-|                      | NEWRELIC_DAEMON_WAIT       | N/A (Number of seconds to wait for New Relic daemon to connect to the reporting servers)                                                                     | 3                                   |
-|                      | NEWRELIC_HOST_DISPLAY_NAME | [newrelic.process_host.display_name](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-process_host-display_name) | ""                                  |
-|                      | NEWRELIC_LABELS            | [newrelic.labels](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-labels)                                       | ""                                  |
-|                      | NEWRELIC_LICENCE           | [newrelic.license](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-license)                                     | ""                                  |
-|                      | NEWRELIC_LOGLEVEL          | [newrelic.loglevel](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-loglevel)                                   | "info"                              |
-|                      | NEWRELIC_RECORD_SQL        | [newrelic.transaction_tracer.record_sql](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-tt-sql)                | "obfuscated"                        |
-| OpenCensus extension | OPENCENSUS_ENABLED         | N/A (Used to enable/disable the OpenCensus extension)                                                                                                        | false                               |
-| XDebug extension     | XDEBUG_ENABLED             | N/A (Used to enable/disable the XDebug extension)                                                                                                            | false                               |
-|                      | XDEBUG_IDE_KEY             | [xdebug.idekey](https://xdebug.org/docs/all_settings#idekey)                                                                                                 | "IDEKEY"                            |
-|                      | XDEBUG_REMOTE_AUTOSTART    | [xdebug.remote_autostart](https://xdebug.org/docs/all_settings#remote_autostart)                                                                             | 0                                   |
-|                      | XDEBUG_REMOTE_HOST         | [xdebug.remote_host](https://xdebug.org/docs/all_settings#remote_host)                                                                                       | "192.168.99.1"                      |
-|                      | XDEBUG_REMOTE_PORT         | [xdebug.remote_port](https://xdebug.org/docs/all_settings#remote_port)                                                                                       | 9000                                |
+| Section              | Name                          | INI equivalent                                                                                                                                               | Default                             |
+|----------------------|-------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------|
+| PHP Core             | DISPLAY_ERRORS                | [display_errors](https://www.php.net/manual/en/errorfunc.configuration.php#ini.display-errors)                                                               | "Off"                               |
+|                      | ERROR_REPORTING               | [error_reporting](https://www.php.net/manual/en/errorfunc.configuration.php#ini.error-reporting)                                                             | "E_ALL & ~E_DEPRECATED & ~E_STRICT" |
+|                      | HTML_ERRORS                   | [html_errors](https://www.php.net/manual/en/errorfunc.configuration.php#ini.html-errors)                                                                     | "Off"                               |
+|                      | MAX_EXECUTION_TIME            | [max_execution_time](https://www.php.net/manual/en/info.configuration.php#ini.max-execution-time)                                                            | 30                                  |
+|                      | MAX_INPUT_TIME                | [max_input_time](https://www.php.net/manual/en/info.configuration.php#ini.max-input-time)                                                                    | 30                                  |
+|                      | MAX_REQUEST_SIZE              | [post_max_size](https://www.php.net/manual/en/ini.core.php#ini.post-max-size)                                                                                | "8M"                                |
+|                      | MEMORY_LIMIT                  | [memory_limit](https://www.php.net/manual/en/ini.core.php#ini.memory-limit)                                                                                  | "64M"                               |
+|                      | OPCACHE_ENABLED               | [opcache.enable](https://www.php.net/manual/en/opcache.configuration.php#ini.opcache.enable)                                                                 | true                                |
+|                      | OPCACHE_CLI_ENABLED           | [opcache.enable_cli](https://www.php.net/manual/en/opcache.configuration.php#ini.opcache.enable-cli)                                                         | false                               |
+|                      | OPCACHE_MAX_ACCELERATED_FILES | [opcache.max_accelerated_files](https://www.php.net/manual/en/opcache.configuration.php#ini.opcache.max-accelerated-files)                                   | 10000                               |
+|                      | OPCACHE_REVALIDATE_FREQ       | [opcache.revalidate_freq](https://www.php.net/manual/en/opcache.configuration.php#ini.opcache.revalidate-freq)                                               | 2                                   |
+|                      | OPCACHE_VALIDATE_TIMESTAMPS   | [opcache.validate_timestamps](https://www.php.net/manual/en/opcache.configuration.php#ini.opcache.validate-timestamps)                                       | true                                |
+|                      | OPCACHE_SAVE_COMMENTS         | [opcache.save_comments](https://www.php.net/manual/en/opcache.configuration.php#ini.opcache.save-comments)                                                   | true                                |
+|                      | SESSION_COOKIE_NAME           | [session.name](https://www.php.net/manual/en/session.configuration.php#ini.session.name)                                                                     | "PHPSESSID"                         |
+|                      | SESSION_SAVE_HANDLER          | [session.save_handler](https://www.php.net/manual/en/session.configuration.php#ini.session.save-handler)                                                     | "files"                             |
+|                      | SESSION_SAVE_PATH             | [session.save_path](https://www.php.net/manual/en/session.configuration.php#ini.session.save-path)                                                           | "/tmp/sessions"                     |
+|                      | TIMEZONE                      | [date.timezone](https://www.php.net/manual/en/datetime.configuration.php#ini.date.timezone)                                                                  | "Etc/UTC"                           |
+|                      | UPLOAD_MAX_FILESIZE           | [upload_max_filesize](https://www.php.net/manual/en/ini.core.php#ini.upload-max-filesize)                                                                    | "8M"                                |
+| New Relic extension  | NEWRELIC_ENABLED              | N/A (Used to enable/disable the New Relic extension)                                                                                                         | false                               |
+|                      | NEWRELIC_APP_NAME             | [newrelic.appname](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-appname)                                     | ""                                  |
+|                      | NEWRELIC_AUTORUM_ENABLED      | [newrelic.browser_monitoring.auto_instrument](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-autorum)          | 0                                   |
+|                      | NEWRELIC_DAEMON_LOGLEVEL      | [newrelic.daemon.loglevel](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-daemon-loglevel)                     | "error"                             |
+|                      | NEWRELIC_DAEMON_PORT          | [newrelic.daemon.port](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-daemon-port)                             | "@newrelic-daemon"                  |
+|                      | NEWRELIC_DAEMON_WAIT          | N/A (Number of seconds to wait for New Relic daemon to connect to the reporting servers)                                                                     | 3                                   |
+|                      | NEWRELIC_HOST_DISPLAY_NAME    | [newrelic.process_host.display_name](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-process_host-display_name) | ""                                  |
+|                      | NEWRELIC_LABELS               | [newrelic.labels](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-labels)                                       | ""                                  |
+|                      | NEWRELIC_LICENCE              | [newrelic.license](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-license)                                     | ""                                  |
+|                      | NEWRELIC_LOGLEVEL             | [newrelic.loglevel](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-loglevel)                                   | "info"                              |
+|                      | NEWRELIC_RECORD_SQL           | [newrelic.transaction_tracer.record_sql](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-tt-sql)                | "obfuscated"                        |
+| OpenCensus extension | OPENCENSUS_ENABLED            | N/A (Used to enable/disable the OpenCensus extension)                                                                                                        | false                               |
+| XDebug extension     | XDEBUG_ENABLED                | N/A (Used to enable/disable the XDebug extension)                                                                                                            | false                               |
+|                      | XDEBUG_IDE_KEY                | [xdebug.idekey](https://xdebug.org/docs/all_settings#idekey)                                                                                                 | "IDEKEY"                            |
+|                      | XDEBUG_REMOTE_AUTOSTART       | [xdebug.remote_autostart](https://xdebug.org/docs/all_settings#remote_autostart)                                                                             | 0                                   |
+|                      | XDEBUG_REMOTE_HOST            | [xdebug.remote_host](https://xdebug.org/docs/all_settings#remote_host)                                                                                       | "192.168.99.1"                      |
+|                      | XDEBUG_REMOTE_PORT            | [xdebug.remote_port](https://xdebug.org/docs/all_settings#remote_port)                                                                                       | 9000                                |
 
 ### FPM
 
@@ -198,9 +204,14 @@ Zend OPcache
 
 ## Changelog
 
+* **2020-06-29**
+    * Update to PHP 7.4.7, 7.3.19.
+    * Update all images to Alpine 3.12.
+    * Add opcache configuration.
+
 * **2020-05-22**
     * Bug fix: Incorrect ownership on `/var/lib/nginx`.
-    * Update to PHP 7.4.6, 7.3.18, 7.2.31)
+    * Update to PHP 7.4.6, 7.3.18, 7.2.31.
     * Update Composer to 1.10.6.
 
 * **2020-02-04**
