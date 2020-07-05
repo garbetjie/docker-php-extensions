@@ -9,6 +9,33 @@ steps:
 
   - name: 'gcr.io/cloud-builders/docker'
     entrypoint: 'bash'
+    id: 80-pull-fpm
+    waitFor: ['-']
+    args: [
+      '-c',
+      'docker pull $_DOCKER_HUB_REPO/php:8.0-fpm; docker pull $_DOCKER_HUB_REPO/php:8.0-fpm-composer; exit 0'
+    ]
+
+#  - name: 'gcr.io/cloud-builders/docker'
+#    entrypoint: 'bash'
+#    id: 80-pull-cli
+#    waitFor: ['-']
+#    args: [
+#      '-c',
+#      'docker pull $_DOCKER_HUB_REPO/php:8.0-cli; docker pull $_DOCKER_HUB_REPO/php:8.0-cli-composer; exit 0'
+#    ]
+
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    id: 80-pull-nginx
+    waitFor: ['-']
+    args: [
+      '-c',
+      'docker pull $_DOCKER_HUB_REPO/php:8.0-nginx; docker pull $_DOCKER_HUB_REPO/php:8.0-nginx-composer; exit 0'
+    ]
+
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
     id: 74-pull-fpm
     waitFor: ['-']
     args: [
@@ -86,6 +113,91 @@ steps:
     args: [
       '-c',
       'docker pull $_DOCKER_HUB_REPO/php:7.2-nginx; docker pull $_DOCKER_HUB_REPO/php:7.2-nginx-composer; exit 0'
+    ]
+
+# ----------------------------------------------------------------------------------------------------------------------
+
+  # 8.0-fpm
+
+  - name: 'gcr.io/cloud-builders/docker'
+    waitFor: [80-pull-fpm]
+    id: 80-build-fpm
+    args: [
+      'build',
+      '-t', '$_DOCKER_HUB_REPO/php:8.0-fpm',
+      '--cache-from', '$_DOCKER_HUB_REPO/php:8.0-fpm',
+      '--build-arg', 'IMAGE=php:8.0-rc-fpm-alpine3.12',
+      '.'
+    ]
+
+
+  # 8.0-fpm-composer
+
+  - name: 'gcr.io/cloud-builders/docker'
+    waitFor: [80-build-fpm]
+    id: 80-build-fpm-composer
+    args: [
+      'build',
+      '-t', '$_DOCKER_HUB_REPO/php:8.0-fpm-composer',
+      '--cache-from', '$_DOCKER_HUB_REPO/php:8.0-fpm-composer',
+      '--build-arg', 'IMAGE=$_DOCKER_HUB_REPO/php:8.0-fpm',
+      '-f', 'Dockerfile-composer',
+      '.'
+    ]
+
+#  # 8.0-cli
+#
+#  - name: 'gcr.io/cloud-builders/docker'
+#    waitFor: [80-pull-cli]
+#    id: 80-build-cli
+#    args: [
+#      'build',
+#      '-t', '$_DOCKER_HUB_REPO/php:8.0-cli',
+#      '--cache-from', '$_DOCKER_HUB_REPO/php:8.0-cli',
+#      '--build-arg', 'IMAGE=php:8.0-rc-zts-alpine3.12',
+#      '.'
+#    ]
+#
+#  # 8.0-cli-composer
+#
+#  - name: 'gcr.io/cloud-builders/docker'
+#    waitFor: [80-build-cli]
+#    id: 80-build-cli-composer
+#    args: [
+#      'build',
+#      '-t', '$_DOCKER_HUB_REPO/php:8.0-cli-composer',
+#      '--cache-from', '$_DOCKER_HUB_REPO/php:8.0-cli-composer',
+#      '--build-arg', 'IMAGE=$_DOCKER_HUB_REPO/php:8.0-cli',
+#      '-f', 'Dockerfile-composer',
+#      '.'
+#    ]
+
+  # 8.0-nginx
+
+  - name: 'gcr.io/cloud-builders/docker'
+    waitFor: [80-build-fpm, 80-pull-nginx]
+    id: 80-build-nginx
+    args: [
+      'build',
+      '-t', '$_DOCKER_HUB_REPO/php:8.0-nginx',
+      '--cache-from', '$_DOCKER_HUB_REPO/php:8.0-nginx',
+      '--build-arg', 'IMAGE=$_DOCKER_HUB_REPO/php:8.0-fpm',
+      '-f', 'Dockerfile-nginx',
+      '.'
+    ]
+
+  # 8.0-nginx-composer
+
+  - name: 'gcr.io/cloud-builders/docker'
+    waitFor: [80-build-nginx]
+    id: 80-build-nginx-composer
+    args: [
+      'build',
+      '-t', '$_DOCKER_HUB_REPO/php:8.0-nginx-composer',
+      '--cache-from', '$_DOCKER_HUB_REPO/php:8.0-nginx-composer',
+      '--build-arg', 'IMAGE=$_DOCKER_HUB_REPO/php:8.0-nginx',
+      '-f', 'Dockerfile-composer',
+      '.'
     ]
 
 # ----------------------------------------------------------------------------------------------------------------------

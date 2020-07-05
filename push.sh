@@ -12,6 +12,12 @@ fi
 # Change into this directory.
 cd "$(cd "$(dirname "$0")" && pwd)"
 
+# Testing the build locally.
+if [ -n "$LOCAL" ]; then
+  cloud-build-local -substitutions "_DOCKER_HUB_REPO=${docker_hub_repo}" .
+  exit
+fi
+
 # Submit the build.
 printf "\n\e[38;5;116mSubmitting build.\e[0m\n"
 gcloud builds submit \
