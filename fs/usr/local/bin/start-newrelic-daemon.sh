@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 # If New Relic is disabled, then don't do anything.
-if [ "$NEWRELIC_ENABLED" != "true" ]; then
+if [ "$NEWRELIC_ENABLED" != "true" ] || [ ! -x /opt/newrelic/daemon.x64 ]; then
   exit 0
 fi
 

@@ -73,7 +73,7 @@ if [ "$(version "$PHP_VERSION")" -lt "$(version 7.3.0)" ]; then
 fi
 
 # Substitute values in the PHP ini files.
-for src_file in "$PHP_INI_DIR"/**/*.ini "$PHP_INI_DIR"/**/*.ini.disabled "$PHP_INI_DIR"/*.ini /opt/newrelic/newrelic.cfg; do
+for src_file in $(find "$PHP_INI_DIR" -name '*.ini' -o -name '*.ini.disabled') /opt/newrelic/newrelic.cfg; do
   esh -o "$src_file" "$src_file"
 done
 
