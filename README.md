@@ -2,7 +2,7 @@ PHP in Docker
 =============
 
 An all-in-one PHP Docker image that comes preconfigured with a large range of extensions; and can be configured using
-environment variables. Supports PHP 7.2, 7.3 & 7.4.
+environment variables. Supports PHP 7.2, 7.3, 7.4 & early support for 8.0.
 
 See the [list of available extensions](#available-extensions) to see whether the extension you need is included.
 
@@ -27,6 +27,11 @@ Docker images are available on Docker Hub, and can be pulled using the following
 
 Additional images can be found on [Docker Hub](https://hub.docker.com/r/garbetjie/php).
 
+> **A note on PHP 8.0 images**
+> 
+> PHP 8.0 is still in an early release phase. As such, not all extensions installed are available in the PHP 8.0 images,
+> and there is no CLI version for PHP 8.0. As the missing extensions become compatible with PHP 8.0, they will be added.  
+
 ## Available variants
 
 There are three variants that are available: `cli`, `fpm` and `nginx`. Each one is available for each PHP version.
@@ -35,10 +40,10 @@ For example, these are the variants available:
 * **`garbetjie/php:7.X-cli`**
   Thread-safe version of PHP, with the [`parallel`](https://www.php.net/parallel) extension (but disabled) by default.
     
-* **`garbetjie/php:7.X-fpm`**
+* **`garbetjie/php:[7.x|8.0]-fpm`**
   PHP installed with PHP-FPM. All error logs are written to the container's `stderr`.
 
-* **`garbetjie/php:7.X-nginx`**
+* **`garbetjie/php:[7.x|8.0]-nginx`**
   PHP-FPM installed with the NGiNX webserver. This effectively turns the Docker container into a self-contained web
   server.
   
@@ -139,7 +144,7 @@ The following extensions are available:
 
 ```
 [PHP Modules]
-amqp
+amqp  (7.x images only)
 bcmath
 bz2
 Core
@@ -165,10 +170,10 @@ mbstring
 memcached
 msgpack
 mysqlnd
-newrelic
-opencensus
+newrelic  (7.x images only)
+opencensus  (7.x images only)
 openssl
-parallel  (*-zts-cli versions only)
+parallel  (*-cli versions only)
 pcntl
 pcre
 PDO
@@ -203,6 +208,9 @@ Zend OPcache
 
 
 ## Changelog
+
+* **2020-07-05**
+    * Add support for PHP 8.0.
 
 * **2020-06-29**
     * Update to PHP 7.4.7, 7.3.19.
