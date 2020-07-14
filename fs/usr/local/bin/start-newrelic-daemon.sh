@@ -1,7 +1,7 @@
-#!/usr/bin/env sh
+#!/usr/bin/env dash
 
 # If New Relic is disabled, then don't do anything.
-if [ "$NEWRELIC_ENABLED" != "true" ] || [ ! -x /opt/newrelic/daemon.x64 ]; then
+if [ "$NEWRELIC_ENABLED" != true ] || [ ! -x /opt/newrelic/daemon.x64 ]; then
   exit 0
 fi
 
@@ -21,7 +21,7 @@ fi
 # Ideally, $NEWRELIC_DAEMON_WAIT should be set to a duration in which your app will be able to connect to New Relic's
 # servers. The faster your connection, the less this duration can be.
 if [ "$NEWRELIC_DAEMON_WAIT" = "" ]; then
-  NEWRELIC_DAEMON_WAIT=3
+  NEWRELIC_DAEMON_WAIT=5
 fi
 
 # Start the throwaway process used to connect the daemon to collector.newrelic.com

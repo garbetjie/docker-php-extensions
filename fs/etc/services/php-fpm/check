@@ -1,26 +1,12 @@
-#!/usr/bin/env sh
+#!/usr/bin/env dash
+
+set -e
 
 # Determine the type of socket.
-type="tcp"
-if echo "$LISTEN" | grep -q "/"; then type="unix"; fi
+if echo "$LISTEN" | grep -q "/"; then
+    socat_connect_prefix="unix-connect"
+else
+    socat_connect_prefix="tcp-connect"
+fi
 
-# Keep track of when the script started.
-started="$(date +%s)"
-
-# Wait for up to 30 seconds for php-fpm to be started. Not sure what to do if it's not ready after 30 seconds?
-while [ $(($(date +%s) - $started)) -lt 30 ]; do
-    if [ "$type" = "tcp" ]; then
-        listening="$(netstat -lnt)"
-    else
-        listening="$(netstat -lnx)"
-    fi
-
-    if [ "$(echo "$listening" | grep -F -- "$LISTEN")" != "" ]; then
-        exit 0
-    fi
-
-    sleep 0.25
-done
-
-# If the loop ends, then there's an error.
-exit 1
+exec socat /dev/null "${socat_connect_prefix}:${LISTEN}" 2>/dev/null

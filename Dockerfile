@@ -100,8 +100,8 @@ RUN set -ex -o pipefail; \
     # Add runtime depedencies.
     apk add --no-cache \
         c-client \
+        dash \
         dumb-init \
-        esh \
         gettext \
         gmp \
         icu-libs \
@@ -113,14 +113,13 @@ RUN set -ex -o pipefail; \
         libwebp \
         libzip \
         runit \
-        rabbitmq-c; \
+        rabbitmq-c \
+        socat; \
     \
     # Remove build dependencies.
     rm -rf /tmp/pear*; \
     apk del --purge .build-deps; \
     docker-php-source delete
-
-# igbinary memcached msgpack redis
 
 # Run cleanup of configuration files.
 RUN set -e; \
@@ -147,7 +146,7 @@ ENV \
     MIN_SPARE_SERVERS=1 \
     MAX_SPARE_SERVERS=3 \
     MAX_REQUESTS=10000 \
-    STATUS_PATH="/_/status" \
+    STATUS_PATH="/_fpm/status" \
     TIMEOUT=60 \
     \
     # PHP-specific configuration.
@@ -167,7 +166,7 @@ ENV \
     NEWRELIC_HOST_DISPLAY_NAME="" \
     NEWRELIC_LABELS="" \
     NEWRELIC_LICENCE="" \
-    NEWRELIC_LOGLEVEL="info" \
+    NEWRELIC_LOGLEVEL="warning" \
     NEWRELIC_RECORD_SQL="obfuscated" \
     OPCACHE_ENABLED=true \
     OPCACHE_CLI_ENABLED=false \
