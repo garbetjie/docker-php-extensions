@@ -209,6 +209,10 @@ Zend OPcache
 
 ## Changelog
 
+* **2020-07-14**
+    * Improve startup times.
+    * Update to PHP 8.0.0alpha2, 7.4.8, 7.3.20, 7.2.32.
+
 * **2020-07-05**
     * Add support for PHP 8.0.
 

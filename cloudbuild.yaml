@@ -126,7 +126,7 @@ steps:
       'build',
       '-t', '$_DOCKER_HUB_REPO/php:8.0-fpm',
       '--cache-from', '$_DOCKER_HUB_REPO/php:8.0-fpm',
-      '--build-arg', 'IMAGE=php:8.0-rc-fpm-alpine3.12',
+      '--build-arg', 'IMAGE=php:8.0.0alpha2-fpm-alpine3.12',
       '.'
     ]
 
@@ -211,7 +211,7 @@ steps:
       'build',
       '-t', '$_DOCKER_HUB_REPO/php:7.4-fpm',
       '--cache-from', '$_DOCKER_HUB_REPO/php:7.4-fpm',
-      '--build-arg', 'IMAGE=php:7.4.7-fpm-alpine3.12',
+      '--build-arg', 'IMAGE=php:7.4.8-fpm-alpine3.12',
       '.'
     ]
 
@@ -239,7 +239,7 @@ steps:
       'build',
       '-t', '$_DOCKER_HUB_REPO/php:7.4-cli',
       '--cache-from', '$_DOCKER_HUB_REPO/php:7.4-cli',
-      '--build-arg', 'IMAGE=php:7.4.7-zts-alpine3.12',
+      '--build-arg', 'IMAGE=php:7.4.8-zts-alpine3.12',
       '.'
     ]
 
@@ -296,7 +296,7 @@ steps:
       'build',
       '-t', '$_DOCKER_HUB_REPO/php:7.3-fpm',
       '--cache-from', '$_DOCKER_HUB_REPO/php:7.3-fpm',
-      '--build-arg', 'IMAGE=php:7.3.19-fpm-alpine3.12',
+      '--build-arg', 'IMAGE=php:7.3.20-fpm-alpine3.12',
       '.'
     ]
 
@@ -324,7 +324,7 @@ steps:
       'build',
       '-t', '$_DOCKER_HUB_REPO/php:7.3-cli',
       '--cache-from', '$_DOCKER_HUB_REPO/php:7.3-cli',
-      '--build-arg', 'IMAGE=php:7.3.19-zts-alpine3.12',
+      '--build-arg', 'IMAGE=php:7.3.20-zts-alpine3.12',
       '.'
     ]
 
@@ -381,7 +381,7 @@ steps:
       'build',
       '-t', '$_DOCKER_HUB_REPO/php:7.2-fpm',
       '--cache-from', '$_DOCKER_HUB_REPO/php:7.2-fpm',
-      '--build-arg', 'IMAGE=php:7.2.31-fpm-alpine3.12',
+      '--build-arg', 'IMAGE=php:7.2.32-fpm-alpine3.12',
       '.'
     ]
 
@@ -409,7 +409,7 @@ steps:
       'build',
       '-t', '$_DOCKER_HUB_REPO/php:7.2-cli',
       '--cache-from', '$_DOCKER_HUB_REPO/php:7.2-cli',
-      '--build-arg', 'IMAGE=php:7.2.31-zts-alpine3.12',
+      '--build-arg', 'IMAGE=php:7.2.32-zts-alpine3.12',
       '.'
     ]
 
