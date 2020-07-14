@@ -12,7 +12,7 @@ RUN set -ex -o pipefail; \
     php_version() { test "$PHP_VERSION" = "$1"; }; \
     php_version_gt() { test "$(printf '%s\n' "$PHP_VERSION" "$1" | sort -V | head -n 1)" != "$PHP_VERSION"; }; \
     php_version_lte() { test "$(printf '%s\n' "$PHP_VERSION" "$1" | sort -V | head -n 1)" = "$PHP_VERSION"; }; \
-    download_ext() { mkdir -p "/usr/src/php/ext/$1"; curl -L "$2" | tar -xz --strip-components 1 -C "/usr/src/php/ext/$1"; }; \
+    download_ext() { rm -rf "/usr/src/php/ext/$1"; mkdir -p "/usr/src/php/ext/$1"; curl -L "$2" | tar -xz --strip-components 1 -C "/usr/src/php/ext/$1"; }; \
     download_pecl_ext() { download_ext "$1" "https://pecl.php.net/get/$1-$2.tgz"; }; \
     docker-php-source extract; \
     \
@@ -36,15 +36,15 @@ RUN set -ex -o pipefail; \
         tar; \
     \
     # Download extensions.
+    download_pecl_ext amqp 1.10.2; \
     download_pecl_ext igbinary 3.1.2; \
     download_pecl_ext memcached 3.1.5; \
     download_pecl_ext msgpack 2.1.0; \
     download_pecl_ext redis 5.3.0; \
+    download_pecl_ext xdebug 2.9.6; \
+    download_ext newrelic "https://download.newrelic.com/php_agent/archive/${NEWRELIC_VERSION}/newrelic-php5-${NEWRELIC_VERSION}-linux-musl.tar.gz"; \
     if php_version_lte "7.4.999"; then \
-        download_pecl_ext amqp 1.10.2; \
-        download_pecl_ext xdebug 2.9.6; \
-        download_ext newrelic "https://download.newrelic.com/php_agent/archive/${NEWRELIC_VERSION}/newrelic-php5-${NEWRELIC_VERSION}-linux-musl.tar.gz"; \
-        [[ "$PHP_VERSION" = php_version_gt "7.3.999" ]] \
+        [[ php_version_gt "7.3.999" ]] \
             && download_ext opencensus "https://github.com/garbetjie/opencensus-php/archive/failing-tests-7.4.tar.gz" \
             || download_ext opencensus "https://github.com/census-instrumentation/opencensus-php/archive/d1512abf456761165419a7b236e046a38b61219e.tar.gz"; \
         [[ "$ZTS" = true ]] && download_pecl_ext parallel 1.1.3; \
@@ -71,15 +71,12 @@ RUN set -ex -o pipefail; \
         gd \
         gettext \
         gmp \
-        igbinary \
         imap \
         intl \
         memcached \
-        msgpack \
         opcache \
         pcntl \
         pdo_mysql \
-        redis \
         soap \
         sockets \
         xdebug \
@@ -88,7 +85,10 @@ RUN set -ex -o pipefail; \
         [[ "$ZTS" = true ]] && docker-php-ext-install parallel; \
         docker-php-ext-install -j5 \
             amqp \
-            opencensus/ext; \
+            igbinary \
+            msgpack \
+            opencensus/ext \
+            redis; \
             \
             # Install New Relic.
             mkdir -p /opt/newrelic; \
