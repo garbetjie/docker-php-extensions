@@ -152,6 +152,7 @@ ENV \
     # PHP-specific configuration.
     DISPLAY_ERRORS="Off" \
     ERROR_REPORTING="E_ALL & ~E_DEPRECATED & ~E_STRICT" \
+    EXPOSE_PHP=false \
     HTML_ERRORS="Off" \
     MAX_EXECUTION_TIME=30 \
     MAX_INPUT_TIME=30 \

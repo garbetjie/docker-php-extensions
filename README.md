@@ -68,6 +68,7 @@ The environment variables below apply to all image variants, and are used to con
 |----------------------|-------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------|
 | PHP Core             | DISPLAY_ERRORS                | [display_errors](https://www.php.net/manual/en/errorfunc.configuration.php#ini.display-errors)                                                               | "Off"                               |
 |                      | ERROR_REPORTING               | [error_reporting](https://www.php.net/manual/en/errorfunc.configuration.php#ini.error-reporting)                                                             | "E_ALL & ~E_DEPRECATED & ~E_STRICT" |
+|                      | EXPOSE_PHP                    | [expose_php](https://php.net/expose-php)                                                                                                                     | false                               |
 |                      | HTML_ERRORS                   | [html_errors](https://www.php.net/manual/en/errorfunc.configuration.php#ini.html-errors)                                                                     | "Off"                               |
 |                      | MAX_EXECUTION_TIME            | [max_execution_time](https://www.php.net/manual/en/info.configuration.php#ini.max-execution-time)                                                            | 30                                  |
 |                      | MAX_INPUT_TIME                | [max_input_time](https://www.php.net/manual/en/info.configuration.php#ini.max-input-time)                                                                    | 30                                  |
@@ -208,6 +209,9 @@ Zend OPcache
 
 
 ## Changelog
+
+* **2020-07-17**
+    * Add `EXPOSE_PHP` configuration option.
 
 * **2020-07-14**
     * Improve startup times.
