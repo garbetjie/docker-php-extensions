@@ -209,6 +209,7 @@ Zend OPcache
     * Update `opencensus` to use the official 7.4 compatible version.
     * Update `parallel` to use the Github version that has fixes applied.
     * Enable `opcache.enable_cli` and `parallel` by default.
+    * Point `xdebug` source to a working commit for PHP 8.0.
     
 * **2020-07-17**
     * Add `EXPOSE_PHP` configuration option.

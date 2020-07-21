@@ -49,7 +49,7 @@ RUN set -ex -o pipefail; \
         \
         docker-php-ext-configure opencensus/ext; \
     else \
-        download_ext xdebug "https://github.com/xdebug/xdebug/archive/master.tar.gz"; \
+        download_ext xdebug "https://github.com/xdebug/xdebug/archive/b9f3c6fefb98b9e84c6257d2c68a76dc1ee224e3.tar.gz"; \
     fi; \
     \
     # Configure extensions
