@@ -134,11 +134,6 @@ PHP-FPM. In some instances, the NGiNX configuration overrides some of the defaul
 | STATUS_HOSTS_DENIED  | [deny](http://nginx.org/en/docs/http/ngx_http_access_module.html#deny)                                  | "all"                                                                                                                                                               |
 | TIMEOUT              | [fastcgi_read_timeout](http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_read_timeout) | 60                                                                                                                                                                  |
 
-## Known Issues
-
-* When using a version of PHP with thread safety enabled, you cannot use both the `opencensus` and `parallel` extensions
-  at the same time. PHP will exit with a segmentation fault.
-
 ## Available extensions
 
 The following extensions are available:
@@ -210,6 +205,11 @@ Zend OPcache
 
 ## Changelog
 
+* **2020-07-21**
+    * Update `opencensus` to use the official 7.4 compatible version.
+    * Update `parallel` to use the Github version that has fixes applied.
+    * Enable `opcache.enable_cli` and `parallel` by default.
+    
 * **2020-07-17**
     * Add `EXPOSE_PHP` configuration option.
 

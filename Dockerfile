@@ -44,10 +44,8 @@ RUN set -ex -o pipefail; \
     download_pecl_ext xdebug 2.9.6; \
     download_ext newrelic "https://download.newrelic.com/php_agent/archive/${NEWRELIC_VERSION}/newrelic-php5-${NEWRELIC_VERSION}-linux-musl.tar.gz"; \
     if php_version_lte "7.4.999"; then \
-        [[ php_version_gt "7.3.999" ]] \
-            && download_ext opencensus "https://github.com/garbetjie/opencensus-php/archive/failing-tests-7.4.tar.gz" \
-            || download_ext opencensus "https://github.com/census-instrumentation/opencensus-php/archive/d1512abf456761165419a7b236e046a38b61219e.tar.gz"; \
-        [[ "$ZTS" = true ]] && download_pecl_ext parallel 1.1.3; \
+        download_ext opencensus "https://github.com/census-instrumentation/opencensus-php/archive/007b35d8f7ed21cab9aa47406578ae02f73f91c5.tar.gz"; \
+        [[ "$ZTS" = true ]] && download_ext parallel "https://github.com/krakjoe/parallel/archive/ebc3cc8e61cbfdb049cb7951b4df31cd336a9b18.tar.gz"; \
         \
         docker-php-ext-configure opencensus/ext; \
     else \
@@ -170,13 +168,13 @@ ENV \
     NEWRELIC_LOGLEVEL="warning" \
     NEWRELIC_RECORD_SQL="obfuscated" \
     OPCACHE_ENABLED=true \
-    OPCACHE_CLI_ENABLED=false \
+    OPCACHE_CLI_ENABLED=true \
     OPCACHE_MAX_ACCELERATED_FILES=10000 \
     OPCACHE_REVALIDATE_FREQ=2 \
     OPCACHE_VALIDATE_TIMESTAMPS=true \
     OPCACHE_SAVE_COMMENTS=true \
     OPENCENSUS_ENABLED=true \
-    PARALLEL_ENABLED=false \
+    PARALLEL_ENABLED=true \
     SESSION_COOKIE_NAME="PHPSESSID" \
     SESSION_SAVE_HANDLER="files" \
     SESSION_SAVE_PATH="/tmp/sessions" \
