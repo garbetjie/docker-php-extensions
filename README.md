@@ -205,6 +205,10 @@ Zend OPcache
 
 ## Changelog
 
+* **2020-08-04**
+    * Disable `parallel` by default (still seems to be segfaulting when `opencensus` is enabled).
+    * Add `SYS_TEMP_DIR` environment variable to configure the `sys_temp_dir` INI value.
+
 * **2020-07-21**
     * Update `opencensus` to use the official 7.4 compatible version.
     * Update `parallel` to use the Github version that has fixes applied.
