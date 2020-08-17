@@ -70,6 +70,9 @@ if [ "$save_path" != "" ]; then
   chown -R www-data:www-data "$save_path"
 fi
 
+# Execute all entrypoint scripts.
+find /docker-entrypoint.d -type f -executable -print0 | xargs -0 -I CMD CMD
+
 # Only start runit if FPM is available.
 if [ $# -lt 1 ] && (echo "$PHP_EXTRA_CONFIGURE_ARGS" | grep -q -F -- '-fpm'); then
   terminate() {

@@ -123,7 +123,8 @@ RUN set -ex -o pipefail; \
 RUN set -e; \
     rm -rf ${PHP_INI_DIR}/php.ini-* /usr/local/etc/php-fpm.conf.default /usr/local/etc/php-fpm.d; \
     mkdir -p /var/log/newrelic; \
-    mkdir /app && chown www-data:www-data /app
+    mkdir /app && chown www-data:www-data /app; \
+    mkdir -p /docker-entrypoint.d
 
 ENTRYPOINT ["dumb-init", "/docker-entrypoint.sh"]
 WORKDIR /app

@@ -57,8 +57,14 @@ are available across all variants, and some of them apply to specific image vari
 
 ### Templating
 
-Configuration is injected via shell templating. [ESH](https://github.com/jirutka/esh) is the templating engine that is
-used to build up configuration files. Any custom configuration files can also make use of ESH's syntax. 
+Configuration is compiled using `sed`, and uses a template format of `{{ VAR_NAME }}` (surrounding spaces matter)
+as placeholder values for configuration values. 
+
+### Startup scripts
+
+If you need to execute any startup scripts, simply place them in the `/docker-entrypoint.d` directory, and ensure they
+are executable. These startup scripts are executed after all configuration templating is complete, but before any
+services or processes are started.
 
 ### PHP
 
@@ -205,6 +211,9 @@ Zend OPcache
 
 
 ## Changelog
+
+* **2020-08-17**
+    * Add custom startup scripts to the startup process.
 
 * **2020-08-04**
     * Disable `parallel` by default (still seems to be segfaulting when `opencensus` is enabled).
