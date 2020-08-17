@@ -214,6 +214,7 @@ Zend OPcache
 
 * **2020-08-17**
     * Add custom startup scripts to the startup process.
+    * Rename `/etc/services` to `/etc/runsv.d`. This was breaking the use of Kaniko.
 
 * **2020-08-04**
     * Disable `parallel` by default (still seems to be segfaulting when `opencensus` is enabled).

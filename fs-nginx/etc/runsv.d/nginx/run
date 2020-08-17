@@ -5,7 +5,7 @@ iterations=0
 # Use our own loop to check whether php-fpm is up, as we can have a much tighter loop than what appears to be the ~0.4s
 # that is used in runit.
 while true; do
-    if /etc/services/php-fpm/check; then
+    if /etc/runsv.d/php-fpm/check; then
         break
     fi
 

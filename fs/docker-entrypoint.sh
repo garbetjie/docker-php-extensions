@@ -80,7 +80,7 @@ if [ $# -lt 1 ] && (echo "$PHP_EXTRA_CONFIGURE_ARGS" | grep -q -F -- '-fpm'); th
   }
 
   trap terminate TERM INT
-  runsvdir -P /etc/services &
+  runsvdir -P /etc/runsv.d &
   wait "$!"
 
   exit 0
