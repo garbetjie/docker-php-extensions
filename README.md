@@ -212,6 +212,10 @@ Zend OPcache
 
 ## Changelog
 
+* **2020-08-19**
+    * Ensure that numeric-only `MEMORY_LIMIT` values are treated as if they were specified with an `M` suffix.
+    * Ensure that the calculation of the number of max children correctly takes into account a `G` suffix on `MEMORY_LIMIT`.
+ 
 * **2020-08-17**
     * Add custom startup scripts to the startup process.
     * Rename `/etc/services` to `/etc/runsv.d`. This was breaking the use of Kaniko.

@@ -2,6 +2,12 @@
     name = substr($0, 1, index($0, "=") - 1);
     value = substr($0, index($0, "=") + 1);
 
+    if (name == "MEMORY_LIMIT") {
+        if (match(value, /[G|M]$/) < 1) {
+            value = value "M";
+        }
+    }
+
     if (name == "STATUS_HOSTS_ALLOWED" || name == "STATUS_HOSTS_DENIED") {
         if (name == "STATUS_HOSTS_ALLOWED") prefix = "allow"; else prefix = "deny";
 
