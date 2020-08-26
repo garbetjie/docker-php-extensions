@@ -132,10 +132,12 @@ PHP-FPM. In some instances, the NGiNX configuration overrides some of the defaul
 
 | Name                 | NGiNX config equivalent                                                                                 | Default                                                                                                                                                             |
 |----------------------|---------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ABSOLUTE_REDIRECT    | [absolute_redirect](http://nginx.org/en/docs/http/ngx_http_core_module.html#absolute_redirect)          | "on"                                                                                                                                                                |
 | GZIP_TYPES           | [gzip_types](http://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip_types)                        | "application/ecmascript application/javascript application/json application/xhtml+xml application/xml text/css text/ecmascript text/javascript text/plain text/xml" |
 | GZIP_PROXIED         | [gzip_types](http://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip_proxied)                      | "any"                                                                                                                                                               |
 | LISTEN               | [fastcgi_pass](http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_pass)                 | "/var/run/php-fpm.sock"                                                                                                                                             |
 | PORT                 | [listen](http://nginx.org/en/docs/http/ngx_http_core_module.html#listen)                                | 80                                                                                                                                                                  |
+| PORT_IN_REDIRECT     | [port_in_redirect](http://nginx.org/en/docs/http/ngx_http_core_module.html#port_in_redirect)            | "off"                                                                                                                                                               |
 | ROOT                 | [root](http://nginx.org/en/docs/http/ngx_http_core_module.html#root)                                    | "/app/public"                                                                                                                                                       |
 | STATUS_HOSTS_ALLOWED | [allow](http://nginx.org/en/docs/http/ngx_http_access_module.html#allow)                                | "172.16.0.0/12 127.0.0.1"                                                                                                                                           |
 | STATUS_HOSTS_DENIED  | [deny](http://nginx.org/en/docs/http/ngx_http_access_module.html#deny)                                  | "all"                                                                                                                                                               |
@@ -212,6 +214,9 @@ Zend OPcache
 
 ## Changelog
 
+* **2020-08-26**
+    * Add `PORT_IN_REDIRECT` and `ABSOLUTE_REDIRECT` configuration parameters for the `-nginx` variants.
+    
 * **2020-08-19**
     * Ensure that numeric-only `MEMORY_LIMIT` values are treated as if they were specified with an `M` suffix.
     * Ensure that the calculation of the number of max children correctly takes into account a `G` suffix on `MEMORY_LIMIT`.
