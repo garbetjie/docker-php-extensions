@@ -1,17 +1,5 @@
 ARG IMAGE
 FROM $IMAGE
-
-ENV COMPOSER_VERSION="1.10.6" \
-    COMPOSER_HASH="29bdac1bda34d8902b9f9e4f5816de08879b8f3fafad901e4283519cdefbee7b"
-
-RUN set -e -x -o pipefail; \
-    cd /tmp; \
-    wget https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar; \
-    if [ "$(sha256sum ./composer.phar | awk '{ print $1; }')" != "$COMPOSER_HASH" ]; then \
-        echo "Composer file checksum doesn't match. This version of composer might be corrupted."; \
-        exit 1; \
-    fi; \
-    chmod +x composer.phar; \
-    mv composer.phar /usr/local/bin/composer; \
-    php -n /usr/local/bin/composer global require hirak/prestissimo; \
+COPY --from=composer:1.10.6 /usr/bin/composer /usr/local/bin/composer
+RUN php -n /usr/local/bin/composer global require hirak/prestissimo; \
     php -n /usr/local/bin/composer update || true
