@@ -118,8 +118,10 @@ jobs:
           ${{ github.repository_owner }}/php:${{ matrix.version }}-nginx
 
     - name: push variant
-      run: docker push ${{ github.repository_owner }}/php:${{ matrix.version }}-${{ matrix.variant }}
+      run: |
+        docker push ${{ github.repository_owner }}/php:${{ matrix.version }}-${{ matrix.variant }}
 
     - name: push nginx
       if: "matrix.variant == 'fpm'"
-      run: docker push ${{ github.repository_owner }}/php:${{ matrix.version }}-nginx
+      run: |
+        docker push ${{ github.repository_owner }}/php:${{ matrix.version }}-nginx
