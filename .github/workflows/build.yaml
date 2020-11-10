@@ -67,14 +67,14 @@ jobs:
 
     - name: save images
       run: |
-        variants=("${{ matrix.version }}")
-        [[ "${{ matrix.variant }}" = "fpm" ]] && variants+=("nginx")
-
         images=()
-        for variant in ${variants[@]}; do
-          images+=("build/php:${{ matrix.version }}-${variant}")
-          images+=("build/php:${{ matrix.version }}-${variant}-composer")
-        done
+        images+=("build/php:${{ matrix.version }}-${{ matrix.variant }}")
+        images+=("build/php:${{ matrix.version }}-${{ matrix.variant }}-composer")
+
+        if [ "${{ matrix.variant }}" = "fpm" ]; then
+          images+=("build/php:${{ matrix.version }}-nginx")
+          images+=("build/php:${{ matrix.version }}-nginx-composer")
+        fi
 
         docker save -o /tmp/images.tar "${images[@]}"
 
