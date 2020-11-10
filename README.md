@@ -214,6 +214,10 @@ Zend OPcache
 
 ## Changelog
 
+* **2020-11-10**
+    * Change to using GitHub Actions for automated building & pushing.
+    * Upgrade Composer to 2.0.6.
+    
 * **2020-08-26**
     * Add `PORT_IN_REDIRECT` and `ABSOLUTE_REDIRECT` configuration parameters for the `-nginx` variants.
     
