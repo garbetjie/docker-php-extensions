@@ -12,6 +12,7 @@ See the [list of available extensions](#available-extensions) to see whether the
 * [Variants available](#available-variants)
 * [Configuration](#configuration)
     * [Templating](#templating)
+    * [Startup scripts](#startup-scripts)
     * [PHP](#php)
     * [FPM](#fpm)
     * [NGiNX](#nginx)

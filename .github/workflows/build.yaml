@@ -1,6 +1,10 @@
 on:
   push:
     branches: [ master ]
+    paths-ignore:
+    - "README.md"
+    - "LICENCE.md"
+    - ".gitignore"
 jobs:
   build:
     runs-on: ubuntu-latest
