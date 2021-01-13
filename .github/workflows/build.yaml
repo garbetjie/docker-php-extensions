@@ -1,6 +1,6 @@
 on:
   push:
-    branches: [ buildx ]
+    branches: [ master ]
     paths-ignore:
     - "README.md"
     - "LICENCE.md"
