@@ -60,7 +60,7 @@ jobs:
         context: .
         build-args: IMAGE=${{ matrix.source_image }}
         tags: ${{ github.repository_owner }}/php:${{ matrix.version }}-${{ matrix.variant }}
-        outputs: type=docker
+        outputs: type=local,dest=.buildx-output/main
         platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6
         cache-to: type=local,dest=.buildx-cache/main,mode=max
         cache-from: type=local,src=.buildx-cache/main
@@ -72,7 +72,7 @@ jobs:
         file: Dockerfile-nginx
         build-args: IMAGE=${{ github.repository_owner }}/php:${{ matrix.version }}-${{ matrix.variant }}
         tags: ${{ github.repository_owner }}/php:${{ matrix.version }}-nginx
-        outputs: type=docker
+        outputs: type=local,dest=.buildx-output/nginx
         platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6
         cache-to: type=local,dest=.buildx-cache/nginx,mode=max
         cache-from: type=local,src=.buildx-cache/nginx
