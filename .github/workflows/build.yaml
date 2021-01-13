@@ -61,6 +61,7 @@ jobs:
         build-args: IMAGE=${{ matrix.source_image }}
         tags: ${{ github.repository_owner }}/php:${{ matrix.version }}-${{ matrix.variant }}
         outputs: type=docker
+        platforms: linux/amd64,linux/arm64,linux/386,linux/arm/v7,linux/arm/v6
         cache-to: type=local,dest=.buildx-cache/main,mode=max
         cache-from: type=local,src=.buildx-cache/main
     - name: build nginx
@@ -72,6 +73,7 @@ jobs:
         build-args: IMAGE=${{ github.repository_owner }}/php:${{ matrix.version }}-${{ matrix.variant }}
         tags: ${{ github.repository_owner }}/php:${{ matrix.version }}-nginx
         outputs: type=docker
+        platforms: linux/amd64,linux/arm64,linux/386,linux/arm/v7,linux/arm/v6
         cache-to: type=local,dest=.buildx-cache/nginx,mode=max
         cache-from: type=local,src=.buildx-cache/nginx
 
@@ -101,6 +103,7 @@ jobs:
         build-args: IMAGE=${{ matrix.source_image }}
         tags: ${{ github.repository_owner }}/php:${{ matrix.version }}-${{ matrix.variant }}
         outputs: type=registry
+        platforms: linux/amd64,linux/arm64,linux/386,linux/arm/v7,linux/arm/v6
         cache-from: type=local,src=.buildx-cache/main
     - name: build nginx
       uses: docker/build-push-action@v2
@@ -110,4 +113,5 @@ jobs:
         build-args: IMAGE=${{ github.repository_owner }}/php:${{ matrix.version }}-${{ matrix.variant }}
         tags: ${{ github.repository_owner }}/php:${{ matrix.version }}-nginx
         outputs: type=registry
+        platforms: linux/amd64,linux/arm64,linux/386,linux/arm/v7,linux/arm/v6
         cache-from: type=local,src=.buildx-cache/nginx
