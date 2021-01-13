@@ -1,159 +1,113 @@
 on:
   push:
-    branches: [ master ]
+    branches: [ buildx ]
     paths-ignore:
     - "README.md"
     - "LICENCE.md"
     - ".gitignore"
 jobs:
+  # Current matrix:
+  #
+  # include:
+  # - version: "7.2"
+  #   variant: "fpm"
+  #   source_image: "php:7.2.32-fpm-alpine3.12"
+  # - version: "7.2"
+  #   variant: "cli"
+  #   source_image: "php:7.2.32-zts-alpine3.12"
+  # - version: "7.3"
+  #   variant: "fpm"
+  #   source_image: "php:7.3.20-fpm-alpine3.12"
+  # - version: "7.3"
+  #   variant: "cli"
+  #   source_image: "php:7.3.20-zts-alpine3.12"
+  # - version: "7.4"
+  #   variant: "fpm"
+  #   source_image: "php:7.4.8-fpm-alpine3.12"
+  # - version: "7.4"
+  #   variant: "cli"
+  #   source_image: "php:7.4.8-zts-alpine3.12"
+  # - version: "8.0"
+  #   variant: "fpm"
+  #   source_image: "php:8.0.0alpha2-fpm-alpine3.12"
+  matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+    - name: set matrix
+      id: set-matrix
+      run: |
+        echo "::set-output name=matrix::{\"include\":[{\"version\":\"7.2\",\"variant\":\"fpm\",\"source_image\":\"php:7.2.32-fpm-alpine3.12\"},{\"version\":\"7.2\",\"variant\":\"cli\",\"source_image\":\"php:7.2.32-zts-alpine3.12\"},{\"version\":\"7.3\",\"variant\":\"fpm\",\"source_image\":\"php:7.3.20-fpm-alpine3.12\"},{\"version\":\"7.3\",\"variant\":\"cli\",\"source_image\":\"php:7.3.20-zts-alpine3.12\"},{\"version\":\"7.4\",\"variant\":\"fpm\",\"source_image\":\"php:7.4.8-fpm-alpine3.12\"},{\"version\":\"7.4\",\"variant\":\"cli\",\"source_image\":\"php:7.4.8-zts-alpine3.12\"},{\"version\":\"8.0\",\"variant\":\"fpm\",\"source_image\":\"php:8.0.0alpha2-fpm-alpine3.12\"}]}"
+
   build:
+    needs: [matrix]
     runs-on: ubuntu-latest
     strategy:
-      matrix:
-        include:
-        - version: "7.2"
-          variant: "fpm"
-          source_image: "php:7.2.32-fpm-alpine3.12"
-        - version: "7.2"
-          variant: "cli"
-          source_image: "php:7.2.32-zts-alpine3.12"
-        - version: "7.3"
-          variant: "fpm"
-          source_image: "php:7.3.20-fpm-alpine3.12"
-        - version: "7.3"
-          variant: "cli"
-          source_image: "php:7.3.20-zts-alpine3.12"
-        - version: "7.4"
-          variant: "fpm"
-          source_image: "php:7.4.8-fpm-alpine3.12"
-        - version: "7.4"
-          variant: "cli"
-          source_image: "php:7.4.8-zts-alpine3.12"
-        - version: "8.0"
-          variant: "fpm"
-          source_image: "php:8.0.0alpha2-fpm-alpine3.12"
+      matrix: ${{ fromJson(needs.matrix.outputs.matrix) }}
     steps:
     - uses: actions/checkout@v2
-
-    - name: build
-      run: |
-        docker build \
-          -t build/php:${{ matrix.version }}-${{ matrix.variant }} \
-          --build-arg IMAGE=${{ matrix.source_image }} \
-          -f Dockerfile \
-          .
-
-    - name: build (nginx)
-      if: "matrix.variant == 'fpm'"
-      run: |
-        docker build \
-          -t build/php:${{ matrix.version }}-nginx \
-          --build-arg IMAGE=build/php:${{ matrix.version }}-${{ matrix.variant }} \
-          -f Dockerfile-nginx \
-          .
-
-    - name: build composer
-      run: |
-        docker build \
-          -t build/php:${{ matrix.version }}-${{ matrix.variant }}-composer \
-          --build-arg IMAGE=build/php:${{ matrix.version }}-${{ matrix.variant }} \
-          -f Dockerfile-composer \
-          .
-
-    - name: build composer (nginx)
-      if: "matrix.variant == 'fpm'"
-      run: |
-        docker build \
-          -t build/php:${{ matrix.version }}-nginx-composer \
-          --build-arg IMAGE=build/php:${{ matrix.version }}-nginx \
-          -f Dockerfile-composer \
-          .
-
-    - name: save images
-      run: |
-        images=()
-        images+=("build/php:${{ matrix.version }}-${{ matrix.variant }}")
-        images+=("build/php:${{ matrix.version }}-${{ matrix.variant }}-composer")
-
-        if [ "${{ matrix.variant }}" = "fpm" ]; then
-          images+=("build/php:${{ matrix.version }}-nginx")
-          images+=("build/php:${{ matrix.version }}-nginx-composer")
-        fi
-
-        docker save -o /tmp/images.tar "${images[@]}"
-
-    - name: upload artifacts
-      uses: actions/upload-artifact@v2
+    - uses: docker/setup-qemu-action@v1
+    - uses: docker/setup-buildx-action@v1
+    - uses: actions/cache@v2
       with:
-        if-no-files-found: error
-        retention-days: 1
-        name: ${{ matrix.version }}-${{ matrix.variant }}
-        path: /tmp/images.tar
+        path: .buildx-cache
+        key: ${{ matrix.version }}-${{ matrix.variant }}-${{ github.sha }}
+        restore-keys: ${{ matrix.version }}-${{ matrix.variant }}-
+    - name: build variant
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        build-args: IMAGE=${{ matrix.source_image }}
+        tags: ${{ github.repository_owner }}/php:${{ matrix.version }}-${{ matrix.variant }}
+        outputs: type=docker
+        cache-to: type=local,dest=.buildx-cache/main,mode=max
+        cache-from: type=local,src=.buildx-cache/main
+    - name: build nginx
+      uses: docker/build-push-action@v2
+      if: "matrix.variant == 'fpm'"
+      with:
+        context: .
+        file: Dockerfile-nginx
+        build-args: IMAGE=${{ github.repository_owner }}/php:${{ matrix.version }}-${{ matrix.variant }}
+        tags: ${{ github.repository_owner }}/php:${{ matrix.version }}-nginx
+        outputs: type=docker
+        cache-to: type=local,dest=.buildx-cache/nginx,mode=max
+        cache-from: type=local,src=.buildx-cache/nginx
 
   push:
-    runs-on: ubuntu-latest
+    needs: [build, matrix]
     if: "github.ref == 'refs/heads/master'"
-    needs: [ build ]
+    runs-on: ubuntu-latest
     strategy:
-      matrix:
-        version:
-        - "7.2"
-        - "7.3"
-        - "7.4"
-        - "8.0"
-        variant:
-        - "fpm"
-        include:
-        - version: "7.2"
-          variant: "cli"
-        - version: "7.3"
-          variant: "cli"
-        - version: "7.4"
-          variant: "cli"
+      matrix: ${{ fromJson(needs.matrix.outputs.matrix) }}
     steps:
+    - uses: actions/checkout@v2
+    - uses: docker/setup-qemu-action@v1
+    - uses: docker/setup-buildx-action@v1
     - name: log in (docker hub)
       uses: docker/login-action@v1
       with:
         username: ${{ secrets.DOCKER_HUB_LOGIN }}
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
-
-    - name: download image
-      uses: actions/download-artifact@v2
+    - uses: actions/cache@v2
       with:
-        name: ${{ matrix.version }}-${{ matrix.variant }}
-        path: /tmp
-
-    - name: load image
-      run: docker load -i /tmp/images.tar
-
-    - name: tag variant
-      run: |
-        docker tag \
-          build/php:${{ matrix.version }}-${{ matrix.variant }} \
-          ${{ github.repository_owner }}/php:${{ matrix.version }}-${{ matrix.variant }}
-
-        docker tag \
-          build/php:${{ matrix.version }}-${{ matrix.variant }}-composer \
-          ${{ github.repository_owner }}/php:${{ matrix.version }}-${{ matrix.variant }}-composer
-
-    - name: tag nginx
+        path: .buildx-cache
+        key: ${{ matrix.version }}-${{ matrix.variant }}-${{ github.sha }}
+        restore-keys: ${{ matrix.version }}-${{ matrix.variant }}-
+    - name: build variant
+      uses: docker/build-push-action@v2
+      with:
+        build-args: IMAGE=${{ matrix.source_image }}
+        tags: ${{ github.repository_owner }}/php:${{ matrix.version }}-${{ matrix.variant }}
+        outputs: type=registry
+        cache-from: type=local,src=.buildx-cache/main
+    - name: build nginx
+      uses: docker/build-push-action@v2
       if: "matrix.variant == 'fpm'"
-      run: |
-        docker tag \
-          build/php:${{ matrix.version }}-nginx \
-          ${{ github.repository_owner }}/php:${{ matrix.version }}-nginx
-
-        docker tag \
-          build/php:${{ matrix.version }}-nginx-composer \
-          ${{ github.repository_owner }}/php:${{ matrix.version }}-nginx-composer
-
-    - name: push variant
-      run: |
-        docker push ${{ github.repository_owner }}/php:${{ matrix.version }}-${{ matrix.variant }}
-        docker push ${{ github.repository_owner }}/php:${{ matrix.version }}-${{ matrix.variant }}-composer
-
-    - name: push nginx
-      if: "matrix.variant == 'fpm'"
-      run: |
-        docker push ${{ github.repository_owner }}/php:${{ matrix.version }}-nginx
-        docker push ${{ github.repository_owner }}/php:${{ matrix.version }}-nginx-composer
+      with:
+        file: Dockerfile-nginx
+        build-args: IMAGE=${{ github.repository_owner }}/php:${{ matrix.version }}-${{ matrix.variant }}
+        tags: ${{ github.repository_owner }}/php:${{ matrix.version }}-nginx
+        outputs: type=registry
+        cache-from: type=local,src=.buildx-cache/nginx
