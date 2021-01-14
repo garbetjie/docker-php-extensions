@@ -35,12 +35,22 @@ version() {
 
 # Build sedfile.
 {
-  if [ "$(version "$PHP_VERSION")" -ge "$(version 7.3.0)" ]; then
-    echo FPM_LOG_LIMIT_COMMENT=""
-    echo FPM_DECORATE_WORKERS_OUTPUT_COMMENT=""
+  if [ "$(version "$PHP_VERSION")" -lt "$(version 7.3.0)" ]; then
+    echo COMMENT_WHEN_PHP_LT_73=";"
+    echo COMMENT_WHEN_PHP_LT_74=";"
+    echo COMMENT_WHEN_PHP_LT_80=";"
+  elif [ "$(version "$PHP_VERSION")" -lt "$(version 7.4.0)" ]; then
+    echo COMMENT_WHEN_PHP_LT_73=""
+    echo COMMENT_WHEN_PHP_LT_74=";"
+    echo COMMENT_WHEN_PHP_LT_80=";"
+  elif [ "$(version "$PHP_VERSION")" -lt "$(version 8.0.0)" ]; then
+    echo COMMENT_WHEN_PHP_LT_73=""
+    echo COMMENT_WHEN_PHP_LT_74=""
+    echo COMMENT_WHEN_PHP_LT_80=";"
   else
-    echo FPM_LOG_LIMIT_COMMENT="; "
-    echo FPM_DECORATE_WORKERS_OUTPUT_COMMENT="; "
+    echo COMMENT_WHEN_PHP_LT_73=""
+    echo COMMENT_WHEN_PHP_LT_74=""
+    echo COMMENT_WHEN_PHP_LT_80=""
   fi
 
   if echo "$LISTEN" | grep -q "/"; then
