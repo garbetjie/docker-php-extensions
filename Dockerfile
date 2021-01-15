@@ -9,9 +9,7 @@ RUN set -ex -o pipefail; \
     PHP_VERSION="$(php -nv | grep -E -o 'PHP [0-9]+\.[0-9]+' | cut -f2 -d' ')"; \
     NEWRELIC_VERSION="9.11.0.267"; \
     OS="$(. /etc/os-release; printf "%s" "$ID")"; \
-    php_version() { test "$PHP_VERSION" = "$1"; }; \
-    php_version_gt() { test "$(printf '%s\n' "$PHP_VERSION" "$1" | sort -V | head -n 1)" != "$PHP_VERSION"; }; \
-    php_version_lte() { test "$(printf '%s\n' "$PHP_VERSION" "$1" | sort -V | head -n 1)" = "$PHP_VERSION"; }; \
+    php_version_in() { while [ $# -gt 0 ]; do if [ "$PHP_VERSION" = "$1" ]; then return 0; fi; shift; done; return 1; }; \
     download_ext() { rm -rf "/usr/src/php/ext/$1"; mkdir -p "/usr/src/php/ext/$1"; curl -L "$2" | tar -xz --strip-components 1 -C "/usr/src/php/ext/$1"; }; \
     download_pecl_ext() { download_ext "$1" "https://pecl.php.net/get/$1-$2.tgz"; }; \
     docker-php-source extract; \
@@ -41,19 +39,17 @@ RUN set -ex -o pipefail; \
     download_pecl_ext memcached 3.1.5; \
     download_pecl_ext msgpack 2.1.0; \
     download_pecl_ext redis 5.3.0; \
-    download_pecl_ext xdebug 2.9.6; \
+    download_pecl_ext xdebug 3.0.2; \
     download_ext newrelic "https://download.newrelic.com/php_agent/archive/${NEWRELIC_VERSION}/newrelic-php5-${NEWRELIC_VERSION}-linux-musl.tar.gz"; \
-    if php_version_lte "7.4.999"; then \
+    if php_version_in 7.2 7.3 7.4; then \
         download_ext opencensus "https://github.com/census-instrumentation/opencensus-php/archive/007b35d8f7ed21cab9aa47406578ae02f73f91c5.tar.gz"; \
         [[ "$ZTS" = true ]] && download_ext parallel "https://github.com/krakjoe/parallel/archive/ebc3cc8e61cbfdb049cb7951b4df31cd336a9b18.tar.gz"; \
         \
         docker-php-ext-configure opencensus/ext; \
-    else \
-        download_ext xdebug "https://github.com/xdebug/xdebug/archive/b9f3c6fefb98b9e84c6257d2c68a76dc1ee224e3.tar.gz"; \
     fi; \
     \
     # Configure extensions
-    if php_version_gt "7.3.999"; then \
+    if php_version_in 7.4 8.0; then \
         docker-php-ext-configure zip; \
         docker-php-ext-configure gd --with-jpeg --with-webp; \
     else \
@@ -79,7 +75,7 @@ RUN set -ex -o pipefail; \
         sockets \
         xdebug \
         zip; \
-    if php_version_lte "7.4.999"; then \
+    if php_version_in 7.2 7.3 7.4; then \
         [[ "$ZTS" = true ]] && docker-php-ext-install parallel; \
         docker-php-ext-install -j5 \
             amqp \
@@ -183,7 +179,6 @@ ENV \
     TIMEZONE="Etc/UTC" \
     UPLOAD_MAX_FILESIZE="8M" \
     XDEBUG_ENABLED="false" \
-    XDEBUG_IDE_KEY="IDEKEY" \
-    XDEBUG_REMOTE_AUTOSTART=0 \
-    XDEBUG_REMOTE_HOST="192.168.99.1" \
-    XDEBUG_REMOTE_PORT=9000
+    XDEBUG_IDEKEY="IDEKEY" \
+    XDEBUG_CLIENT_HOST="host.docker.internal" \
+    XDEBUG_CLIENT_PORT=9003

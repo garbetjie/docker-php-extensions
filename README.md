@@ -59,7 +59,8 @@ are available across all variants, and some of them apply to specific image vari
 ### Templating
 
 Configuration is compiled using `sed`, and uses a template format of `{{ VAR_NAME }}` (surrounding spaces matter)
-as placeholder values for configuration values. 
+as placeholder values for configuration values. By default, all environment variables are available for templating in
+configuration files.
 
 ### Startup scripts
 
@@ -106,10 +107,18 @@ The environment variables below apply to all image variants, and are used to con
 |                      | NEWRELIC_RECORD_SQL           | [newrelic.transaction_tracer.record_sql](https://docs.newrelic.com/docs/agents/php-agent/configuration/php-agent-configuration#inivar-tt-sql)                | "obfuscated"                        |
 | OpenCensus extension | OPENCENSUS_ENABLED            | N/A (Used to enable/disable the OpenCensus extension)                                                                                                        | false                               |
 | XDebug extension     | XDEBUG_ENABLED                | N/A (Used to enable/disable the XDebug extension)                                                                                                            | false                               |
-|                      | XDEBUG_IDE_KEY                | [xdebug.idekey](https://xdebug.org/docs/all_settings#idekey)                                                                                                 | "IDEKEY"                            |
-|                      | XDEBUG_REMOTE_AUTOSTART       | [xdebug.remote_autostart](https://xdebug.org/docs/all_settings#remote_autostart)                                                                             | 0                                   |
-|                      | XDEBUG_REMOTE_HOST            | [xdebug.remote_host](https://xdebug.org/docs/all_settings#remote_host)                                                                                       | "192.168.99.1"                      |
-|                      | XDEBUG_REMOTE_PORT            | [xdebug.remote_port](https://xdebug.org/docs/all_settings#remote_port)                                                                                       | 9000                                |
+|                      | XDEBUG_IDEKEY                 | [xdebug.idekey](https://xdebug.org/docs/all_settings#idekey)                                                                                                 | "IDEKEY"                            |
+|                      | XDEBUG_CLIENT_HOST            | [xdebug.client_host](https://xdebug.org/docs/all_settings#client_host)                                                                                       | "host.docker.internal"              |
+|                      | XDEBUG_CLIENT_PORT            | [xdebug.client_port](https://xdebug.org/docs/all_settings#client_port)                                                                                       | 9000                                |
+
+> **Deprecated environment variables**
+>
+> The following environment variables were renamed/removed. Backwards compatibility has been maintained as much as possible:
+> 
+> * `XDEBUG_REMOTE_AUTOSTART` (removed)
+> * `XDEBUG_REMOTE_HOST` (renamed to `XDEBUG_CLIENT_HOST` and backwards compatible)
+> * `XDEBUG_REMOTE_PORT` (renamed to `XDEBUG_CLIENT_PORT` and backwards compatible)
+> * `XDEBUG_IDE_KEY` (renamed to `XDEBUG_IDEKEY` and backwards compatible)
 
 ### FPM
 
@@ -214,6 +223,10 @@ Zend OPcache
 
 
 ## Changelog
+
+* **2021-01-15**
+  * Update to PHP 8.0.1, 7.4.14, 7.3.26, 7.2.34.
+  * Upgrade XDebug to 3.0.2, and configure to make it easier for debugging in local development environments.
 
 * **2021-01-13**
   * Add multi-platform support for Docker images (platforms supported: `linux/amd64`, `linux/arm64`, `linux/arm/v7` and `linux/arm/v6`).

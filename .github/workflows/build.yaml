@@ -11,25 +11,30 @@ jobs:
   # include:
   # - version: "7.2"
   #   variant: "fpm"
-  #   source_image: "php:7.2.32-fpm-alpine3.12"
+  #   source_image: "php:7.2.34-fpm-alpine3.12"
   # - version: "7.2"
   #   variant: "cli"
-  #   source_image: "php:7.2.32-zts-alpine3.12"
+  #   source_image: "php:7.2.34-zts-alpine3.12"
   # - version: "7.3"
   #   variant: "fpm"
-  #   source_image: "php:7.3.20-fpm-alpine3.12"
+  #   source_image: "php:7.3.26-fpm-alpine3.12"
   # - version: "7.3"
   #   variant: "cli"
-  #   source_image: "php:7.3.20-zts-alpine3.12"
+  #   source_image: "php:7.3.26-zts-alpine3.12"
   # - version: "7.4"
   #   variant: "fpm"
-  #   source_image: "php:7.4.8-fpm-alpine3.12"
+  #   source_image: "php:7.4.14-fpm-alpine3.12"
   # - version: "7.4"
   #   variant: "cli"
-  #   source_image: "php:7.4.8-zts-alpine3.12"
+  #   source_image: "php:7.4.14-zts-alpine3.12"
   # - version: "8.0"
   #   variant: "fpm"
-  #   source_image: "php:8.0.0alpha2-fpm-alpine3.12"
+  #   source_image: "php:8.0.1-fpm-alpine3.12"
+  #
+  # To convert this to stringified JSON for use in the "matrix" job, paste the list above into matrix.yml, and run the
+  # following command:
+  #
+  #   yq r -j matrix.yml | jq -c '.|@json' | awk '{print substr($0, 2, length($0) - 2)}'
   matrix:
     runs-on: ubuntu-latest
     outputs:
@@ -38,7 +43,7 @@ jobs:
     - name: set matrix
       id: set-matrix
       run: |
-        echo "::set-output name=matrix::{\"include\":[{\"version\":\"7.2\",\"variant\":\"fpm\",\"source_image\":\"php:7.2.32-fpm-alpine3.12\"},{\"version\":\"7.2\",\"variant\":\"cli\",\"source_image\":\"php:7.2.32-zts-alpine3.12\"},{\"version\":\"7.3\",\"variant\":\"fpm\",\"source_image\":\"php:7.3.20-fpm-alpine3.12\"},{\"version\":\"7.3\",\"variant\":\"cli\",\"source_image\":\"php:7.3.20-zts-alpine3.12\"},{\"version\":\"7.4\",\"variant\":\"fpm\",\"source_image\":\"php:7.4.8-fpm-alpine3.12\"},{\"version\":\"7.4\",\"variant\":\"cli\",\"source_image\":\"php:7.4.8-zts-alpine3.12\"},{\"version\":\"8.0\",\"variant\":\"fpm\",\"source_image\":\"php:8.0.0alpha2-fpm-alpine3.12\"}]}"
+        echo "::set-output name=matrix::{\"include\":[{\"version\":\"7.2\",\"variant\":\"fpm\",\"source_image\":\"php:7.2.34-fpm-alpine3.12\"},{\"version\":\"7.2\",\"variant\":\"cli\",\"source_image\":\"php:7.2.34-zts-alpine3.12\"},{\"version\":\"7.3\",\"variant\":\"fpm\",\"source_image\":\"php:7.3.26-fpm-alpine3.12\"},{\"version\":\"7.3\",\"variant\":\"cli\",\"source_image\":\"php:7.3.26-zts-alpine3.12\"},{\"version\":\"7.4\",\"variant\":\"fpm\",\"source_image\":\"php:7.4.14-fpm-alpine3.12\"},{\"version\":\"7.4\",\"variant\":\"cli\",\"source_image\":\"php:7.4.14-zts-alpine3.12\"},{\"version\":\"8.0\",\"variant\":\"fpm\",\"source_image\":\"php:8.0.1-fpm-alpine3.12\"}]}"
 
   build:
     needs: [matrix]
