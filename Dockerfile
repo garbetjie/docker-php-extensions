@@ -137,12 +137,12 @@ ENV \
     # FPM-specific configuration.
     PM="static" \
     LISTEN="0.0.0.0:9000" \
-    MAX_CHILDREN=0 \
-    MIN_SPARE_SERVERS=1 \
-    MAX_SPARE_SERVERS=3 \
-    MAX_REQUESTS=10000 \
-    STATUS_PATH="/_fpm/status" \
-    TIMEOUT=60 \
+    PM_MAX_CHILDREN=0 \
+    PM_MIN_SPARE_SERVERS=1 \
+    PM_MAX_SPARE_SERVERS=3 \
+    PM_MAX_REQUESTS=10000 \
+    PM_STATUS_PATH="/_fpm/status" \
+    REQUEST_TERMINATE_TIMEOUT=60 \
     \
     # PHP-specific configuration.
     DISPLAY_ERRORS="Off" \

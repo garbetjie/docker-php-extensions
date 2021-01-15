@@ -8,8 +8,8 @@
         }
     }
 
-    if (name == "STATUS_HOSTS_ALLOWED" || name == "STATUS_HOSTS_DENIED") {
-        if (name == "STATUS_HOSTS_ALLOWED") prefix = "allow"; else prefix = "deny";
+    if (name == "PM_STATUS_HOSTS_ALLOWED" || name == "PM_STATUS_HOSTS_DENIED") {
+        if (name == "PM_STATUS_HOSTS_ALLOWED") prefix = "allow"; else prefix = "deny";
 
         output = ""
         for (i = 1; i <= split(value, value_array, " "); i++) {

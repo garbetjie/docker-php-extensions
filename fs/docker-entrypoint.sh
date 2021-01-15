@@ -2,10 +2,10 @@
 
 set -e
 
-if [ "$MAX_CHILDREN" -lt 1 ]; then
+if [ "$PM_MAX_CHILDREN" -lt 1 ]; then
   # See https://github.com/moby/moby/issues/20688#issuecomment-188923858 for why we check memory.limit_in_bytes first.
   # Need to convert it from bytes to KB though.
-  export MAX_CHILDREN="$(echo '' | awk -v memory_limit="$MEMORY_LIMIT" -f /usr/local/awk/print_max_children.awk)"
+  export PM_MAX_CHILDREN="$(echo '' | awk -v memory_limit="$MEMORY_LIMIT" -f /usr/local/awk/print_max_children.awk)"
 fi
 
 # Remove NewRelic configuration file if not enabled.
@@ -37,6 +37,14 @@ version() {
 [ "$XDEBUG_IDE_KEY" != "" ] && export XDEBUG_IDEKEY="$XDEBUG_IDE_KEY"
 [ "$XDEBUG_REMOTE_HOST" != "" ] && export XDEBUG_CLIENT_HOST="$XDEBUG_REMOTE_HOST"
 [ "$XDEBUG_REMOTE_PORT" != "" ] && export XDEBUG_CLIENT_PORT="$XDEBUG_REMOTE_PORT"
+[ "$MAX_CHILDREN" != "" ] && export PM_MAX_CHILDREN="$MAX_CHILDREN"
+[ "$MIN_SPARE_SERVERS" != "" ] && export PM_MIN_SPARE_SERVERS="$MIN_SPARE_SERVERS"
+[ "$MAX_SPARE_SERVERS" != "" ] && export PM_MAX_SPARE_SERVERS="$MAX_SPARE_SERVERS"
+[ "$MAX_REQUESTS" != "" ] && export PM_MAX_REQUESTS="$MAX_REQUESTS"
+[ "$STATUS_PATH" != "" ] && export PM_STATUS_PATH="$STATUS_PATH"
+[ "$TIMEOUT" != "" ] && export REQUEST_TERMINATE_TIMEOUT="$TIMEOUT"
+[ "$STATUS_HOSTS_ALLOWED" != "" ] && export PM_STATUS_HOSTS_ALLOWED="$STATUS_HOSTS_ALLOWED"
+[ "$STATUS_HOSTS_DENIED" != "" ] && export PM_STATUS_HOSTS_DENIED="$STATUS_HOSTS_DENIED"
 
 # Build sedfile.
 {

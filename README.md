@@ -113,7 +113,7 @@ The environment variables below apply to all image variants, and are used to con
 
 > **Deprecated environment variables**
 >
-> The following environment variables were renamed/removed. Backwards compatibility has been maintained as much as possible:
+> The following environment variables were renamed or removed. Backwards compatibility has been maintained as much as possible:
 > 
 > * `XDEBUG_REMOTE_AUTOSTART` (removed)
 > * `XDEBUG_REMOTE_HOST` (renamed to `XDEBUG_CLIENT_HOST` and backwards compatible)
@@ -124,34 +124,54 @@ The environment variables below apply to all image variants, and are used to con
 
 The following variables apply to PHP-FPM.
 
-| Name              | FPM INI equivalent                                                                                                 | Default        |
-|-------------------|--------------------------------------------------------------------------------------------------------------------|----------------|
-| PM                | [pm](https://www.php.net/manual/en/install.fpm.configuration.php#pm)                                               | "static"       |
-| LISTEN            | [listen](https://www.php.net/manual/en/install.fpm.configuration.php#listen)                                       | "0.0.0.0:9000" |
-| MAX_CHILDREN      | [pm.max_children](https://www.php.net/manual/en/install.fpm.configuration.php#pm.max-children)                     | 0              |
-| MIN_SPARE_SERVERS | [pm.min_spare_servers](https://www.php.net/manual/en/install.fpm.configuration.php#pm.min-spare-servers)           | 1              |
-| MAX_SPARE_SERVERS | [pm.max_spare_servers](https://www.php.net/manual/en/install.fpm.configuration.php#pm.max-spare-servers)           | 3              |
-| MAX_REQUESTS      | [pm.max_requests](https://www.php.net/manual/en/install.fpm.configuration.php#pm.max-requests)                     | 10000          |
-| STATUS_PATH       | [pm.status_path](https://www.php.net/manual/en/install.fpm.configuration.php#pm.status-path)                       | "/_/status"    |
-| TIMEOUT           | [request_terminate_timeout](https://www.php.net/manual/en/install.fpm.configuration.php#request-terminate-timeout) | 60             |
+| Name                      | FPM INI equivalent                                                                                                 | Default        |
+|---------------------------|--------------------------------------------------------------------------------------------------------------------|----------------|
+| LISTEN                    | [listen](https://www.php.net/manual/en/install.fpm.configuration.php#listen)                                       | "0.0.0.0:9000" |
+| PM                        | [pm](https://www.php.net/manual/en/install.fpm.configuration.php#pm)                                               | "static"       |
+| PM_MAX_CHILDREN           | [pm.max_children](https://www.php.net/manual/en/install.fpm.configuration.php#pm.max-children)                     | 0              |
+| PM_MIN_SPARE_SERVERS      | [pm.min_spare_servers](https://www.php.net/manual/en/install.fpm.configuration.php#pm.min-spare-servers)           | 1              |
+| PM_MAX_SPARE_SERVERS      | [pm.max_spare_servers](https://www.php.net/manual/en/install.fpm.configuration.php#pm.max-spare-servers)           | 3              |
+| PM_MAX_REQUESTS           | [pm.max_requests](https://www.php.net/manual/en/install.fpm.configuration.php#pm.max-requests)                     | 10000          |
+| PM_STATUS_PATH            | [pm.status_path](https://www.php.net/manual/en/install.fpm.configuration.php#pm.status-path)                       | "/_/status"    |
+| REQUEST_TERMINATE_TIMEOUT | [request_terminate_timeout](https://www.php.net/manual/en/install.fpm.configuration.php#request-terminate-timeout) | 60             |
+
+> **Deprecated environment variables**
+>
+> The following environment variables were renamed to reflect the actual INI config key more closely.
+> Backwards compatibility has been maintained.
+>
+> * `MAX_CHILDREN` was renamed to `PM_MAX_CHILDREN`.
+> * `MIN_SPARE_SERVERS` was renamed to `PM_MIN_SPARE_SERVERS`.
+> * `MAX_SPARE_SERVERS` was renamed to `PM_MAX_SPARE_SERVERS`.
+> * `MAX_REQUESTS` was renamed to `PM_MAX_REQUESTS`.
+> * `STATUS_PATH` was renamed to `PM_STATUS_PATH`.
+> * `TIMEOUT` was renamed to `REQUEST_TERMINATE_TIMEOUT`.
 
 ### NGiNX
 
 The following variables apply to NGiNX. There is an overlap between these variables, and those that are configurable for
 PHP-FPM. In some instances, the NGiNX configuration overrides some of the defaults for PHP-FPM.
 
-| Name                 | NGiNX config equivalent                                                                                 | Default                                                                                                                                                             |
-|----------------------|---------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| ABSOLUTE_REDIRECT    | [absolute_redirect](http://nginx.org/en/docs/http/ngx_http_core_module.html#absolute_redirect)          | "on"                                                                                                                                                                |
-| GZIP_TYPES           | [gzip_types](http://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip_types)                        | "application/ecmascript application/javascript application/json application/xhtml+xml application/xml text/css text/ecmascript text/javascript text/plain text/xml" |
-| GZIP_PROXIED         | [gzip_types](http://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip_proxied)                      | "any"                                                                                                                                                               |
-| LISTEN               | [fastcgi_pass](http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_pass)                 | "/var/run/php-fpm.sock"                                                                                                                                             |
-| PORT                 | [listen](http://nginx.org/en/docs/http/ngx_http_core_module.html#listen)                                | 80                                                                                                                                                                  |
-| PORT_IN_REDIRECT     | [port_in_redirect](http://nginx.org/en/docs/http/ngx_http_core_module.html#port_in_redirect)            | "off"                                                                                                                                                               |
-| ROOT                 | [root](http://nginx.org/en/docs/http/ngx_http_core_module.html#root)                                    | "/app/public"                                                                                                                                                       |
-| STATUS_HOSTS_ALLOWED | [allow](http://nginx.org/en/docs/http/ngx_http_access_module.html#allow)                                | "172.16.0.0/12 127.0.0.1"                                                                                                                                           |
-| STATUS_HOSTS_DENIED  | [deny](http://nginx.org/en/docs/http/ngx_http_access_module.html#deny)                                  | "all"                                                                                                                                                               |
-| TIMEOUT              | [fastcgi_read_timeout](http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_read_timeout) | 60                                                                                                                                                                  |
+| Name                      | NGiNX config equivalent                                                                                 | Default                                                                                                                                                             |
+|---------------------------|---------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ABSOLUTE_REDIRECT         | [absolute_redirect](http://nginx.org/en/docs/http/ngx_http_core_module.html#absolute_redirect)          | "on"                                                                                                                                                                |
+| GZIP_TYPES                | [gzip_types](http://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip_types)                        | "application/ecmascript application/javascript application/json application/xhtml+xml application/xml text/css text/ecmascript text/javascript text/plain text/xml" |
+| GZIP_PROXIED              | [gzip_types](http://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip_proxied)                      | "any"                                                                                                                                                               |
+| LISTEN                    | [fastcgi_pass](http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_pass)                 | "/var/run/php-fpm.sock"                                                                                                                                             |
+| PORT                      | [listen](http://nginx.org/en/docs/http/ngx_http_core_module.html#listen)                                | 80                                                                                                                                                                  |
+| PORT_IN_REDIRECT          | [port_in_redirect](http://nginx.org/en/docs/http/ngx_http_core_module.html#port_in_redirect)            | "off"                                                                                                                                                               |
+| ROOT                      | [root](http://nginx.org/en/docs/http/ngx_http_core_module.html#root)                                    | "/app/public"                                                                                                                                                       |
+| PM_STATUS_HOSTS_ALLOWED   | [allow](http://nginx.org/en/docs/http/ngx_http_access_module.html#allow)                                | "127.0.0.1"                                                                                                                                                         |
+| PM_STATUS_HOSTS_DENIED    | [deny](http://nginx.org/en/docs/http/ngx_http_access_module.html#deny)                                  | "all"                                                                                                                                                               |
+| REQUEST_TERMINATE_TIMEOUT | [fastcgi_read_timeout](http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_read_timeout) | 60                                                                                                                                                                  |
+
+> **Deprecated environment variables**
+>
+> The following environment variables were renamed, and backwards compatibility has been maintained.
+>
+> * `STATUS_HOSTS_ALLOWED` was renamed to `PM_STATUS_HOSTS_ALLOWED`.
+> * `STATUS_HOSTS_DENIED` was renamed to `PM_STATUS_HOSTS_DENIED`.
+> * `TIMEOUT` was renamed to `REQUEST_TERMINATE_TIMEOUT`.
 
 ## Available extensions
 
@@ -227,6 +247,8 @@ Zend OPcache
 * **2021-01-15**
   * Update to PHP 8.0.1, 7.4.14, 7.3.26, 7.2.34.
   * Upgrade XDebug to 3.0.2, and configure to make it easier for debugging in local development environments.
+  * Change pool name from `[app]` to `[www]` to better match default.
+  * Rename environment variables for FPM INI config to better reflect INI key name, and update default value for `PM_STATUS_HOSTS_ALLOWED`. 
 
 * **2021-01-13**
   * Add multi-platform support for Docker images (platforms supported: `linux/amd64`, `linux/arm64`, `linux/arm/v7` and `linux/arm/v6`).
