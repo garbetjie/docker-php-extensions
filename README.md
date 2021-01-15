@@ -85,6 +85,7 @@ The environment variables below apply to all image variants, and are used to con
 |                      | OPCACHE_ENABLED               | [opcache.enable](https://www.php.net/manual/en/opcache.configuration.php#ini.opcache.enable)                                                                 | true                                |
 |                      | OPCACHE_CLI_ENABLED           | [opcache.enable_cli](https://www.php.net/manual/en/opcache.configuration.php#ini.opcache.enable-cli)                                                         | false                               |
 |                      | OPCACHE_MAX_ACCELERATED_FILES | [opcache.max_accelerated_files](https://www.php.net/manual/en/opcache.configuration.php#ini.opcache.max-accelerated-files)                                   | 10000                               |
+|                      | OPCACHE_PRELOAD               | [opcache.preload](https://www.php.net/manual/en/opcache.configuration.php#ini.opcache.preload)                                                               | ""                                  |
 |                      | OPCACHE_REVALIDATE_FREQ       | [opcache.revalidate_freq](https://www.php.net/manual/en/opcache.configuration.php#ini.opcache.revalidate-freq)                                               | 2                                   |
 |                      | OPCACHE_VALIDATE_TIMESTAMPS   | [opcache.validate_timestamps](https://www.php.net/manual/en/opcache.configuration.php#ini.opcache.validate-timestamps)                                       | true                                |
 |                      | OPCACHE_SAVE_COMMENTS         | [opcache.save_comments](https://www.php.net/manual/en/opcache.configuration.php#ini.opcache.save-comments)                                                   | true                                |
@@ -248,7 +249,8 @@ Zend OPcache
   * Update to PHP 8.0.1, 7.4.14, 7.3.26, 7.2.34.
   * Upgrade XDebug to 3.0.2, and configure to make it easier for debugging in local development environments.
   * Change pool name from `[app]` to `[www]` to better match default.
-  * Rename environment variables for FPM INI config to better reflect INI key name, and update default value for `PM_STATUS_HOSTS_ALLOWED`. 
+  * Rename environment variables for FPM INI config to better reflect INI key name, and update default value for `PM_STATUS_HOSTS_ALLOWED`.
+  * Add `OPCACHE_PRELOAD` configuration option.
 
 * **2021-01-13**
   * Add multi-platform support for Docker images (platforms supported: `linux/amd64`, `linux/arm64`, `linux/arm/v7` and `linux/arm/v6`).
