@@ -215,6 +215,9 @@ Zend OPcache
 
 ## Changelog
 
+* **2021-01-13**
+  * Add multi-platform support for Docker images (platforms supported: `linux/amd64`, `linux/arm64`, `linux/arm/v7` and `linux/arm/v6`).
+
 * **2020-11-10**
     * Change to using GitHub Actions for automated building & pushing.
     * Upgrade Composer to 2.0.6.
