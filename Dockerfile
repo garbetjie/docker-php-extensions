@@ -82,7 +82,7 @@ RUN set -ex -o pipefail; \
         [[ "$ZTS" = true ]] && docker-php-ext-install parallel; \
         docker-php-ext-install -j5 \
             amqp \
-            opencensus/ext \
+            opencensus/ext; \
             \
             # Install New Relic.
             mkdir -p /opt/newrelic; \
