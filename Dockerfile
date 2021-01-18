@@ -73,7 +73,7 @@ RUN set -ex -o pipefail; \
         opcache \
         pcntl \
         pdo_mysql \
-        redis; \
+        redis \
         soap \
         sockets \
         xdebug \
