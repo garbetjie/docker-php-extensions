@@ -38,7 +38,7 @@ RUN set -ex -o pipefail; \
     download_pecl_ext igbinary 3.2.1; \
     download_pecl_ext memcached 3.1.5; \
     download_pecl_ext msgpack 2.1.2; \
-    download_pecl_ext redis 5.3.2 \
+    download_pecl_ext redis 5.3.2; \
     download_pecl_ext xdebug 3.0.2; \
     download_ext newrelic "https://download.newrelic.com/php_agent/archive/${NEWRELIC_VERSION}/newrelic-php5-${NEWRELIC_VERSION}-linux-musl.tar.gz"; \
     if php_version_in 7.2 7.3 7.4; then \
