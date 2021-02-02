@@ -1,6 +1,11 @@
 Changelog
 =========
 
+* **2021-02-02**
+  * Upgrade `newrelic`: 9.15.0.293 -> 9.16.0.295
+  * Update the `newrelic` configuration file to the latest.
+  * Add support for alternate spelling of `NEWRELIC_LICENCE` (`NEWRELIC_LICENSE` is also allowed).
+
 * **2021-01-18**
   * Upgrade extensions:
     * `igbinary`: 3.1.2 -> 3.2.1

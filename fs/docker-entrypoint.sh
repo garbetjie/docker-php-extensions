@@ -46,6 +46,9 @@ version() {
 [ "$STATUS_HOSTS_ALLOWED" != "" ] && export PM_STATUS_HOSTS_ALLOWED="$STATUS_HOSTS_ALLOWED"
 [ "$STATUS_HOSTS_DENIED" != "" ] && export PM_STATUS_HOSTS_DENIED="$STATUS_HOSTS_DENIED"
 
+# Alternate spelling compatibility.
+[ "$NEWRELIC_LICENSE" != "" ] && export NEWRELIC_LICENCE="$NEWRELIC_LICENSE"
+
 # Build sedfile.
 {
   if [ "$(version "$PHP_VERSION")" -lt "$(version 7.3.0)" ]; then

@@ -7,7 +7,7 @@ RUN set -ex -o pipefail; \
     ZTS="$(if [ "$(php -ni 2>&1 | grep -iF 'Thread Safety' | grep -iF 'enabled')" != "" ]; then printf true; else printf false; fi)"; \
     ZTS_SUFFIX="$(if [ "$ZTS" = true ]; then printf '-zts'; else printf ''; fi)"; \
     PHP_VERSION="$(php -nv | grep -E -o 'PHP [0-9]+\.[0-9]+' | cut -f2 -d' ')"; \
-    NEWRELIC_VERSION="9.15.0.293"; \
+    NEWRELIC_VERSION="9.16.0.295"; \
     OS="$(. /etc/os-release; printf "%s" "$ID")"; \
     php_version_in() { while [ $# -gt 0 ]; do if [ "$PHP_VERSION" = "$1" ]; then return 0; fi; shift; done; return 1; }; \
     download_ext() { rm -rf "/usr/src/php/ext/$1"; mkdir -p "/usr/src/php/ext/$1"; curl -L "$2" | tar -xz --strip-components 1 -C "/usr/src/php/ext/$1"; }; \

@@ -245,6 +245,11 @@ Zend OPcache
 
 ## Changelog
 
+* **2021-02-02**
+  * Upgrade `newrelic`: 9.15.0.293 -> 9.16.0.295
+  * Update the `newrelic` configuration file to the latest.
+  * Add support for alternate spelling of `NEWRELIC_LICENCE` (`NEWRELIC_LICENSE` is also allowed).
+
 * **2021-01-18**
   * Upgrade extensions:
     * `igbinary`: 3.1.2 -> 3.2.1
@@ -259,8 +264,5 @@ Zend OPcache
   * Change pool name from `[app]` to `[www]` to better match default.
   * Rename environment variables for FPM INI config to better reflect INI key name, and update default value for `PM_STATUS_HOSTS_ALLOWED`.
   * Add `OPCACHE_PRELOAD` configuration option.
-
-* **2021-01-13**
-  * Add multi-platform support for Docker images (platforms supported: `linux/amd64`, `linux/arm64`, `linux/arm/v7` and `linux/arm/v6`).
 
 * See [CHANGELOG.md](CHANGELOG.md) for a full history.
