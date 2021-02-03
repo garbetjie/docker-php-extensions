@@ -252,12 +252,13 @@ Zend OPcache
 ## Changelog
 
 * **2021-02-03**
+  * Remove the use of a custom wait script for New Relic - this is configurable by the agent.
+  * Split `NEWRELIC_DAEMON_WAIT` into separate configs `NEWRELIC_DAEMON_START_TIMEOUT` and `NEWRELIC_DAEMON_APP_CONNECT_TIMEOUT`.
   * Rename the following configs with backwards compatibility:
     * `NEWRELIC_DAEMON_PORT` -> `NEWRELIC_DAEMON_ADDRESS`
     * `NEWRELIC_HOST_DISPLAY_NAME` -> `NEWRELIC_PROCESS_HOST_DISPLAY_NAME`
     * `NEWRELIC_AUTORUM_ENABLED` -> `NEWRELIC_BROWSER_MONITORING_AUTO_INSTRUMENT`
     * `NEWRELIC_RECORD_SQL` -> `NEWRELIC_TRANSACTION_TRACER_RECORD_SQL`
-  * Split `NEWRELIC_DAEMON_WAIT` into separate configs `NEWRELIC_DAEMON_START_TIMEOUT` and `NEWRELIC_DAEMON_APP_CONNECT_TIMEOUT`.
 
 * **2021-02-02**
   * Upgrade `newrelic`: 9.15.0.293 -> 9.16.0.295
