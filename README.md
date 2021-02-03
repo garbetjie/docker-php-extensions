@@ -114,15 +114,18 @@ The environment variables below apply to all image variants, and are used to con
 
 > **Deprecated environment variables**
 >
-> The following environment variables were renamed or removed. Backwards compatibility has been maintained as much as possible:
+> The following environment variables were renamed or removed. Where variables are renamed or split out, backwards
+> compatibility has been maintained as much as possible. If backwards compatibility could not be maintained, it will be 
+> indicated:
 > 
 > * `XDEBUG_REMOTE_AUTOSTART` (removed)
-> * `XDEBUG_REMOTE_HOST` (renamed to `XDEBUG_CLIENT_HOST` and backwards compatible)
-> * `XDEBUG_REMOTE_PORT` (renamed to `XDEBUG_CLIENT_PORT` and backwards compatible)
-> * `XDEBUG_IDE_KEY` (renamed to `XDEBUG_IDEKEY` and backwards compatible)
-> * `NEWRELIC_DAEMON_PORT` (renamed to `NEWRELIC_DAEMON_ADDRESS` and backwards compatible)
+> * `XDEBUG_REMOTE_HOST` (renamed to `XDEBUG_CLIENT_HOST`)
+> * `XDEBUG_REMOTE_PORT` (renamed to `XDEBUG_CLIENT_PORT`)
+> * `XDEBUG_IDE_KEY` (renamed to `XDEBUG_IDEKEY`)
+> * `NEWRELIC_DAEMON_PORT` (renamed to `NEWRELIC_DAEMON_ADDRESS`)
 > * `NEWRELIC_DAEMON_WAIT` (split out into `NEWRELIC_DAEMON_APP_CONNECT_TIMEOUT` and `NEWRELIC_DAEMON_START_TIMEOUT`).
-> * `NEWRELIC_HOST_DISPLAY_NAME` (renamed to `NEWRELIC_PROCESS_HOST_DISPLAY_NAME` and backwards compatible).
+> * `NEWRELIC_HOST_DISPLAY_NAME` (renamed to `NEWRELIC_PROCESS_HOST_DISPLAY_NAME`).
+> * `NEWRELIC_RECORD_SQL` (renamed to `NEWRELIC_TRANSACTION_TRACER_RECORD_SQL`).
 
 ### FPM
 
@@ -253,6 +256,7 @@ Zend OPcache
     * `NEWRELIC_DAEMON_PORT` -> `NEWRELIC_DAEMON_ADDRESS`
     * `NEWRELIC_HOST_DISPLAY_NAME` -> `NEWRELIC_PROCESS_HOST_DISPLAY_NAME`
     * `NEWRELIC_AUTORUM_ENABLED` -> `NEWRELIC_BROWSER_MONITORING_AUTO_INSTRUMENT`
+    * `NEWRELIC_RECORD_SQL` -> `NEWRELIC_TRANSACTION_TRACER_RECORD_SQL`
   * Split `NEWRELIC_DAEMON_WAIT` into separate configs `NEWRELIC_DAEMON_START_TIMEOUT` and `NEWRELIC_DAEMON_APP_CONNECT_TIMEOUT`.
 
 * **2021-02-02**
