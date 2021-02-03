@@ -45,6 +45,9 @@ version() {
 [ "$TIMEOUT" != "" ] && export REQUEST_TERMINATE_TIMEOUT="$TIMEOUT"
 [ "$STATUS_HOSTS_ALLOWED" != "" ] && export PM_STATUS_HOSTS_ALLOWED="$STATUS_HOSTS_ALLOWED"
 [ "$STATUS_HOSTS_DENIED" != "" ] && export PM_STATUS_HOSTS_DENIED="$STATUS_HOSTS_DENIED"
+[ "$NEWRELIC_DAEMON_PORT" != "" ] && export NEWRELIC_DAEMON_ADDRESS="$NEWRELIC_DAEMON_PORT"
+[ "$NEWRELIC_DAEMON_WAIT" != "" ] && export NEWRELIC_DAEMON_APP_CONNECT_TIMEOUT="$NEWRELIC_DAEMON_WAIT"
+[ "$NEWRELIC_DAEMON_WAIT" != "" ] && export NEWRELIC_DAEMON_START_TIMEOUT="$NEWRELIC_DAEMON_WAIT"
 
 # Alternate spelling compatibility.
 [ "$NEWRELIC_LICENSE" != "" ] && export NEWRELIC_LICENCE="$NEWRELIC_LICENSE"
@@ -127,10 +130,6 @@ if [ $# -lt 1 ] && (echo "$PHP_EXTRA_CONFIGURE_ARGS" | grep -q -F -- '-fpm'); th
 
   exit 0
 fi
-
-# Start the daemon, before executing the main script. This is to ensure a sacrificial PHP process is used to start up the
-# New Relic daemon. The NGiNX & FPM variants don't need this.
-/usr/local/bin/start-newrelic-daemon.sh || true
 
 # Start the interactive PHP interpreter if there is no FPM, and no arguments given.
 if [ $# -lt 1 ] && (! echo "$PHP_EXTRA_CONFIGURE_ARGS" | grep -q -F -- '-fpm'); then
