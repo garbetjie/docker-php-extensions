@@ -122,6 +122,7 @@ The environment variables below apply to all image variants, and are used to con
 > * `XDEBUG_IDE_KEY` (renamed to `XDEBUG_IDEKEY` and backwards compatible)
 > * `NEWRELIC_DAEMON_PORT` (renamed to `NEWRELIC_DAEMON_ADDRESS` and backwards compatible)
 > * `NEWRELIC_DAEMON_WAIT` (split out into `NEWRELIC_DAEMON_APP_CONNECT_TIMEOUT` and `NEWRELIC_DAEMON_START_TIMEOUT`).
+> * `NEWRELIC_HOST_DISPLAY_NAME` (renamed to `NEWRELIC_PROCESS_HOST_DISPLAY_NAME` and backwards compatible).
 
 ### FPM
 
@@ -250,6 +251,7 @@ Zend OPcache
 * **2021-02-03**
   * Deprecate the `NEWRELIC_DAEMON_PORT` config in favour of `NEWRELIC_DAEMON_ADDRESS`.
   * Deprecate the `NEWRELIC_DAEMON_WAIT` and split it out into `NEWRELIC_DAEMON_START_TIMEOUT` and `NEWRELIC_DAEMON_APP_CONNECT_TIMEOUT`.
+  * Deprecate the `NEWRELIC_HOST_DISPLAY_NAME` config in favour of `NEWRELIC_PROCESS_HOST_DISPLAY_NAME`.
 
 * **2021-02-02**
   * Upgrade `newrelic`: 9.15.0.293 -> 9.16.0.295
