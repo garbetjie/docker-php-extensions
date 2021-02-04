@@ -252,7 +252,8 @@ Zend OPcache
 ## Changelog
 
 * **2021-02-04**
-  * Remove the additional & unnecessary `/opt/newrelic/newrelic.cfg` config file. 
+  * Remove the additional & unnecessary `/opt/newrelic/newrelic.cfg` config file.
+  * Add date-based image tags (eg: `7.4-nginx-20210204`).
   
 * **2021-02-03**
   * Remove the use of a custom wait script for New Relic - this is configurable by the agent.
