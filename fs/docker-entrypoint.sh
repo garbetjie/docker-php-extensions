@@ -107,7 +107,7 @@ version() {
 {
   find "$PHP_INI_DIR" -name '*.ini' -o -name '*.ini.disabled'
   find /etc/nginx -name "*.conf" 2>/dev/null || true
-  echo /opt/newrelic/newrelic.cfg /usr/local/etc/php-fpm.conf
+  echo /usr/local/etc/php-fpm.conf
 } | xargs sed -f /usr/local/config_sedfile -i
 
 # Create the session directory if using files.

@@ -251,6 +251,9 @@ Zend OPcache
 
 ## Changelog
 
+* **2021-02-04**
+  * Remove the additional & unnecessary `/opt/newrelic/newrelic.cfg` config file. 
+  
 * **2021-02-03**
   * Remove the use of a custom wait script for New Relic - this is configurable by the agent.
   * Split `NEWRELIC_DAEMON_WAIT` into separate configs `NEWRELIC_DAEMON_START_TIMEOUT` and `NEWRELIC_DAEMON_APP_CONNECT_TIMEOUT`.
