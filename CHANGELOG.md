@@ -6,6 +6,10 @@ Changelog
   * Rename the following configs with backwards compatibility:
     * `NEWRELIC_APP_NAME` -> `NEWRELIC_APPNAME`
   * Enable `NEWRELIC_BROWSER_MONITORING_AUTO_INSTRUMENT` by default.
+  * Drop support for PHP 7.2, as it is [end of life](https://www.php.net/supported-versions.php).
+  * Upgrade PHP versions to `7.3.27`, `7.4.15` & `8.0.2`.
+  * Upgrade to Alpine 3.13.
+  * Remove ZTS-safe versions - [support is limited in PHP 8 on Alpine Linux](https://github.com/docker-library/php/pull/1076).
 
 * **2021-02-04**
   * Remove the additional & unnecessary `/opt/newrelic/newrelic.cfg` config file.
