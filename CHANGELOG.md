@@ -3,6 +3,9 @@ Changelog
 
 * **2021-02-08**
   * Disable `opencensus` extension by default.
+  * Rename the following configs with backwards compatibility:
+    * `NEWRELIC_APP_NAME` -> `NEWRELIC_APPNAME`
+  * Enable `NEWRELIC_BROWSER_MONITORING_AUTO_INSTRUMENT` by default.
 
 * **2021-02-04**
   * Remove the additional & unnecessary `/opt/newrelic/newrelic.cfg` config file.
