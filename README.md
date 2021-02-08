@@ -251,6 +251,10 @@ Zend OPcache
 
 ## Changelog
 
+* **2021-02-08**
+  * Disable `opencensus` extension by default.
+  
+
 * **2021-02-04**
   * Remove the additional & unnecessary `/opt/newrelic/newrelic.cfg` config file.
   * Add date-based image tags (eg: `7.4-nginx-20210204`).
@@ -276,12 +280,5 @@ Zend OPcache
     * `redis`: 5.3.0 -> 5.3.2
     * `newrelic`: 9.11.0.267 -> 9.15.0.293
   * Ensure `igbinary`, `msgpack` and `redis` extensions are available on PHP 8.0.
-
-* **2021-01-15**
-  * Update to PHP 8.0.1, 7.4.14, 7.3.26, 7.2.34.
-  * Upgrade XDebug to 3.0.2, and configure to make it easier for debugging in local development environments.
-  * Change pool name from `[app]` to `[www]` to better match default.
-  * Rename environment variables for FPM INI config to better reflect INI key name, and update default value for `PM_STATUS_HOSTS_ALLOWED`.
-  * Add `OPCACHE_PRELOAD` configuration option.
 
 * See [CHANGELOG.md](CHANGELOG.md) for a full history.

@@ -1,6 +1,9 @@
 Changelog
 =========
 
+* **2021-02-08**
+  * Disable `opencensus` extension by default.
+
 * **2021-02-04**
   * Remove the additional & unnecessary `/opt/newrelic/newrelic.cfg` config file.
   * Add date-based image tags (eg: `7.4-nginx-20210204`).
