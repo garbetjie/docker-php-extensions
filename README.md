@@ -165,6 +165,8 @@ PHP-FPM. In some instances, the NGiNX configuration overrides some of the defaul
 | Name                      | NGiNX config equivalent                                                                                 | Default                                                                                                                                                             |
 |---------------------------|---------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | ABSOLUTE_REDIRECT         | [absolute_redirect](http://nginx.org/en/docs/http/ngx_http_core_module.html#absolute_redirect)          | "on"                                                                                                                                                                |
+| CONTENT_EXPIRY_DURATION   | [expires](http://nginx.org/en/docs/http/ngx_http_headers_module.html#expires)                           | "off"                                                                                                                                                               |
+| CONTENT_EXPIRY_EXTENSIONS | n/a (pipe-delimited extensions to apply "Expires" and "Cache-Control" headers to)                       | "js\|css\|png\|jpg\|jpeg\|gif\|svg\|ico\|ttf\|woff\|woff2"                                                                                                          |
 | GZIP_TYPES                | [gzip_types](http://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip_types)                        | "application/ecmascript application/javascript application/json application/xhtml+xml application/xml text/css text/ecmascript text/javascript text/plain text/xml" |
 | GZIP_PROXIED              | [gzip_types](http://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip_proxied)                      | "any"                                                                                                                                                               |
 | LISTEN                    | [fastcgi_pass](http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_pass)                 | "/var/run/php-fpm.sock"                                                                                                                                             |
@@ -253,6 +255,11 @@ Zend OPcache
 
 ## Changelog
 
+* **2021-02-12**
+  * Add configuration items:
+    * `CONTENT_EXPIRY_DURATION`
+    * `CONTENT_EXPIRY_EXTENSIONS`
+
 * **2021-02-08**
   * Disable `opencensus` extension by default.
   * Rename the following configs with backwards compatibility:
@@ -280,13 +287,5 @@ Zend OPcache
   * Upgrade `newrelic`: 9.15.0.293 -> 9.16.0.295
   * Update the `newrelic` configuration file to the latest.
   * Add support for alternate spelling of `NEWRELIC_LICENCE` (`NEWRELIC_LICENSE` is also allowed).
-
-* **2021-01-18**
-  * Upgrade extensions:
-    * `igbinary`: 3.1.2 -> 3.2.1
-    * `msgpack`: 2.1.0 -> 2.1.2
-    * `redis`: 5.3.0 -> 5.3.2
-    * `newrelic`: 9.11.0.267 -> 9.15.0.293
-  * Ensure `igbinary`, `msgpack` and `redis` extensions are available on PHP 8.0.
 
 * See [CHANGELOG.md](CHANGELOG.md) for a full history.

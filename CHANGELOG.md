@@ -1,6 +1,11 @@
 Changelog
 =========
 
+* **2021-02-12**
+  * Add configuration items:
+    * `CONTENT_EXPIRY_DURATION`
+    * `CONTENT_EXPIRY_EXTENSIONS`
+
 * **2021-02-08**
   * Disable `opencensus` extension by default.
   * Rename the following configs with backwards compatibility:
