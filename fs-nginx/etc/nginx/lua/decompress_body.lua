@@ -1,3 +1,7 @@
+-- This LUA script is taken from the following locations and has been slightly modified:
+--  * https://www.pataliebre.net/howto-make-nginx-decompress-a-gzipped-request.html
+--  * https://gist.github.com/davidcaste/05b2f9461ebe4a3bb3fc
+
 -- Debian packages nginx-extras, lua-zlib required
 
 ngx.ctx.max_chunk_size = tonumber(ngx.var.max_chunk_size)
