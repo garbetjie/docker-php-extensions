@@ -41,7 +41,7 @@ RUN set -ex -o pipefail; \
     download_pecl_ext redis 5.3.2; \
     download_pecl_ext xdebug 3.0.2; \
     download_ext newrelic "https://download.newrelic.com/php_agent/archive/${NEWRELIC_VERSION}/newrelic-php5-${NEWRELIC_VERSION}-linux-musl.tar.gz"; \
-    if php_version_in 7.2 7.3 7.4; then \
+    if php_version_in 7.3 7.4; then \
         download_ext opencensus "https://github.com/census-instrumentation/opencensus-php/archive/007b35d8f7ed21cab9aa47406578ae02f73f91c5.tar.gz"; \
         [[ "$ZTS" = true ]] && download_ext parallel "https://github.com/krakjoe/parallel/archive/ebc3cc8e61cbfdb049cb7951b4df31cd336a9b18.tar.gz"; \
         \
@@ -78,7 +78,7 @@ RUN set -ex -o pipefail; \
         sockets \
         xdebug \
         zip; \
-    if php_version_in 7.2 7.3 7.4; then \
+    if php_version_in 7.3 7.4; then \
         [[ "$ZTS" = true ]] && docker-php-ext-install parallel; \
         docker-php-ext-install -j5 \
             amqp \
@@ -154,7 +154,7 @@ ENV \
     MAX_REQUEST_SIZE="8M" \
     MEMORY_LIMIT="64M" \
     NEWRELIC_ENABLED=false \
-    NEWRELIC_APP_NAME="" \
+    NEWRELIC_APPNAME="" \
     NEWRELIC_BROWSER_MONITORING_AUTO_INSTRUMENT=true \
     NEWRELIC_DAEMON_APP_CONNECT_TIMEOUT=5 \
     NEWRELIC_DAEMON_LOGLEVEL="error" \

@@ -255,6 +255,10 @@ Zend OPcache
 
 ## Changelog
 
+* **2021-03-04**
+    * Fix bug where incorrect reference to `NEWRELIC_APP_NAME` (instead of `NEWRELIC_APPNAME`) used in New Relic config.
+    * Remove references to PHP 7.2.
+
 * **2021-02-12**
   * Add configuration items:
     * `CONTENT_EXPIRY_DURATION`
@@ -282,10 +286,5 @@ Zend OPcache
     * `NEWRELIC_HOST_DISPLAY_NAME` -> `NEWRELIC_PROCESS_HOST_DISPLAY_NAME`
     * `NEWRELIC_AUTORUM_ENABLED` -> `NEWRELIC_BROWSER_MONITORING_AUTO_INSTRUMENT`
     * `NEWRELIC_RECORD_SQL` -> `NEWRELIC_TRANSACTION_TRACER_RECORD_SQL`
-
-* **2021-02-02**
-  * Upgrade `newrelic`: 9.15.0.293 -> 9.16.0.295
-  * Update the `newrelic` configuration file to the latest.
-  * Add support for alternate spelling of `NEWRELIC_LICENCE` (`NEWRELIC_LICENSE` is also allowed).
 
 * See [CHANGELOG.md](CHANGELOG.md) for a full history.
