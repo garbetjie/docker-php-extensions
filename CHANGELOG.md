@@ -1,9 +1,14 @@
 Changelog
 =========
 
+* **2021-03-15**
+  * Add configuration items:
+    * `REQUEST_SLOWLOG_TIMEOUT`
+    * `SLOWLOG`
+
 * **2021-03-04**
-    * Fix bug where incorrect reference to `NEWRELIC_APP_NAME` (instead of `NEWRELIC_APPNAME`) used in New Relic config.
-    * Remove references to PHP 7.2.
+  * Fix bug where incorrect reference to `NEWRELIC_APP_NAME` (instead of `NEWRELIC_APPNAME`) used in New Relic config.
+  * Remove references to PHP 7.2.
 
 * **2021-02-12**
   * Add configuration items:

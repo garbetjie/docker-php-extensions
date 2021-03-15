@@ -134,16 +134,18 @@ The environment variables below apply to all image variants, and are used to con
 
 The following variables apply to PHP-FPM.
 
-| Name                      | FPM INI equivalent                                                                                                 | Default        |
-|---------------------------|--------------------------------------------------------------------------------------------------------------------|----------------|
-| LISTEN                    | [listen](https://www.php.net/manual/en/install.fpm.configuration.php#listen)                                       | "0.0.0.0:9000" |
-| PM                        | [pm](https://www.php.net/manual/en/install.fpm.configuration.php#pm)                                               | "static"       |
-| PM_MAX_CHILDREN           | [pm.max_children](https://www.php.net/manual/en/install.fpm.configuration.php#pm.max-children)                     | 0              |
-| PM_MIN_SPARE_SERVERS      | [pm.min_spare_servers](https://www.php.net/manual/en/install.fpm.configuration.php#pm.min-spare-servers)           | 1              |
-| PM_MAX_SPARE_SERVERS      | [pm.max_spare_servers](https://www.php.net/manual/en/install.fpm.configuration.php#pm.max-spare-servers)           | 3              |
-| PM_MAX_REQUESTS           | [pm.max_requests](https://www.php.net/manual/en/install.fpm.configuration.php#pm.max-requests)                     | 10000          |
-| PM_STATUS_PATH            | [pm.status_path](https://www.php.net/manual/en/install.fpm.configuration.php#pm.status-path)                       | "/_/status"    |
-| REQUEST_TERMINATE_TIMEOUT | [request_terminate_timeout](https://www.php.net/manual/en/install.fpm.configuration.php#request-terminate-timeout) | 60             |
+| Name                      | FPM INI equivalent                                                                                                 | Default           |
+|---------------------------|--------------------------------------------------------------------------------------------------------------------|-------------------|
+| LISTEN                    | [listen](https://www.php.net/manual/en/install.fpm.configuration.php#listen)                                       | "0.0.0.0:9000"    |
+| PM                        | [pm](https://www.php.net/manual/en/install.fpm.configuration.php#pm)                                               | "static"          |
+| PM_MAX_CHILDREN           | [pm.max_children](https://www.php.net/manual/en/install.fpm.configuration.php#pm.max-children)                     | 0                 |
+| PM_MIN_SPARE_SERVERS      | [pm.min_spare_servers](https://www.php.net/manual/en/install.fpm.configuration.php#pm.min-spare-servers)           | 1                 |
+| PM_MAX_SPARE_SERVERS      | [pm.max_spare_servers](https://www.php.net/manual/en/install.fpm.configuration.php#pm.max-spare-servers)           | 3                 |
+| PM_MAX_REQUESTS           | [pm.max_requests](https://www.php.net/manual/en/install.fpm.configuration.php#pm.max-requests)                     | 10000             |
+| PM_STATUS_PATH            | [pm.status_path](https://www.php.net/manual/en/install.fpm.configuration.php#pm.status-path)                       | "/_/status"       |
+| REQUEST_SLOWLOG_TIMEOUT   | [request_slowlog_timeout](https://www.php.net/manual/en/install.fpm.configuration.php#request-slowlog-timeout)     | 0                 |
+| REQUEST_TERMINATE_TIMEOUT | [request_terminate_timeout](https://www.php.net/manual/en/install.fpm.configuration.php#request-terminate-timeout) | 60                |
+| SLOWLOG                   | [slowlog](https://www.php.net/manual/en/install.fpm.configuration.php#slowlog)                                     | "/proc/self/fd/2" |
 
 > **Deprecated environment variables**
 >
@@ -255,9 +257,14 @@ Zend OPcache
 
 ## Changelog
 
+* **2021-03-15**
+  * Add configuration items:
+    * `REQUEST_SLOWLOG_TIMEOUT`
+    * `SLOWLOG`
+
 * **2021-03-04**
-    * Fix bug where incorrect reference to `NEWRELIC_APP_NAME` (instead of `NEWRELIC_APPNAME`) used in New Relic config.
-    * Remove references to PHP 7.2.
+  * Fix bug where incorrect reference to `NEWRELIC_APP_NAME` (instead of `NEWRELIC_APPNAME`) used in New Relic config.
+  * Remove references to PHP 7.2.
 
 * **2021-02-12**
   * Add configuration items:
@@ -278,13 +285,4 @@ Zend OPcache
   * Remove the additional & unnecessary `/opt/newrelic/newrelic.cfg` config file.
   * Add date-based image tags (eg: `7.4-nginx-20210204`).
   
-* **2021-02-03**
-  * Remove the use of a custom wait script for New Relic - this is configurable by the agent.
-  * Split `NEWRELIC_DAEMON_WAIT` into separate configs `NEWRELIC_DAEMON_START_TIMEOUT` and `NEWRELIC_DAEMON_APP_CONNECT_TIMEOUT`.
-  * Rename the following configs with backwards compatibility:
-    * `NEWRELIC_DAEMON_PORT` -> `NEWRELIC_DAEMON_ADDRESS`
-    * `NEWRELIC_HOST_DISPLAY_NAME` -> `NEWRELIC_PROCESS_HOST_DISPLAY_NAME`
-    * `NEWRELIC_AUTORUM_ENABLED` -> `NEWRELIC_BROWSER_MONITORING_AUTO_INSTRUMENT`
-    * `NEWRELIC_RECORD_SQL` -> `NEWRELIC_TRANSACTION_TRACER_RECORD_SQL`
-
 * See [CHANGELOG.md](CHANGELOG.md) for a full history.

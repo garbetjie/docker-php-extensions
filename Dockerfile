@@ -143,6 +143,8 @@ ENV \
     PM_MAX_REQUESTS=10000 \
     PM_STATUS_PATH="/_fpm/status" \
     REQUEST_TERMINATE_TIMEOUT=60 \
+    REQUEST_SLOWLOG_TIMEOUT=0 \
+    SLOWLOG="/proc/self/fd/2" \
     \
     # PHP-specific configuration.
     DISPLAY_ERRORS="Off" \
