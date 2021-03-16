@@ -4,6 +4,9 @@ Changelog
 * **2021-03-16**
   * Add configuration items:
     * `FASTCGI_BUFFERING`
+    * `FASTCGI_BUFFER_SIZE`
+    * `FASTCGI_BUFFERS`
+    * `FASTCGI_BUSY_BUFFERS_SIZE`
 
 * **2021-03-15**
   * Add configuration items:
