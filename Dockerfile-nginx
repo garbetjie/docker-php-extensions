@@ -15,10 +15,10 @@ COPY fs-nginx/ /
 ENV ABSOLUTE_REDIRECT="on" \
     CONTENT_EXPIRY_DURATION="off" \
     CONTENT_EXPIRY_EXTENSIONS="js|css|png|jpg|jpeg|gif|svg|ico|ttf|woff|woff2" \
-    FASTCGI_BUFFER_SIZE="32k" \
-    FASTCGI_BUFFERING="off" \
+    FASTCGI_BUFFER_SIZE="64k" \
+    FASTCGI_BUFFERING="on" \
     FASTCGI_BUFFERS="32 32k" \
-    FASTCGI_BUSY_BUFFERS_SIZE="64k" \
+    FASTCGI_BUSY_BUFFERS_SIZE="96k" \
     GZIP_TYPES="application/ecmascript application/javascript application/json application/xhtml+xml application/xml text/css text/ecmascript text/javascript text/plain text/xml" \
     GZIP_PROXIED="any" \
     LISTEN="/var/run/php-fpm.sock" \

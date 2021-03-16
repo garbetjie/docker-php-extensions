@@ -7,6 +7,8 @@ Changelog
     * `FASTCGI_BUFFER_SIZE`
     * `FASTCGI_BUFFERS`
     * `FASTCGI_BUSY_BUFFERS_SIZE`
+  * Increase default values for `FASTCGI_BUFFER_SIZE` and `FASTCGI_BUSY_BUFFERS_SIZE`.
+  * Turn FastCGI buffering on by default.
 
 * **2021-03-15**
   * Add configuration items:

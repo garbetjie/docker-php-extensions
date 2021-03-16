@@ -169,10 +169,10 @@ PHP-FPM. In some instances, the NGiNX configuration overrides some of the defaul
 | ABSOLUTE_REDIRECT         | [absolute_redirect](http://nginx.org/en/docs/http/ngx_http_core_module.html#absolute_redirect)                    | "on"                                                                                                                                                                |
 | CONTENT_EXPIRY_DURATION   | [expires](http://nginx.org/en/docs/http/ngx_http_headers_module.html#expires)                                     | "off"                                                                                                                                                               |
 | CONTENT_EXPIRY_EXTENSIONS | n/a (pipe-delimited extensions to apply "Expires" and "Cache-Control" headers to)                                 | "js\|css\|png\|jpg\|jpeg\|gif\|svg\|ico\|ttf\|woff\|woff2"                                                                                                          |
-| FASTCGI_BUFFER_SIZE       | [fastcgi_buffer_size](http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_buffer_size)             | "32k"                                                                                                                                                               |
-| FASTCGI_BUFFERING         | [fastcgi_buffering](http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_buffering)                 | "off"                                                                                                                                                               |
+| FASTCGI_BUFFER_SIZE       | [fastcgi_buffer_size](http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_buffer_size)             | "64k"                                                                                                                                                               |
+| FASTCGI_BUFFERING         | [fastcgi_buffering](http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_buffering)                 | "on"                                                                                                                                                                |
 | FASTCGI_BUFFERS           | [fastcgi_buffers](http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_buffers)                     | "32 32k"                                                                                                                                                            |
-| FASTCGI_BUSY_BUFFERS_SIZE | [fastcgi_busy_buffers_size](http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_busy_buffers_size) | "64k"                                                                                                                                                               |
+| FASTCGI_BUSY_BUFFERS_SIZE | [fastcgi_busy_buffers_size](http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_busy_buffers_size) | "96k"                                                                                                                                                               |
 | GZIP_TYPES                | [gzip_types](http://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip_types)                                  | "application/ecmascript application/javascript application/json application/xhtml+xml application/xml text/css text/ecmascript text/javascript text/plain text/xml" |
 | GZIP_PROXIED              | [gzip_types](http://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip_proxied)                                | "any"                                                                                                                                                               |
 | LISTEN                    | [fastcgi_pass](http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_pass)                           | "/var/run/php-fpm.sock"                                                                                                                                             |
@@ -267,6 +267,8 @@ Zend OPcache
     * `FASTCGI_BUFFER_SIZE`
     * `FASTCGI_BUFFERS`
     * `FASTCGI_BUSY_BUFFERS_SIZE`
+  * Increase default values for `FASTCGI_BUFFER_SIZE` and `FASTCGI_BUSY_BUFFERS_SIZE`.
+  * Turn FastCGI buffering on by default.
 
 * **2021-03-15**
   * Add configuration items:
