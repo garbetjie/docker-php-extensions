@@ -1,6 +1,10 @@
 Changelog
 =========
 
+* **2021-03-16**
+  * Add configuration items:
+    * `FASTCGI_BUFFERING`
+
 * **2021-03-15**
   * Add configuration items:
     * `REQUEST_SLOWLOG_TIMEOUT`

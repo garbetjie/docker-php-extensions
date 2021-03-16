@@ -169,6 +169,7 @@ PHP-FPM. In some instances, the NGiNX configuration overrides some of the defaul
 | ABSOLUTE_REDIRECT         | [absolute_redirect](http://nginx.org/en/docs/http/ngx_http_core_module.html#absolute_redirect)          | "on"                                                                                                                                                                |
 | CONTENT_EXPIRY_DURATION   | [expires](http://nginx.org/en/docs/http/ngx_http_headers_module.html#expires)                           | "off"                                                                                                                                                               |
 | CONTENT_EXPIRY_EXTENSIONS | n/a (pipe-delimited extensions to apply "Expires" and "Cache-Control" headers to)                       | "js\|css\|png\|jpg\|jpeg\|gif\|svg\|ico\|ttf\|woff\|woff2"                                                                                                          |
+| FASTCGI_BUFFERING         | [fastcgi_buffering](http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_buffering)       | "off"                                                                                                                                                               |
 | GZIP_TYPES                | [gzip_types](http://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip_types)                        | "application/ecmascript application/javascript application/json application/xhtml+xml application/xml text/css text/ecmascript text/javascript text/plain text/xml" |
 | GZIP_PROXIED              | [gzip_types](http://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip_proxied)                      | "any"                                                                                                                                                               |
 | LISTEN                    | [fastcgi_pass](http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_pass)                 | "/var/run/php-fpm.sock"                                                                                                                                             |
@@ -257,6 +258,10 @@ Zend OPcache
 
 ## Changelog
 
+* **2021-03-16**
+  * Add configuration items:
+    * `FASTCGI_BUFFERING`
+
 * **2021-03-15**
   * Add configuration items:
     * `REQUEST_SLOWLOG_TIMEOUT`
@@ -281,8 +286,4 @@ Zend OPcache
   * Upgrade to Alpine 3.13.
   * Remove ZTS-safe versions - [support is limited in PHP 8 on Alpine Linux](https://github.com/docker-library/php/pull/1076).
 
-* **2021-02-04**
-  * Remove the additional & unnecessary `/opt/newrelic/newrelic.cfg` config file.
-  * Add date-based image tags (eg: `7.4-nginx-20210204`).
-  
 * See [CHANGELOG.md](CHANGELOG.md) for a full history.
