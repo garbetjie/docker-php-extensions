@@ -23,6 +23,7 @@ RUN set -ex -o pipefail; \
         gettext-dev \
         gmp-dev \
         icu-dev \
+        imagemagick6-dev \
         imap-dev \
         libjpeg-turbo-dev \
         libmemcached-dev \
@@ -36,6 +37,7 @@ RUN set -ex -o pipefail; \
     # Download extensions.
     download_pecl_ext amqp 1.10.2; \
     download_pecl_ext igbinary 3.2.1; \
+    download_pecl_ext imagick 3.4.4; \
     download_pecl_ext memcached 3.1.5; \
     download_pecl_ext msgpack 2.1.2; \
     download_pecl_ext redis 5.3.2; \
@@ -66,6 +68,7 @@ RUN set -ex -o pipefail; \
         gettext \
         gmp \
         igbinary \
+        imagick \
         imap \
         intl \
         memcached \
@@ -99,6 +102,7 @@ RUN set -ex -o pipefail; \
         gettext \
         gmp \
         icu-libs \
+        imagemagick6-libs \
         libbz2 \
         libintl \
         libjpeg \

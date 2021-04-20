@@ -1,6 +1,9 @@
 Changelog
 =========
 
+* **2021-04-20**
+  * Add `imagick` extension.
+
 * **2021-03-16**
   * Add configuration items:
     * `FASTCGI_BUFFERING`
