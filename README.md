@@ -215,7 +215,7 @@ gmp
 hash
 iconv
 igbinary
-imagick
+imagick  (7.x images only)
 imap
 intl
 json
