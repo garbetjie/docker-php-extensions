@@ -1,6 +1,9 @@
 Changelog
 =========
 
+* **2021-04-21**
+  * Ensure `imagick` extension is available on PHP 8.0 too.
+
 * **2021-04-20**
   * Add `imagick` extension.
 

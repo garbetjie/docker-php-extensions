@@ -48,6 +48,8 @@ RUN set -ex -o pipefail; \
         [[ "$ZTS" = true ]] && download_ext parallel "https://github.com/krakjoe/parallel/archive/ebc3cc8e61cbfdb049cb7951b4df31cd336a9b18.tar.gz"; \
         \
         docker-php-ext-configure opencensus/ext; \
+    elif php_version_in 8.0; then \
+        download_ext imagick "https://github.com/Imagick/imagick/archive/448c1cd0d58ba2838b9b6dff71c9b7e70a401b90.tar.gz"; \
     fi; \
     \
     # Configure extensions
@@ -68,6 +70,7 @@ RUN set -ex -o pipefail; \
         gettext \
         gmp \
         igbinary \
+        imagick \
         imap \
         intl \
         memcached \
@@ -84,7 +87,6 @@ RUN set -ex -o pipefail; \
         [[ "$ZTS" = true ]] && docker-php-ext-install parallel; \
         docker-php-ext-install -j5 \
             amqp \
-            imagick \
             opencensus/ext; \
             \
             # Install New Relic.
