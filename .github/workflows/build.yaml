@@ -38,6 +38,7 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
       date: ${{ steps.set-date.outputs.date }}
     steps:
+    # This is done so we don't have to repeat the matrix every job.
     - name: set matrix
       id: set-matrix
       run: |
@@ -49,8 +50,7 @@ jobs:
 
   build:
     needs: [vars]
-    runs-on: self-hosted
-#    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
     strategy:
       matrix: ${{ fromJson(needs.vars.outputs.matrix) }}
     steps:
