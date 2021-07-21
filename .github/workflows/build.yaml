@@ -49,7 +49,8 @@ jobs:
 
   build:
     needs: [vars]
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
+#    runs-on: ubuntu-latest
     strategy:
       matrix: ${{ fromJson(needs.vars.outputs.matrix) }}
     steps:
