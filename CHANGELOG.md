@@ -1,6 +1,10 @@
 Changelog
 =========
 
+* **2021-07-21**
+  * Upgrade PHP versions to `7.3.29`, `7.4.21` & `8.0.8`.
+  * Upgrade Alpine to `3.14`.
+
 * **2021-04-21**
   * Ensure `imagick` extension is available on PHP 8.0 too.
 

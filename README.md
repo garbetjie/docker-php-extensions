@@ -262,6 +262,10 @@ Zend OPcache
 
 ## Changelog
 
+* **2021-07-21**
+  * Upgrade PHP versions to `7.3.29`, `7.4.21` & `8.0.8`.
+  * Upgrade Alpine to `3.14`.
+
 * **2021-04-21**
   * Ensure `imagick` extension is available on PHP 8.0 too.
 
@@ -281,9 +285,5 @@ Zend OPcache
   * Add configuration items:
     * `REQUEST_SLOWLOG_TIMEOUT`
     * `SLOWLOG`
-
-* **2021-03-04**
-  * Fix bug where incorrect reference to `NEWRELIC_APP_NAME` (instead of `NEWRELIC_APPNAME`) used in New Relic config.
-  * Remove references to PHP 7.2.
 
 * See [CHANGELOG.md](CHANGELOG.md) for a full history.

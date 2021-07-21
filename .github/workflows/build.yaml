@@ -11,27 +11,27 @@ jobs:
   # include:
   # - version: "7.3"
   #   variant: "fpm"
-  #   source_image: "php:7.3.27-fpm-alpine3.13"
+  #   source_image: "php:7.3.29-fpm-alpine3.14"
   # - version: "7.3"
   #   variant: "cli"
-  #   source_image: "php:7.3.27-cli-alpine3.13"
+  #   source_image: "php:7.3.29-cli-alpine3.14"
   # - version: "7.4"
   #   variant: "fpm"
-  #   source_image: "php:7.4.15-fpm-alpine3.13"
+  #   source_image: "php:7.4.21-fpm-alpine3.14"
   # - version: "7.4"
   #   variant: "cli"
-  #   source_image: "php:7.4.15-cli-alpine3.13"
+  #   source_image: "php:7.4.21-cli-alpine3.14"
   # - version: "8.0"
   #   variant: "fpm"
-  #   source_image: "php:8.0.2-fpm-alpine3.13"
+  #   source_image: "php:8.0.8-fpm-alpine3.14"
   # - version: "8.0"
   #   variant: "cli"
-  #   source_image: "php:8.0.2-cli-alpine3.13"
+  #   source_image: "php:8.0.8-cli-alpine3.14"
   #
   # To convert this to stringified JSON for use in the "matrix" job, paste the list above into matrix.yml, and run the
   # following command:
   #
-  #   yq r -j matrix.yml | jq -c '.|@json' | awk '{print substr($0, 2, length($0) - 2)}'
+  #   yq e . -j matrix.yml | jq -c '.|@json' | awk '{print substr($0, 2, length($0) - 2)}'
   vars:
     runs-on: ubuntu-latest
     outputs:
@@ -41,7 +41,7 @@ jobs:
     - name: set matrix
       id: set-matrix
       run: |
-        echo "::set-output name=matrix::{\"include\":[{\"version\":\"7.3\",\"variant\":\"fpm\",\"source_image\":\"php:7.3.27-fpm-alpine3.13\"},{\"version\":\"7.3\",\"variant\":\"cli\",\"source_image\":\"php:7.3.27-cli-alpine3.13\"},{\"version\":\"7.4\",\"variant\":\"fpm\",\"source_image\":\"php:7.4.15-fpm-alpine3.13\"},{\"version\":\"7.4\",\"variant\":\"cli\",\"source_image\":\"php:7.4.15-cli-alpine3.13\"},{\"version\":\"8.0\",\"variant\":\"fpm\",\"source_image\":\"php:8.0.2-fpm-alpine3.13\"},{\"version\":\"8.0\",\"variant\":\"cli\",\"source_image\":\"php:8.0.2-cli-alpine3.13\"}]}"
+        echo "::set-output name=matrix::{\"include\":[{\"version\":\"7.3\",\"variant\":\"fpm\",\"source_image\":\"php:7.3.29-fpm-alpine3.14\"},{\"version\":\"7.3\",\"variant\":\"cli\",\"source_image\":\"php:7.3.29-cli-alpine3.14\"},{\"version\":\"7.4\",\"variant\":\"fpm\",\"source_image\":\"php:7.4.21-fpm-alpine3.14\"},{\"version\":\"7.4\",\"variant\":\"cli\",\"source_image\":\"php:7.4.21-cli-alpine3.14\"},{\"version\":\"8.0\",\"variant\":\"fpm\",\"source_image\":\"php:8.0.8-fpm-alpine3.14\"},{\"version\":\"8.0\",\"variant\":\"cli\",\"source_image\":\"php:8.0.8-cli-alpine3.14\"}]}"
     - name: set date
       id: set-date
       run: |
