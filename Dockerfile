@@ -7,7 +7,7 @@ RUN set -ex -o pipefail; \
     ZTS="$(if [ "$(php -ni 2>&1 | grep -iF 'Thread Safety' | grep -iF 'enabled')" != "" ]; then printf true; else printf false; fi)"; \
     ZTS_SUFFIX="$(if [ "$ZTS" = true ]; then printf '-zts'; else printf ''; fi)"; \
     PHP_VERSION="$(php -nv | grep -E -o 'PHP [0-9]+\.[0-9]+' | cut -f2 -d' ')"; \
-    NEWRELIC_VERSION="9.16.0.295"; \
+    NEWRELIC_VERSION="9.17.1.301"; \
     OS="$(. /etc/os-release; printf "%s" "$ID")"; \
     php_version_in() { while [ $# -gt 0 ]; do if [ "$PHP_VERSION" = "$1" ]; then return 0; fi; shift; done; return 1; }; \
     download_ext() { rm -rf "/usr/src/php/ext/$1"; mkdir -p "/usr/src/php/ext/$1"; curl -L "$2" | tar -xz --strip-components 1 -C "/usr/src/php/ext/$1"; }; \
@@ -36,12 +36,12 @@ RUN set -ex -o pipefail; \
     \
     # Download extensions.
     download_pecl_ext amqp 1.10.2; \
-    download_pecl_ext igbinary 3.2.1; \
-    download_pecl_ext imagick 3.4.4; \
+    download_pecl_ext igbinary 3.2.3; \
+    download_pecl_ext imagick 3.5.0; \
     download_pecl_ext memcached 3.1.5; \
     download_pecl_ext msgpack 2.1.2; \
-    download_pecl_ext redis 5.3.2; \
-    download_pecl_ext xdebug 3.0.2; \
+    download_pecl_ext redis 5.3.4; \
+    download_pecl_ext xdebug 3.0.4; \
     download_ext newrelic "https://download.newrelic.com/php_agent/archive/${NEWRELIC_VERSION}/newrelic-php5-${NEWRELIC_VERSION}-linux-musl.tar.gz"; \
     if php_version_in 7.3 7.4; then \
         download_ext opencensus "https://github.com/census-instrumentation/opencensus-php/archive/007b35d8f7ed21cab9aa47406578ae02f73f91c5.tar.gz"; \

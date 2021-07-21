@@ -265,6 +265,12 @@ Zend OPcache
 * **2021-07-21**
   * Upgrade PHP versions to `7.3.29`, `7.4.21` & `8.0.8`.
   * Upgrade Alpine to `3.14`.
+  * Bump extension versions:
+    * `newrelic`: 9.16.0.295 -> 9.17.1.301
+    * `igbinary`: 3.2.1 -> 3.2.3
+    * `imagick`: 3.4.4 -> 3.5.0
+    * `redis`: 5.3.2 -> 5.3.4
+    * `xdebug`: 3.0.2 -> 3.0.4
 
 * **2021-04-21**
   * Ensure `imagick` extension is available on PHP 8.0 too.
