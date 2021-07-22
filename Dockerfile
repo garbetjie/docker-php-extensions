@@ -31,16 +31,21 @@ RUN set -ex -o pipefail; \
         libwebp-dev \
         libxml2-dev \
         libzip-dev \
+        linux-headers \
         rabbitmq-c-dev \
-        tar; \
+        tar \
+        yaml-dev; \
     \
     # Download extensions.
     download_pecl_ext amqp 1.10.2; \
+    download_pecl_ext grpc 1.38.0; \
     download_pecl_ext igbinary 3.2.3; \
     download_pecl_ext imagick 3.5.0; \
     download_pecl_ext memcached 3.1.5; \
     download_pecl_ext msgpack 2.1.2; \
+    download_pecl_ext protobuf 3.17.3; \
     download_pecl_ext redis 5.3.4; \
+    download_pecl_ext yaml 2.2.1; \
     download_pecl_ext xdebug 3.0.4; \
     download_ext newrelic "https://download.newrelic.com/php_agent/archive/${NEWRELIC_VERSION}/newrelic-php5-${NEWRELIC_VERSION}-linux-musl.tar.gz"; \
     if php_version_in 7.3 7.4; then \
@@ -62,13 +67,14 @@ RUN set -ex -o pipefail; \
     fi; \
     \
     # Install extensions.
-    docker-php-ext-install -j5 \
+    docker-php-ext-install -j4 \
         bcmath \
         bz2 \
         exif \
         gd \
         gettext \
         gmp \
+        grpc \
         igbinary \
         imagick \
         imap \
@@ -78,10 +84,12 @@ RUN set -ex -o pipefail; \
         opcache \
         pcntl \
         pdo_mysql \
+        protobuf \
         redis \
         soap \
         sockets \
         xdebug \
+        yaml \
         zip; \
     if php_version_in 7.3 7.4; then \
         [[ "$ZTS" = true ]] && docker-php-ext-install parallel; \
@@ -114,7 +122,8 @@ RUN set -ex -o pipefail; \
         libzip \
         runit \
         rabbitmq-c \
-        socat; \
+        socat \
+        yaml; \
     \
     # Remove build dependencies.
     rm -rf /tmp/pear*; \
