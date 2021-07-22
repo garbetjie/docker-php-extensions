@@ -212,10 +212,11 @@ ftp
 gd
 gettext
 gmp
+grpc
 hash
 iconv
 igbinary
-imagick  (7.x images only)
+imagick
 imap
 intl
 json
@@ -224,7 +225,7 @@ mbstring
 memcached
 msgpack
 mysqlnd
-newrelic  (7.x images only)
+newrelic
 opencensus  (7.x images only)
 openssl
 pcntl
@@ -234,6 +235,7 @@ pdo_mysql
 pdo_sqlite
 Phar
 posix
+protobuf
 readline
 redis
 Reflection
@@ -246,10 +248,10 @@ SPL
 sqlite3
 standard
 tokenizer
-xdebug
 xml
 xmlreader
 xmlwriter
+yaml
 Zend OPcache
 zip
 zlib
@@ -261,6 +263,10 @@ Zend OPcache
 
 
 ## Changelog
+
+* **2021-07-22**
+  * Make New Relic available on PHP 8.
+  * Add `grpc`, `protobuf` and `yaml` extensions.
 
 * **2021-07-21**
   * Upgrade PHP versions to `7.3.29`, `7.4.21` & `8.0.8`.
@@ -286,10 +292,5 @@ Zend OPcache
     * `FASTCGI_BUSY_BUFFERS_SIZE`
   * Increase default values for `FASTCGI_BUFFER_SIZE` and `FASTCGI_BUSY_BUFFERS_SIZE`.
   * Turn FastCGI buffering on by default.
-
-* **2021-03-15**
-  * Add configuration items:
-    * `REQUEST_SLOWLOG_TIMEOUT`
-    * `SLOWLOG`
 
 * See [CHANGELOG.md](CHANGELOG.md) for a full history.

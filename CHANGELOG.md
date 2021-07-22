@@ -1,6 +1,10 @@
 Changelog
 =========
 
+* **2021-07-22**
+  * Make New Relic available on PHP 8.
+  * Add `grpc`, `protobuf` and `yaml` extensions.
+
 * **2021-07-21**
   * Upgrade PHP versions to `7.3.29`, `7.4.21` & `8.0.8`.
   * Upgrade Alpine to `3.14`.
