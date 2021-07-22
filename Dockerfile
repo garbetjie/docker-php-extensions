@@ -93,16 +93,14 @@ RUN set -ex -o pipefail; \
         zip; \
     if php_version_in 7.3 7.4; then \
         [[ "$ZTS" = true ]] && docker-php-ext-install parallel; \
-        docker-php-ext-install -j5 \
-            amqp \
-            opencensus/ext; \
-            \
-            # Install New Relic.
-            mkdir -p /opt/newrelic; \
-            find /usr/src/php/ext/newrelic/agent/x64 -type f ! -name "newrelic-$(php -n -i | grep -F 'PHP Extension =' | sed -e 's/PHP Extension => //')${ZTS_SUFFIX}.so" -delete; \
-            mv "$(find /usr/src/php/ext/newrelic/agent/x64 -iname '*.so' | head -n 1)" $(php -n -r 'echo ini_get("extension_dir");')/newrelic.so; \
-            mv /usr/src/php/ext/newrelic/daemon/newrelic-daemon.x64 /opt/newrelic/daemon.x64; \
+        docker-php-ext-install -j5 amqp opencensus/ext; \
     fi; \
+    \
+    # Install New Relic.
+    mkdir -p /opt/newrelic; \
+    find /usr/src/php/ext/newrelic/agent/x64 -type f ! -name "newrelic-$(php -n -i | grep -F 'PHP Extension =' | sed -e 's/PHP Extension => //')${ZTS_SUFFIX}.so" -delete; \
+    mv "$(find /usr/src/php/ext/newrelic/agent/x64 -iname '*.so' | head -n 1)" $(php -n -r 'echo ini_get("extension_dir");')/newrelic.so; \
+    mv /usr/src/php/ext/newrelic/daemon/newrelic-daemon.x64 /opt/newrelic/daemon.x64; \
     \
     # Add runtime depedencies.
     apk add --no-cache \
@@ -141,12 +139,6 @@ ENTRYPOINT ["dumb-init", "/docker-entrypoint.sh"]
 WORKDIR /app
 
 COPY fs/ /
-
-# Remove the extensions that aren't available on < 8.0.
-RUN \
-    if [ "$(php -nv | grep -E -o 'PHP [0-9]+\.[0-9]+' | cut -f2 -d' ')" = "8.0" ]; then \
-        rm "$PHP_INI_DIR/conf.d/docker-php-ext-newrelic.ini"; \
-    fi
 
 ENV \
     # FPM-specific configuration.
