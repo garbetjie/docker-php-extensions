@@ -1,6 +1,6 @@
 on:
   push:
-    branches: [ master ]
+    branches: [master]
     paths-ignore:
     - "README.md"
     - "LICENCE.md"
@@ -50,7 +50,7 @@ jobs:
 
   build:
     needs: [vars]
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     strategy:
       matrix: ${{ fromJson(needs.vars.outputs.matrix) }}
     steps:
