@@ -1,0 +1,6 @@
+screen -t runner-01 0 /bin/bash -c 'cd ~/github/runner-01; exec "${SHELL:-sh}"'
+screen -t runner-02 1 /bin/bash -c 'cd ~/github/runner-02; exec "${SHELL:-sh}"'
+screen -t runner-03 2 /bin/bash -c 'cd ~/github/runner-03; exec "${SHELL:-sh}"'
+screen -t runner-04 3 /bin/bash -c 'cd ~/github/runner-04; exec "${SHELL:-sh}"'
+screen -t runner-05 4 /bin/bash -c 'cd ~/github/runner-05; exec "${SHELL:-sh}"'
+screen -t runner-06 5 /bin/bash -c 'cd ~/github/runner-06; exec "${SHELL:-sh}"'
