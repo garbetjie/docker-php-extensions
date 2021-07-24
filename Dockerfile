@@ -38,7 +38,7 @@ RUN set -ex -o pipefail; \
     \
     # Download extensions.
     download_pecl_ext amqp 1.10.2; \
-    download_pecl_ext grpc 1.38.0; \
+    # download_pecl_ext grpc 1.38.0; \
     download_pecl_ext igbinary 3.2.3; \
     download_pecl_ext imagick 3.5.0; \
     download_pecl_ext memcached 3.1.5; \
@@ -74,7 +74,7 @@ RUN set -ex -o pipefail; \
         gd \
         gettext \
         gmp \
-        grpc \
+        # grpc \
         igbinary \
         imagick \
         imap \
