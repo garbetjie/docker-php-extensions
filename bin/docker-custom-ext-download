@@ -1,0 +1,34 @@
+#!/usr/bin/env sh
+
+set -e -o pipefail
+
+# Exit early if no arguments given.
+if [ $# -eq 0 ]; then exit 0; fi
+
+# PHP source must be available.
+if [ ! -d /usr/src/php/ext ]; then
+  echo "PHP source hasn't been extracted."
+  exit 1
+fi
+
+# Iterate over each extension.
+while [ $# -gt 0 ]; do
+  ext_name="$(echo "$1" | cut -f1 -d:)"
+  ext_version="$(echo "$1" | cut -f2- -d:)"
+
+  # Version given. Download from pecl.
+  if echo "$ext_version" | grep -qoE '^\d+\.\d+\.\d+$'; then
+    url="https://pecl.php.net/get/${ext_name}-${ext_version}.tgz"
+  else
+    url="$ext_version"
+  fi
+
+  # Download the extension.
+  rm -rf "/usr/src/php/ext/$ext_name"
+  mkdir -p "/usr/src/php/ext/$ext_name"
+  printf "downloading %s -> /usr/src/php/ext/%s... " "$url" "$ext_name"
+  wget -q -O- "$url" | tar -xz --strip-components 1 -C "/usr/src/php/ext/$ext_name"
+  echo "done"
+
+  shift
+done
