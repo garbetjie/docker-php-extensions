@@ -58,7 +58,7 @@ done
 
 if [ "$to_install" != "" ]; then
   # shellcheck disable=SC2086
-  docker-php-ext-install -j6 $to_install
+  docker-php-ext-install -j3 $to_install
 fi
 
 # Install dependencies.
