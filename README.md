@@ -226,7 +226,7 @@ memcached
 msgpack
 mysqlnd
 newrelic
-opencensus  (7.x images only)
+opencensus
 openssl
 pcntl
 pcre
@@ -264,18 +264,16 @@ Zend OPcache
 
 ## Changelog
 
-* **NEXT**
+* **2021-07-27**
+  * Make New Relic available on PHP 8.
+  * Add `grpc`, `protobuf` and `yaml` extensions.
   * Refactor how the extensions are downloaded & installed.
-  * Make `opencensus` available on PHP 8.
   * Remove references to ZTS.
   * Remove `dash` shell.
   * Switch from `dumb-init` to `tini`.
+  * Make `opencensus` available on PHP 8.
   * Bump extension versions:
     * `opencensus`: 007b35d8f7ed21cab9aa47406578ae02f73f91c5 -> 0.3.0
-  
-* **2021-07-22**
-  * Make New Relic available on PHP 8.
-  * Add `grpc`, `protobuf` and `yaml` extensions.
 
 * **2021-07-21**
   * Upgrade PHP versions to `7.3.29`, `7.4.21` & `8.0.8`.
