@@ -5,12 +5,16 @@ FROM $IMAGE
 COPY bin/ /usr/local/bin/
 
 # Because the gRPC extension takes so long to compile, it's better to do it as a separate step to make better use of the
-# layer caching.
+# layer caching. We also strip out debugging symbols, as the .so file is over 100MB otherwise.
 RUN set -ex; \
     docker-php-source extract; \
     docker-custom-ext-download grpc:1.38.0; \
     docker-custom-ext-install grpc; \
-    docker-php-source delete
+    docker-php-source delete; \
+    \
+    apk add --no-cache binutils; \
+    xargs strip --strip-debug "$(php -n -r 'echo ini_get("extension_dir");')/grpc.so"; \
+    apk del --no-cache binutils
 
 # Install everything else.
 RUN set -ex; \
