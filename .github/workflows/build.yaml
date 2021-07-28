@@ -65,7 +65,7 @@ jobs:
 
     - run: pwd
     - run: tree .buildx/cache
-    - run: du -schD .buildx/cache/*
+    - run: du -schD .buildx/cache/* || true
 
     - name: build main
       uses: docker/build-push-action@v2
@@ -98,7 +98,7 @@ jobs:
 
     - run: pwd
     - run: tree .buildx/cache
-    - run: du -schD .buildx/cache/*
+    - run: du -schD .buildx/cache/* || true
 
   push:
     needs: [build, vars]
