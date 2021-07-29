@@ -1,6 +1,6 @@
 on:
   push:
-    branches: [actions-caching]
+    branches: [master]
     paths-ignore:
     - "README.md"
     - "LICENCE.md"
