@@ -1,6 +1,6 @@
 on:
   push:
-    branches: [master]
+    branches: [main]
     paths-ignore:
     - "README.md"
     - "LICENCE.md"
@@ -102,7 +102,7 @@ jobs:
 
   push:
     needs: [build, vars]
-    if: "github.ref == 'refs/heads/master'"
+    if: "github.ref == 'refs/heads/main'"
     runs-on: self-hosted
     strategy:
       matrix: ${{ fromJson(needs.vars.outputs.matrix) }}
