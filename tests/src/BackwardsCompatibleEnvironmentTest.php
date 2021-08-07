@@ -40,4 +40,11 @@ class BackwardsCompatibleEnvironmentTest extends TestCase
 			['NEWRELIC_APP_NAME', 'NEWRELIC_APPNAME'],
 		];
 	}
+
+	public function testAlternateSpellings()
+	{
+		$this->assertNotFalse(getenv('NEWRELIC_LICENSE'));
+		$this->assertNotFalse(getenv('NEWRELIC_LICENCE'));
+		$this->assertEquals(getenv('NEWRELIC_LICENSE'), getenv('NEWRELIC_LICENCE'));
+	}
 }
