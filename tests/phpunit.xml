@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.0/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         executionOrder="depends,defects"
+         beStrictAboutCoversAnnotation="true"
+         beStrictAboutOutputDuringTests="true"
+         beStrictAboutTodoAnnotatedTests="true"
+         colors="true"
+         verbose="true">
+    <testsuites>
+        <testsuite name="env-defaults">
+            <file>src/DefaultEnvironmentTest.php</file>
+        </testsuite>
+        <testsuite name="env-backwards-compat">
+            <file>src/BackwardsCompatibleEnvironmentTest.php</file>
+        </testsuite>
+    </testsuites>
+</phpunit>
