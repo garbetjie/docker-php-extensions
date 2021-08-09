@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.0/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         executionOrder="depends,defects"
+         beStrictAboutCoversAnnotation="true"
+         beStrictAboutOutputDuringTests="true"
+         beStrictAboutTodoAnnotatedTests="true"
+         colors="true"
+         verbose="true">
+    <testsuites>
+        <testsuite name="ext-xdebug">
+            <file>src/XdebugExtensionTest.php</file>
+        </testsuite>
+        <testsuite name="ext-opencensus">
+            <file>src/OpencensusExtensionTest.php</file>
+        </testsuite>
+        <testsuite name="ext-newrelic">
+            <file>src/NewRelicExtensionTest.php</file>
+        </testsuite>
+        <testsuite name="docker-entrypoint">
+            <file>src/DockerEntrypointTest.php</file>
+        </testsuite>
+        <testsuite name="env-defaults">
+            <file>src/DefaultEnvironmentTest.php</file>
+            <file>src/DefaultExtensionsTest.php</file>
+        </testsuite>
+        <testsuite name="env-compat">
+            <file>src/BackwardsCompatibleEnvironmentTest.php</file>
+        </testsuite>
+    </testsuites>
+</phpunit>
