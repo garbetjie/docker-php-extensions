@@ -94,6 +94,7 @@ jobs:
     - name: move variant cache
       run: rm -rf /tmp/.buildx-cache-variant && mv /tmp/.buildx-cache-variant-new /tmp/.buildx-cache-variant
     - name: move nginx cache
+      if: "matrix.variant == 'fpm'"
       run: rm -rf /tmp/.buildx-cache-nginx && mv /tmp/.buildx-cache-nginx-new /tmp/.buildx-cache-nginx
 
   push:
