@@ -14,7 +14,7 @@ class BackwardsCompatibleEnvironmentTest extends TestCase
 	 */
 	public function testBackwardsCompatibilityWorksCorrectly(string $oldName, string $newName)
 	{
-		$this->assertEquals(getenv($oldName), getenv($newName), "Environment variable [{$oldName}] not backwards-compatible with [{$newName}].");
+		$this->assertEquals(getenv($oldName), getenv($newName), "Environment variable [{$newName}] not backwards-compatible with [{$oldName}].");
 	}
 
 	public function backwardsCompatibilityDataProvider(): array
