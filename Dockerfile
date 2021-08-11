@@ -1,20 +1,22 @@
-ARG IMAGE
-FROM $IMAGE
-
-# Copy in download file.
-COPY bin/ /usr/local/bin/
+ARG SOURCE_IMAGE
+FROM $SOURCE_IMAGE AS variant
 
 # Because the gRPC extension takes so long to compile, it's better to do it as a separate step to make better use of the
 # layer caching. We also strip out debugging symbols, as the .so file is over 100MB otherwise.
 RUN set -ex; \
     docker-php-source extract; \
-    docker-custom-ext-download grpc:1.38.0; \
-    docker-custom-ext-install grpc; \
+    rm -rf "/usr/src/php/ext/grpc"; \
+    mkdir "/usr/src/php/ext/grpc"; \
+    wget -q -O- "https://pecl.php.net/get/grpc-1.38.0.tgz" | tar -xz --strip-components 1 -C "/usr/src/php/ext/grpc"; \
+    apk add --no-cache --virtual .build-deps linux-headers binutils zlib-dev; \
+    docker-php-ext-install -j2 grpc; \
     docker-php-source delete; \
     \
-    apk add --no-cache binutils; \
     xargs strip --strip-debug "$(php -n -r 'echo ini_get("extension_dir");')/grpc.so"; \
-    apk del --no-cache binutils
+    apk del --no-cache .build-deps
+
+# Copy in bin files.
+COPY bin/ /usr/local/bin/
 
 # Install everything else.
 RUN set -ex; \
@@ -124,3 +126,33 @@ ENV \
     XDEBUG_IDEKEY="IDEKEY" \
     XDEBUG_CLIENT_HOST="host.docker.internal" \
     XDEBUG_CLIENT_PORT=9003
+
+FROM variant AS nginx
+
+RUN set -e; \
+    apk add --no-cache nginx; \
+    cd /etc/nginx; \
+    rm -rf conf.d fastcgi* *.default *_params; \
+    mkdir -p /var/tmp/nginx; \
+    chown -R www-data:www-data /var/tmp/nginx; \
+    find /var/lib -user nginx | xargs chown www-data; \
+    find /var/lib -group nginx | xargs chgrp www-data;
+
+COPY fs-nginx/ /
+
+ENV ABSOLUTE_REDIRECT="on" \
+    CONTENT_EXPIRY_DURATION="off" \
+    CONTENT_EXPIRY_EXTENSIONS="js|css|png|jpg|jpeg|gif|svg|ico|ttf|woff|woff2" \
+    FASTCGI_BUFFER_SIZE="64k" \
+    FASTCGI_BUFFERING="on" \
+    FASTCGI_BUFFERS="32 32k" \
+    FASTCGI_BUSY_BUFFERS_SIZE="96k" \
+    GZIP_TYPES="application/ecmascript application/javascript application/json application/xhtml+xml application/xml text/css text/ecmascript text/javascript text/plain text/xml" \
+    GZIP_PROXIED="any" \
+    LISTEN="/var/run/php-fpm.sock" \
+    LOG_FORMAT="main" \
+    PORT=80 \
+    PORT_IN_REDIRECT="off" \
+    ROOT="/app/public" \
+    PM_STATUS_HOSTS_ALLOWED="127.0.0.1" \
+    PM_STATUS_HOSTS_DENIED="all"

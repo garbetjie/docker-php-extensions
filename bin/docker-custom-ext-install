@@ -13,7 +13,7 @@ for ext in "$@"; do
     gd-*)             build_deps="gd-dev libpng-dev libwebp-dev libjpeg-turbo-dev $build_deps" ;;
     gettext-*)        build_deps="gettext-dev $build_deps" ;;
     gmp-*)            build_deps="gmp-dev $build_deps" ;;
-    grpc-*)           build_deps="linux-headers $build_deps" ;;
+#    grpc-*)           build_deps="linux-headers $build_deps" ;;
     imagick-*)        build_deps="imagemagick6-dev $build_deps" ;;
     imap-*)           build_deps="imap-dev $build_deps" ;;
     intl-*)           build_deps="icu-dev $build_deps" ;;
