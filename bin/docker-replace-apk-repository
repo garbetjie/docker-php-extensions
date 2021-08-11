@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+
+set -ex
+
+# Revert the repositories.
+if [ $# -lt 1 ]; then
+  mv /etc/apk/repositories.original /etc/apk/repositories
+  exit 0
+fi
+
+# Back up the repository.
+if [ ! -f /etc/apk/repositories.original ]; then
+  cp /etc/apk/repositories /etc/apk/repositories.original
+fi
+
+# Replace the repository.
+printf "%s/main\n%s/community\n" "${1%/}" "${1%/}" > /etc/apk/repositories

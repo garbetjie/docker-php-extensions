@@ -1,9 +1,12 @@
 ARG SOURCE_IMAGE
 FROM $SOURCE_IMAGE AS variant
 
+COPY bin/docker-replace-apk-repository /usr/local/bin/
+
 # Because the gRPC extension takes so long to compile, it's better to do it as a separate step to make better use of the
 # layer caching. We also strip out debugging symbols, as the .so file is over 100MB otherwise.
 RUN set -ex; \
+    docker-replace-apk-repository "https://pkg.adfinis.com/alpine/v3.14"; \
     docker-php-source extract; \
     rm -rf "/usr/src/php/ext/grpc"; \
     mkdir "/usr/src/php/ext/grpc"; \
@@ -13,13 +16,15 @@ RUN set -ex; \
     docker-php-source delete; \
     \
     xargs strip --strip-debug "$(php -n -r 'echo ini_get("extension_dir");')/grpc.so"; \
-    apk del --no-cache .build-deps
+    apk del --no-cache .build-deps; \
+    docker-replace-apk-repository;
 
 # Copy in bin files.
-COPY bin/ /usr/local/bin/
+COPY bin/docker-custom-ext-* /usr/local/bin/
 
 # Install everything else.
 RUN set -ex; \
+    docker-replace-apk-repository "https://pkg.adfinis.com/alpine/v3.14"; \
     docker-php-source extract; \
     docker-custom-ext-download \
         amqp:1.10.2 \
@@ -59,7 +64,8 @@ RUN set -ex; \
         xdebug \
         yaml \
         zip; \
-    docker-php-source delete
+    docker-php-source delete; \
+    docker-replace-apk-repository "https://pkg.adfinis.com/alpine/v3.14";
 
 # Run cleanup of configuration files.
 RUN set -e; \
