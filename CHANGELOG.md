@@ -1,6 +1,11 @@
 Changelog
 =========
 
+* **2021-08-11**
+  * Change to using a multi-stage build file (this should help with preventing nginx images from being pushed all the time).
+  * Copy installation scripts after `grpc` extension installation. This will prevent the grpc installation from happening
+    when extensions are added/removed.
+
 * **2021-07-27**
   * Make New Relic available on PHP 8.
   * Add `grpc`, `protobuf` and `yaml` extensions.
