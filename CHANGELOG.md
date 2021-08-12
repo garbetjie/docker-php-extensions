@@ -1,6 +1,9 @@
 Changelog
 =========
 
+* **2021-08-12**
+  * Change XDebug log level to 7 from 10.
+
 * **2021-08-11**
   * Change to using a multi-stage build file (this should help with preventing nginx images from being pushed all the time).
   * Copy installation scripts after `grpc` extension installation. This will prevent the grpc installation from happening
