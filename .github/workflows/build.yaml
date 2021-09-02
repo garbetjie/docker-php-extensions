@@ -30,6 +30,9 @@ jobs:
   # - version: "8.0"
   #   variant: "apache"
   #   source_image: "php:8.0.8-apache-bullseye"
+  # - version: "7.4"
+  #   variant: "apache"
+  #   source_image: "php:7.4.23-apache-bullseye"
 
   #
   # To convert this to stringified JSON for use in the "matrix" job, paste the list above into matrix.yml, and run the
@@ -46,7 +49,7 @@ jobs:
     - name: set matrix
       id: set-matrix
       run: |
-        echo "::set-output name=matrix::{\"include\":[{\"version\":\"7.3\",\"variant\":\"fpm\",\"source_image\":\"php:7.3.29-fpm-alpine3.14\"},{\"version\":\"7.3\",\"variant\":\"cli\",\"source_image\":\"php:7.3.29-cli-alpine3.14\"},{\"version\":\"7.4\",\"variant\":\"fpm\",\"source_image\":\"php:7.4.21-fpm-alpine3.14\"},{\"version\":\"7.4\",\"variant\":\"cli\",\"source_image\":\"php:7.4.21-cli-alpine3.14\"},{\"version\":\"8.0\",\"variant\":\"fpm\",\"source_image\":\"php:8.0.8-fpm-alpine3.14\"},{\"version\":\"8.0\",\"variant\":\"cli\",\"source_image\":\"php:8.0.8-cli-alpine3.14\"},{\"version\":\"8.0\",\"variant\":\"apache\",\"source_image\":\"php:8.0.8-apache-bullseye\"}]}"
+        echo "::set-output name=matrix::{\"include\":[{\"version\":\"7.3\",\"variant\":\"fpm\",\"source_image\":\"php:7.3.29-fpm-alpine3.14\"},{\"version\":\"7.3\",\"variant\":\"cli\",\"source_image\":\"php:7.3.29-cli-alpine3.14\"},{\"version\":\"7.4\",\"variant\":\"fpm\",\"source_image\":\"php:7.4.21-fpm-alpine3.14\"},{\"version\":\"7.4\",\"variant\":\"cli\",\"source_image\":\"php:7.4.21-cli-alpine3.14\"},{\"version\":\"8.0\",\"variant\":\"fpm\",\"source_image\":\"php:8.0.8-fpm-alpine3.14\"},{\"version\":\"8.0\",\"variant\":\"cli\",\"source_image\":\"php:8.0.8-cli-alpine3.14\"},{\"version\":\"8.0\",\"variant\":\"apache\",\"source_image\":\"php:8.0.8-apache-bullseye\"},{\"version\":\"7.4\",\"variant\":\"apache\",\"source_image\":\"php:7.4.23-apache-bullseye\"}]}"
     - name: set date
       id: set-date
       run: |
