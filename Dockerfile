@@ -6,58 +6,35 @@ COPY bin/ /usr/local/bin/
 
 # Because the gRPC extension takes so long to compile, it's better to do it as a separate step to make better use of the
 # layer caching. We also strip out debugging symbols, as the .so file is over 100MB otherwise.
-RUN set -ex; \
-    docker-php-source extract; \
-    docker-custom-ext-download grpc:1.38.0; \
-    docker-custom-ext-install grpc; \
-    docker-php-source delete; \
-    \
-    apk add --no-cache binutils; \
-    xargs strip --strip-debug "$(php -n -r 'echo ini_get("extension_dir");')/grpc.so"; \
-    apk del --no-cache binutils
+RUN docker-custom-ext-install grpc-1.38.0
 
 # Install everything else.
 RUN set -ex; \
-    docker-php-source extract; \
-    docker-custom-ext-download \
-        amqp:1.10.2 \
-        igbinary:3.2.3 \
-        imagick:3.5.0 \
-        memcached:3.1.5 \
-        msgpack:2.1.2 \
-        newrelic:https://download.newrelic.com/php_agent/archive/9.17.1.301/newrelic-php5-9.17.1.301-linux-musl.tar.gz \
-        opencensus:0.3.0 \
-        protobuf:3.17.3 \
-        redis:5.3.4 \
-        yaml:2.2.1 \
-        xdebug:3.0.4; \
     docker-custom-ext-install \
-        amqp \
+        amqp-1.11.0beta \
         bcmath \
         bz2 \
         exif \
         gd \
         gettext \
         gmp \
-        igbinary \
-        imagick \
+        igbinary-3.2.3 \
+        imagick-3.5.0 \
         imap \
         intl \
-        memcached \
-        msgpack \
-        newrelic \
+        memcached-3.1.5 \
+        msgpack-2.1.2 \
         opcache \
-        opencensus \
+        opencensus-0.3.0 \
         pcntl \
         pdo_mysql \
-        protobuf \
-        redis \
+        protobuf-3.17.3 \
+        redis-5.3.4 \
         soap \
         sockets \
-        xdebug \
-        yaml \
-        zip; \
-    docker-php-source delete
+        xdebug-3.0.4 \
+        yaml-2.2.1 \
+        zip
 
 # Run cleanup of configuration files.
 RUN set -e; \

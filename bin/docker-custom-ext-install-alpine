@@ -1,0 +1,86 @@
+#!/usr/bin/env sh
+set -ex -o pipefail
+
+php_version="$(php -nv | grep -E -o 'PHP [0-9]+\.[0-9]+' | cut -f2 -d' ' | sed 's/\.//g')"
+build_deps="autoconf build-base libxml2-dev zlib-dev"
+run_deps="socat dumb-init tini runit zlib"
+to_install=""
+
+for ext in "$@"; do
+  case "$ext-$php_version" in
+    amqp-73|amqp-74)  build_deps="rabbitmq-c-dev $build_deps" ;;
+    bz2-*)            build_deps="bzip2-dev $build_deps" ;;
+    gd-*)             build_deps="gd-dev libpng-dev libwebp-dev libjpeg-turbo-dev $build_deps" ;;
+    gettext-*)        build_deps="gettext-dev $build_deps" ;;
+    gmp-*)            build_deps="gmp-dev $build_deps" ;;
+    grpc-*)           build_deps="linux-headers $build_deps" ;;
+    imagick-*)        build_deps="imagemagick6-dev $build_deps" ;;
+    imap-*)           build_deps="imap-dev $build_deps" ;;
+    intl-*)           build_deps="icu-dev $build_deps" ;;
+    memcached-*)      build_deps="libmemcached-dev $build_deps" ;;
+    yaml-*)           build_deps="yaml-dev $build_deps" ;;
+    zip-*)            build_deps="libzip-dev $build_deps" ;;
+  esac
+done
+
+# shellcheck disable=SC2086
+apk add --no-cache --virtual .build-deps $build_deps
+
+
+# Configure extensions.
+for ext in "$@"; do
+  case "$ext-$php_version" in
+    zip-73) docker-php-ext-configure zip --with-libzip ;;
+    zip-*)  docker-php-ext-configure zip ;;
+
+    gd-73) docker-php-ext-configure gd --with-jpeg-dir=/usr/lib --with-webp-dir=/usr/lib ;;
+    gd-*)  docker-php-ext-configure gd --with-jpeg --with-webp ;;
+  esac
+done
+
+
+# Install extensions.
+for ext in "$@"; do
+  case "$ext-$php_version" in
+    amqp-73|amqp-74) to_install="$ext $to_install" ;;
+    amqp-*) ;;
+
+    newrelic-*)
+      mkdir -p /opt/newrelic
+      find /usr/src/php/ext/newrelic/agent/x64 -type f ! -name "newrelic-$(php -n -i | grep -F 'PHP Extension =' | sed -e 's/PHP Extension => //').so" -delete
+      mv "$(find /usr/src/php/ext/newrelic/agent/x64 -iname '*.so' | head -n 1)" "$(php -n -r 'echo ini_get("extension_dir");')/newrelic.so"
+      mv /usr/src/php/ext/newrelic/daemon/newrelic-daemon.x64 /opt/newrelic/daemon.x64
+      ;;
+
+    *) to_install="$ext $to_install" ;;
+  esac
+done
+
+if [ "$to_install" != "" ]; then
+  # shellcheck disable=SC2086
+  docker-php-ext-install -j2 $to_install
+fi
+
+# Install dependencies.
+for ext in "$@"; do
+  case "$ext-$php_version" in
+    amqp-73|amqp-74)  run_deps="rabbitmq-c $run_deps" ;;
+    bz2-*)            run_deps="libbz2 $run_deps" ;;
+    gd-*)             run_deps="libjpeg libpng libwebp $run_deps" ;;
+    gettext-*)        run_deps="gettext $run_deps" ;;
+    gmp-*)            run_deps="gmp $run_deps" ;;
+    imagick-*)        run_deps="imagemagick6-libs $run_deps" ;;
+    imap-*)           run_deps="c-client $run_deps" ;;
+    intl-*)           run_deps="icu-libs libintl $run_deps" ;;
+    memcached-*)      run_deps="libmemcached $run_deps" ;;
+    yaml-*)           run_deps="yaml $run_deps" ;;
+    zip-*)            run_deps="libzip $run_deps" ;;
+  esac
+done
+
+# shellcheck disable=SC2086
+apk add --no-cache $run_deps
+
+# Clean up
+rm -rf /tmp/pear*
+apk del --no-cache --purge .build-deps

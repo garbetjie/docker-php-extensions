@@ -13,8 +13,8 @@ fi
 
 # Iterate over each extension.
 while [ $# -gt 0 ]; do
-  ext_name="$(echo "$1" | cut -f1 -d:)"
-  ext_version="$(echo "$1" | cut -f2- -d:)"
+  ext_name="$(echo "$1" | cut -f1 -d-)"
+  ext_version="$(echo "$1" | cut -f2- -d-)"
 
   # Version given. Download from pecl.
   if echo "$ext_version" | grep -qoE '^\d+\.\d+\.\d+$'; then
