@@ -71,7 +71,10 @@ jobs:
         path: /tmp/.buildx-cache-variant
         key: ${{ matrix.version }}-${{ matrix.variant }}-${{ github.sha }}
         restore-keys: ${{ matrix.version }}-${{ matrix.variant }}-
-    - name: build variant
+
+    # Build fpm & cli
+    - name: build ${{ matrix.variant }}
+      if: "matrix.variant == 'fpm' || matrix.variant == 'cli'"
       uses: docker/build-push-action@v2
       with:
         context: .
@@ -82,6 +85,21 @@ jobs:
         cache-to: type=local,dest=/tmp/.buildx-cache-variant-new
         cache-from: type=local,src=/tmp/.buildx-cache-variant
         target: variant
+
+    # Build apache
+    - name: build apache
+      if: "matrix.variant == 'apache'"
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        build-args: SOURCE_IMAGE=${{ matrix.source_image }}
+        tags: ${{ github.repository_owner }}/php:${{ matrix.version }}-${{ matrix.variant }}
+        outputs: type=local,dest=/tmp/.buildx-output-variant
+        platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6
+        cache-to: type=local,dest=/tmp/.buildx-cache-variant-new
+        cache-from: type=local,src=/tmp/.buildx-cache-variant
+        file: apache.Dockerfile
+
     - name: move variant cache  # temp fix for https://github.com/docker/build-push-action/issues/252 & https://github.com/moby/buildkit/issues/1896.
       run: rm -rf /tmp/.buildx-cache-variant && mv /tmp/.buildx-cache-variant-new /tmp/.buildx-cache-variant
 
