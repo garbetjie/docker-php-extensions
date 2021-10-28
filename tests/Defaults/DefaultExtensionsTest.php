@@ -1,31 +1,52 @@
 <?php
 
-namespace Garbetjie\Docker\PHP\Tests;
+namespace Garbetjie\Docker\PHP\Tests\Defaults;
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @group defaults
+ */
 class DefaultExtensionsTest extends TestCase
 {
 	/**
-	 * @dataProvider enabledExtensionDataProvider
+	 * @param string $extension
 	 *
+	 * @dataProvider disabledExtensionsProvider
+	 */
+	public function testExtensionDisabled(string $extension)
+	{
+		$this->assertFalse(extension_loaded($extension));
+	}
+
+	public function disabledExtensionsProvider(): array
+	{
+		return [
+			['opencensus'],
+			['newrelic'],
+			['xdebug'],
+		];
+	}
+
+	/**
 	 * @param string $extension
 	 * @param string|null $skipReason
+	 *
+	 * @dataProvider enabledExtensionsProvider
 	 */
-	public function testExtensionEnabled(string $extension, ?string $skipReason = null)
+	public function testExtensionIsEnabled(string $extension, ?string $skipReason = null)
 	{
-		if ($skipReason !== null) {
+		if ($skipReason) {
 			$this->markTestSkipped($skipReason);
-			return;
 		}
 
 		$this->assertTrue(extension_loaded($extension));
 	}
 
-	public function enabledExtensionDataProvider(): array
+	public function enabledExtensionsProvider(): array
 	{
 		return [
-			['amqp', PHP_VERSION_ID < 80000 ? null : "AMQP extension not available on PHP >= 8.0."],
+			['amqp', PHP_VERSION_ID >= 80000 ? 'AMQP not available in PHP < 8.0' : null],
 			['bcmath'],
 			['bz2'],
 			['core'],
@@ -81,25 +102,6 @@ class DefaultExtensionsTest extends TestCase
 			['zend opcache'],
 			['zip'],
 			['zlib'],
-		];
-	}
-
-	/**
-	 * @dataProvider disabledExtensionDataProvider
-	 *
-	 * @param string $extension
-	 */
-	public function testExtensionDisabled(string $extension)
-	{
-		$this->assertFalse(extension_loaded($extension));
-	}
-
-	public function disabledExtensionDataProvider(): array
-	{
-		return [
-			['opencensus'],
-			['newrelic'],
-			['xdebug'],
 		];
 	}
 }

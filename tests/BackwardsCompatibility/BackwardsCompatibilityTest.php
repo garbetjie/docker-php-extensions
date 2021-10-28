@@ -1,10 +1,10 @@
 <?php
 
-namespace Garbetjie\Docker\PHP\Tests;
+namespace Garbetjie\Docker\PHP\Tests\BackwardsCompatibility;
 
 use PHPUnit\Framework\TestCase;
 
-class BackwardsCompatibleEnvironmentTest extends TestCase
+class BackwardsCompatibilityTest extends TestCase
 {
 	/**
 	 * @dataProvider backwardsCompatibilityDataProvider
@@ -14,7 +14,13 @@ class BackwardsCompatibleEnvironmentTest extends TestCase
 	 */
 	public function testBackwardsCompatibilityWorksCorrectly(string $oldName, string $newName)
 	{
-		$this->assertEquals(getenv($oldName), getenv($newName), "Environment variable [{$newName}] not backwards-compatible with [{$oldName}].");
+		$newValue = getenv($newName);
+		$oldValue = getenv($oldName);
+
+		$this->assertNotFalse($newValue, "Failed asserting new value [{$newName}] is not false.");
+		$this->assertNotFalse($oldValue, "Failed asserting old value [{$oldName}] is not false.");
+
+		$this->assertEquals($newValue, $oldValue, "New [{$newName}] not backwards-compatible with old [{$oldName}].");
 	}
 
 	public function backwardsCompatibilityDataProvider(): array
@@ -39,12 +45,5 @@ class BackwardsCompatibleEnvironmentTest extends TestCase
 			['NEWRELIC_RECORD_SQL', 'NEWRELIC_TRANSACTION_TRACER_RECORD_SQL'],
 			['NEWRELIC_APP_NAME', 'NEWRELIC_APPNAME'],
 		];
-	}
-
-	public function testAlternateSpellings()
-	{
-		$this->assertNotFalse(getenv('NEWRELIC_LICENSE'));
-		$this->assertNotFalse(getenv('NEWRELIC_LICENCE'));
-		$this->assertEquals(getenv('NEWRELIC_LICENSE'), getenv('NEWRELIC_LICENCE'));
 	}
 }

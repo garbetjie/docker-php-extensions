@@ -1,23 +1,26 @@
 <?php
 
-namespace Garbetjie\Docker\PHP\Tests;
+namespace Garbetjie\Docker\PHP\Tests\Defaults;
 
 use PHPUnit\Framework\TestCase;
 
-class DefaultEnvironmentTest extends TestCase
+class DefaultEnvironmentValuesTest extends TestCase
 {
 	/**
-	 * @dataProvider defaultValuesDataProvider
-	 *
 	 * @param string $name
-	 * @param string $value
+	 * @param string $expectedValue
+	 *
+	 * @dataProvider defaultEnvironmentProvider
 	 */
-	public function testDefaultValues(string $name, string $value)
+	public function testDefaultEnvironmentValue(string $name, string $expectedValue)
 	{
-		$this->assertEquals($value, getenv($name), "Environment variable [{$name}] has incorrect default value.");
+		$actualValue = getenv($name);
+
+		$this->assertNotFalse($actualValue, "Environment variable [{$name}] cannot be false.");
+		$this->assertEquals($expectedValue, $actualValue, "Environment variable [{$name}] has incorrect default value.");
 	}
 
-	public function defaultValuesDataProvider(): array
+	public function defaultEnvironmentProvider(): array
 	{
 		return [
 			['PM', 'static'],
@@ -70,5 +73,4 @@ class DefaultEnvironmentTest extends TestCase
 			['XDEBUG_CLIENT_PORT', '9003'],
 		];
 	}
-
 }

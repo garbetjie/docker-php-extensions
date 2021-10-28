@@ -1,6 +1,6 @@
 <?php
 
-namespace Garbetjie\Docker\PHP\Tests;
+namespace Garbetjie\Docker\PHP\Tests\Extensions;
 
 use PHPUnit\Framework\TestCase;
 
@@ -11,8 +11,8 @@ class OpencensusExtensionTest extends TestCase
 		$this->assertTrue(extension_loaded('opencensus'));
 	}
 
-	public function testExtensionFunctionsCorrectly()
-	{
-		$this->markTestIncomplete('Not yet implemented.');
-	}
+//	public function testExtensionFunctionsCorrectly()
+//	{
+//		$this->markTestIncomplete('Not yet implemented.');
+//	}
 }
