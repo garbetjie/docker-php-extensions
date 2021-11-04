@@ -79,6 +79,10 @@ WORKDIR /app
 
 COPY fs/ /
 
+# Global configuration.
+ENV ENABLED_EXTENSIONS="" \
+    DISABLED_EXTENSIONS="newrelic opencensus xdebug"
+
 ENV \
     # FPM-specific configuration.
     PM="static" \
@@ -101,7 +105,6 @@ ENV \
     MAX_INPUT_TIME=30 \
     MAX_REQUEST_SIZE="8M" \
     MEMORY_LIMIT="64M" \
-    NEWRELIC_ENABLED=false \
     NEWRELIC_APPNAME="" \
     NEWRELIC_BROWSER_MONITORING_AUTO_INSTRUMENT=true \
     NEWRELIC_DAEMON_APP_CONNECT_TIMEOUT=5 \
@@ -120,15 +123,12 @@ ENV \
     OPCACHE_REVALIDATE_FREQ=2 \
     OPCACHE_VALIDATE_TIMESTAMPS=true \
     OPCACHE_SAVE_COMMENTS=true \
-    OPENCENSUS_ENABLED=false \
-    PARALLEL_ENABLED=false \
     SESSION_COOKIE_NAME="PHPSESSID" \
     SESSION_SAVE_HANDLER="files" \
     SESSION_SAVE_PATH="/tmp/sessions" \
     SYS_TEMP_DIR="/tmp" \
     TIMEZONE="Etc/UTC" \
     UPLOAD_MAX_FILESIZE="8M" \
-    XDEBUG_ENABLED=false \
     XDEBUG_IDEKEY="IDEKEY" \
     XDEBUG_CLIENT_HOST="host.docker.internal" \
     XDEBUG_CLIENT_PORT=9003

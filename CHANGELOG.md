@@ -1,6 +1,9 @@
 Changelog
 =========
 
+* **Upcoming**
+  * Add ability to enable or disable any extension (and convert Opencensus, XDebug & NewRelic to use this mechanism).
+
 * **2021-08-12**
   * Change XDebug log level to 7 from 10.
 

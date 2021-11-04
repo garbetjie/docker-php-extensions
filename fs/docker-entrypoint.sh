@@ -23,11 +23,6 @@ if [ "$OPENCENSUS_ENABLED" != true ]; then
   mv "${PHP_INI_DIR}/conf.d/docker-php-ext-opencensus.ini" "${PHP_INI_DIR}/conf.d/docker-php-ext-opencensus.ini.disabled" 2>/dev/null || true
 fi
 
-# Remove Parallel configuration if not enabled.
-if [ "$PARALLEL_ENABLED" != true ]; then
-  mv "${PHP_INI_DIR}/conf.d/docker-php-ext-parallel.ini" "${PHP_INI_DIR}/conf.d/docker-php-ext-parallel.ini.disabled" 2>/dev/null || true
-fi
-
 # Function used to compare version numbers.
 version() {
   echo "$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $1,$2,$3,$4); }'
@@ -52,6 +47,9 @@ version() {
 [ "$NEWRELIC_AUTORUM_ENABLED" != "" ] && export NEWRELIC_BROWSER_MONITORING_AUTO_INSTRUMENT="$NEWRELIC_AUTORUM_ENABLED"
 [ "$NEWRELIC_RECORD_SQL" != "" ] && export NEWRELIC_TRANSACTION_TRACER_RECORD_SQL="$NEWRELIC_RECORD_SQL"
 [ "$NEWRELIC_APP_NAME" != "" ] && export NEWRELIC_APPNAME="$NEWRELIC_APP_NAME"
+[ "$NEWRELIC_ENABLED" = "true" ] && export ENABLED_EXTENSIONS="${ENABLED_EXTENSIONS} newrelic"
+[ "$OPENCENSUS_ENABLED" = "true" ] && export ENABLED_EXTENSIONS="${ENABLED_EXTENSIONS} opencensus"
+[ "$XDEBUG_ENABLED" = "true" ] && export ENABLED_EXTENSIONS="${ENABLED_EXTENSIONS} xdebug"
 
 # Alternate spelling compatibility.
 [ "$NEWRELIC_LICENSE" != "" ] && export NEWRELIC_LICENCE="$NEWRELIC_LICENSE"
@@ -107,6 +105,23 @@ if [ "$save_path" != "" ]; then
   mkdir -p "$save_path"
   chown -R www-data:www-data "$save_path"
 fi
+
+# Toggle extensions {{{
+  disabled_extensions="$(echo "$DISABLED_EXTENSIONS" | tr ' ' "\n")"
+  enabled_extensions="$(echo "$ENABLED_EXTENSIONS" | tr ' ' "\n")"
+
+  # Iterate over all disabled extensions. If not in the list of enabled extensions, then disable the extension.
+  for ext in $disabled_extensions; do
+    if ! echo "$enabled_extensions" | grep -qxE "$ext"; then
+      mv "${PHP_INI_DIR}/conf.d/docker-php-ext-${ext}.ini" "${PHP_INI_DIR}/conf.d/docker-php-ext-${ext}.ini.disabled" 2>/dev/null || true
+    fi
+  done
+
+  # Iterate over all enabled extensions, and ensure their config files are available.
+  for ext in $enabled_extensions; do
+    mv "${PHP_INI_DIR}/conf.d/docker-php-ext-${ext}.ini.disabled" "${PHP_INI_DIR}/conf.d/docker-php-ext-${ext}.ini" 2>/dev/null || true
+  done
+# }}}
 
 # Execute all entrypoint scripts.
 find /docker-entrypoint.d -type f -executable -print0 | xargs -0 -I CMD CMD

@@ -17,12 +17,16 @@ class DefaultEnvironmentValuesTest extends TestCase
 		$actualValue = getenv($name);
 
 		$this->assertNotFalse($actualValue, "Environment variable [{$name}] cannot be false.");
-		$this->assertEquals($expectedValue, $actualValue, "Environment variable [{$name}] has incorrect default value.");
+		$this->assertSame($expectedValue, $actualValue, "Environment variable [{$name}] has incorrect default value.");
 	}
 
 	public function defaultEnvironmentProvider(): array
 	{
 		return [
+			// Global configuration.
+			['ENABLED_EXTENSIONS', ''],
+			['DISABLED_EXTENSIONS', 'newrelic opencensus xdebug'],
+
 			['PM', 'static'],
 //			['PM_MAX_CHILDREN', '0'],  // Can't test this, as it is dynamic.
 			['PM_MIN_SPARE_SERVERS', '1'],
@@ -40,7 +44,6 @@ class DefaultEnvironmentValuesTest extends TestCase
 			['MAX_INPUT_TIME', '30'],
 			['MAX_REQUEST_SIZE', '8M'],
 			['MEMORY_LIMIT', '64M'],
-			['NEWRELIC_ENABLED', 'false'],
 			['NEWRELIC_APPNAME', ''],
 			['NEWRELIC_BROWSER_MONITORING_AUTO_INSTRUMENT', 'true'],
 			['NEWRELIC_DAEMON_APP_CONNECT_TIMEOUT', '5'],
@@ -59,15 +62,12 @@ class DefaultEnvironmentValuesTest extends TestCase
 			['OPCACHE_REVALIDATE_FREQ', '2'],
 			['OPCACHE_VALIDATE_TIMESTAMPS', 'true'],
 			['OPCACHE_SAVE_COMMENTS', 'true'],
-			['OPENCENSUS_ENABLED', 'false'],
-			['PARALLEL_ENABLED', 'false'],
 			['SESSION_COOKIE_NAME', 'PHPSESSID'],
 			['SESSION_SAVE_HANDLER', 'files'],
 			['SESSION_SAVE_PATH', '/tmp/sessions'],
 			['SYS_TEMP_DIR', '/tmp'],
 			['TIMEZONE', 'Etc/UTC'],
 			['UPLOAD_MAX_FILESIZE', '8M'],
-			['XDEBUG_ENABLED', 'false'],
 			['XDEBUG_IDEKEY', 'IDEKEY'],
 			['XDEBUG_CLIENT_HOST', 'host.docker.internal'],
 			['XDEBUG_CLIENT_PORT', '9003'],

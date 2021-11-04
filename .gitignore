@@ -1,4 +1,5 @@
 .cloudbuild/*.txt
 vendor/
 vendor-*/
+.docker/
 .phpunit.result.cache

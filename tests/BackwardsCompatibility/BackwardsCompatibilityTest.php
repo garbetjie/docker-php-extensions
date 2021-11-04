@@ -46,4 +46,31 @@ class BackwardsCompatibilityTest extends TestCase
 			['NEWRELIC_APP_NAME', 'NEWRELIC_APPNAME'],
 		];
 	}
+
+	/**
+	 * @param string $oldEnvKey
+	 * @param string $newValueInString
+	 *
+	 * @dataProvider disabledExtensionsBeingEnabledProvider
+	 */
+	public function testDisabledExtensionsBeingEnabledBackwardsCompatibility(string $oldEnvKey, string $newValueInString)
+	{
+		$oldValue = getenv($oldEnvKey);
+		$newValue = getenv('ENABLED_EXTENSIONS');
+
+		$this->assertNotFalse($oldValue);
+		$this->assertNotFalse($newValue);
+
+		$this->assertSame('true', $oldValue);
+		$this->assertStringContainsString($newValueInString, $newValue);
+	}
+
+	public function disabledExtensionsBeingEnabledProvider(): array
+	{
+		return [
+			['XDEBUG_ENABLED', 'xdebug'],
+			['NEWRELIC_ENABLED', 'newrelic'],
+			['OPENCENSUS_ENABLED', 'opencensus'],
+		];
+	}
 }
