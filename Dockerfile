@@ -83,6 +83,12 @@ COPY fs/ /
 ENV ENABLED_EXTENSIONS="" \
     DISABLED_EXTENSIONS="newrelic opencensus xdebug"
 
+# Composer config {{{
+ENV COMPOSER_VERSION="2.1.11" \
+    COMPOSER_CHECKSUM="69af1f5a6fe76256293cf341af43399a4d7d4c4336235b2dd4553ee9" \
+    COMPOSER_VERIFY_CHECKSUM="true"
+# }}}
+
 ENV \
     # FPM-specific configuration.
     PM="static" \
