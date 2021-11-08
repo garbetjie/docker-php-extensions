@@ -75,7 +75,7 @@ jobs:
         build-args: SOURCE_IMAGE=${{ matrix.source_image }}
         tags: ${{ github.repository_owner }}/php:${{ matrix.version }}-${{ matrix.variant }}
         outputs: type=local,dest=/tmp/.buildx-output-variant
-        platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6
+        platforms: linux/amd64,linux/arm64
         cache-to: type=local,dest=/tmp/.buildx-cache-variant-new
         cache-from: type=local,src=/tmp/.buildx-cache-variant
         target: variant
@@ -98,7 +98,7 @@ jobs:
         build-args: SOURCE_IMAGE=${{ matrix.source_image }}
         tags: ${{ github.repository_owner }}/php:${{ matrix.version }}-nginx
         outputs: type=local,dest=/tmp/.buildx-output-nginx
-        platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6
+        platforms: linux/amd64,linux/arm64
         cache-to: type=local,dest=/tmp/.buildx-cache-nginx-new
         cache-from: |
           type=local,src=/tmp/.buildx-cache-nginx
@@ -139,7 +139,7 @@ jobs:
           ${{ github.repository_owner }}/php:${{ matrix.version }}-${{ matrix.variant }}
           ${{ github.repository_owner }}/php:${{ matrix.version }}-${{ matrix.variant }}-${{ needs.vars.outputs.date }}
         outputs: type=registry
-        platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6
+        platforms: linux/amd64,linux/arm64
         cache-from: type=local,src=/tmp/.buildx-cache-variant
         target: variant
 
@@ -160,6 +160,6 @@ jobs:
           ${{ github.repository_owner }}/php:${{ matrix.version }}-nginx
           ${{ github.repository_owner }}/php:${{ matrix.version }}-nginx-${{ needs.vars.outputs.date }}
         outputs: type=registry
-        platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6
+        platforms: linux/amd64,linux/arm64
         cache-from: type=local,src=/tmp/.buildx-cache-nginx
         target: nginx
