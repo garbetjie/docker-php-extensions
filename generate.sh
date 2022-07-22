@@ -17,7 +17,15 @@ cat <<EOT > "extensions/$1/Dockerfile"
 ARG PHP_VERSION
 FROM php:\${PHP_VERSION}-cli-alpine3.14
 
+# Unpack PHP source
+RUN docker-php-source extract
+
+# Download and unpack from PECL
+RUN mkdir /usr/src/php/ext/${1}
+RUN wget -O- https://pecl.php.net/get/${1}-VERSION.tgz | tar -C /usr/src/php/ext/${1} -xzf - --strip-components 1
+
 # Install extension.
+RUN docker-php-ext-configure $1
 RUN docker-php-ext-install $1
 
 # Package files for extension into tar file.
