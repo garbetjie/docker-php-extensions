@@ -6,6 +6,23 @@ on:
     - "LICENCE.md"
     - ".gitignore"
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php_version:
+        - 8.0.8
+        - 8.1
+        ext:
+        - amqp
+        - bcmath
+    steps:
+    - uses: docker/setup-buildx-action@v1
+    - run: |
+        docker buildx build -t
+
+
+
   # Current matrix:
   #
   # include:
@@ -33,23 +50,7 @@ jobs:
   # following command:
   #
   #   yq e . -j matrix.yml | jq -c '.|@json' | awk '{print substr($0, 2, length($0) - 2)}'
-  vars:
-    runs-on: self-hosted
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-      date: ${{ steps.set-date.outputs.date }}
-    steps:
-    # This is done so we don't have to repeat the matrix every job.
-    - name: set matrix
-      id: set-matrix
-      run: |
-        echo "::set-output name=matrix::{\"include\":[{\"version\":\"7.3\",\"variant\":\"fpm\",\"source_image\":\"php:7.3.29-fpm-alpine3.14\"},{\"version\":\"7.3\",\"variant\":\"cli\",\"source_image\":\"php:7.3.29-cli-alpine3.14\"},{\"version\":\"7.4\",\"variant\":\"fpm\",\"source_image\":\"php:7.4.21-fpm-alpine3.14\"},{\"version\":\"7.4\",\"variant\":\"cli\",\"source_image\":\"php:7.4.21-cli-alpine3.14\"},{\"version\":\"8.0\",\"variant\":\"fpm\",\"source_image\":\"php:8.0.8-fpm-alpine3.14\"},{\"version\":\"8.0\",\"variant\":\"cli\",\"source_image\":\"php:8.0.8-cli-alpine3.14\"}]}"
-    - name: set date
-      id: set-date
-      run: |
-        echo "::set-output name=date::$(date +%Y%m%d)"
-
-  build:
+  build2:
     needs: [vars]
     runs-on: self-hosted
     strategy:
@@ -57,7 +58,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: docker/setup-qemu-action@v1
-    - uses: docker/setup-buildx-action@v1
+    -
+
 
     # Build variant
     - uses: actions/cache@v2
