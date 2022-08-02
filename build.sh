@@ -2,20 +2,33 @@
 
 set -e -o pipefail
 
-docker build --build-arg PHP_VERSION=8.0.8 -t build/php:"$1" -f extensions/$1/Dockerfile --progress plain extensions/$1
+platform=""
+ext="$1"
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --x86) platform="--platform linux/amd64"; shift;;
+    *) ext="$1"; shift;;
+  esac
+done
+
+docker build --build-arg PHP_VERSION=8.0.8 $platform -t build/php:"$ext" -f extensions/$ext/Dockerfile --progress plain extensions/$ext
 
 echo ""
 echo "-----------------------------------------"
 echo "Image list:"
 echo "-----------------------------------------"
-docker images --filter reference=build/php:"$1"
+docker images --filter reference=build/php:"$ext"
 
-cat <<EOT | docker build -t build/php:testing --progress plain - &> /dev/null
+cat <<EOT > tmp.Dockerfile
 FROM php:8.0.8-cli-alpine3.14
-COPY --from=build/php:$1 / /
-COPY --from=build/php:builder / /
+COPY --from=build/php:$ext / /
+COPY builder/docker-php-install-dependencies.sh /usr/local/bin/docker-php-install-dependencies.sh
 RUN docker-php-install-dependencies.sh
 EOT
+
+docker build -t build/php:testing $platform --progress plain -f tmp.Dockerfile .
+rm tmp.Dockerfile
 
 start_size="$(docker image inspect php:8.0.8-cli-alpine3.14 | jq -r '.[0].Size')"
 end_size="$(docker image inspect build/php:testing | jq -r '.[0].Size')"
@@ -25,4 +38,4 @@ echo ""
 echo "-----------------------------------------"
 echo "Module listing:"
 echo "-----------------------------------------"
-docker run --rm build/php:testing php -m
+docker run --rm $platform build/php:testing php -m
