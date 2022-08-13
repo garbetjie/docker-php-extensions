@@ -9,12 +9,13 @@ RUN mkdir /usr/src/php/ext/pdo_sqlsrv
 RUN wget -O- https://pecl.php.net/get/pdo_sqlsrv-5.10.1.tgz | tar -C /usr/src/php/ext/pdo_sqlsrv -xzf - --strip-components 1
 
 # Install extension.
-RUN apk add unixodbc-dev
+RUN apk add unixodbc-dev gnupg
 RUN docker-php-ext-install pdo_sqlsrv
 
 # Package files for extension into tar file.
-RUN mkdir /tmp/docker-php-dependencies.d
-RUN echo unixodbc libstdc++ > /tmp/docker-php-dependencies.d/pdo_sqlsrv
+COPY apk /tmp/docker-php-dependencies.d/apk/pdo_sqlsrv
+COPY shell /tmp/docker-php-dependencies.d/shell/pdo_sqlsrv
+
 RUN tar -cf /tmp/files.tar \
       /tmp/docker-php-dependencies.d \
       /usr/local/etc/php/conf.d/docker-php-ext-pdo_sqlsrv.ini \
