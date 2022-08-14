@@ -1,26 +1,47 @@
-on:
-  push:
-    branches: [main]
-    paths-ignore:
-    - "README.md"
-    - "LICENCE.md"
-    - ".gitignore"
+on: {}
+
 jobs:
-  build:
+  build_exts:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         php_version:
         - 8.0.8
-        - 8.1
+        - 8.1.9
         ext:
         - amqp
         - bcmath
+        include:
+        - ext: sqlsrv
+          arch: linux/amd64
+        - ext: pdo_sqlsrv
+          arch: linux/amd64
     steps:
-    - uses: docker/setup-buildx-action@v1
+    - run: echo ::set-output name=stripped_php_version::"$(echo "${{ matrix.php_version }}" | awk -F. '{ print $1 "." $2 }')"
+      id: vars
     - run: |
-        docker buildx build -t
-
+        echo "PHP version to use: ${{ steps.vars.outputs.stripped_php_version }}"
+#    - uses: docker/setup-buildx-action@v1
+#    - uses: docker/setup-qemu-action@v1
+#    - uses: actions/cache@v2
+#      with:
+#        path: /tmp/.buildx-cache-variant
+#        key: ${{ matrix.php_version }}-${{ matrix.ext }}-${{ github.sha }}
+#        restore-keys: ${{ matrix.php_version }}-${{ matrix.ext }}-
+#    - uses: docker/login-action@v2
+#      with:
+#        username: ${{ secrets.DOCKER_HUB_LOGIN }}
+#        password: ${{ secrets.DOCKER_HUB_TOKEN }}
+#    - uses: docker/build-push-action@v2
+#      with:
+#        context: extensions/${{ matrix.ext }}
+#        build-args: PHP_VERSION=${{ matrix.php_version }}
+#        tags: ${{ secrets.DOCKER_HUB_LOGIN }}/php:${{ matrix.php_version }}-${{ matrix.variant }}
+#        outputs: type=local,dest=/tmp/.buildx-output-variant
+#        platforms: linux/amd64,linux/arm64
+#        cache-to: type=local,dest=/tmp/.buildx-cache-variant-new
+#        cache-from: type=local,src=/tmp/.buildx-cache-variant
+#        target: variant
 
 
   # Current matrix:
@@ -50,118 +71,118 @@ jobs:
   # following command:
   #
   #   yq e . -j matrix.yml | jq -c '.|@json' | awk '{print substr($0, 2, length($0) - 2)}'
-  build2:
-    needs: [vars]
-    runs-on: self-hosted
-    strategy:
-      matrix: ${{ fromJson(needs.vars.outputs.matrix) }}
-    steps:
-    - uses: actions/checkout@v2
-    - uses: docker/setup-qemu-action@v1
-    -
-
-
-    # Build variant
-    - uses: actions/cache@v2
-      with:
-        path: /tmp/.buildx-cache-variant
-        key: ${{ matrix.version }}-${{ matrix.variant }}-${{ github.sha }}
-        restore-keys: ${{ matrix.version }}-${{ matrix.variant }}-
-
-    # Build fpm & cli
-    - name: build ${{ matrix.variant }}
-      if: "matrix.variant == 'fpm' || matrix.variant == 'cli'"
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        build-args: SOURCE_IMAGE=${{ matrix.source_image }}
-        tags: ${{ github.repository_owner }}/php:${{ matrix.version }}-${{ matrix.variant }}
-        outputs: type=local,dest=/tmp/.buildx-output-variant
-        platforms: linux/amd64,linux/arm64
-        cache-to: type=local,dest=/tmp/.buildx-cache-variant-new
-        cache-from: type=local,src=/tmp/.buildx-cache-variant
-        target: variant
-
-    - name: move variant cache  # temp fix for https://github.com/docker/build-push-action/issues/252 & https://github.com/moby/buildkit/issues/1896.
-      run: rm -rf /tmp/.buildx-cache-variant && mv /tmp/.buildx-cache-variant-new /tmp/.buildx-cache-variant
-
-    # Build nginx
-    - uses: actions/cache@v2
-      if: "matrix.variant == 'fpm'"
-      with:
-        path: /tmp/.buildx-cache-nginx
-        key: ${{ matrix.version }}-nginx-${{ github.sha }}
-        restore-keys: ${{ matrix.version }}-nginx-
-    - name: build nginx
-      uses: docker/build-push-action@v2
-      if: "matrix.variant == 'fpm'"
-      with:
-        context: .
-        build-args: SOURCE_IMAGE=${{ matrix.source_image }}
-        tags: ${{ github.repository_owner }}/php:${{ matrix.version }}-nginx
-        outputs: type=local,dest=/tmp/.buildx-output-nginx
-        platforms: linux/amd64,linux/arm64
-        cache-to: type=local,dest=/tmp/.buildx-cache-nginx-new
-        cache-from: |
-          type=local,src=/tmp/.buildx-cache-nginx
-          type=local,src=/tmp/.buildx-cache-variant
-        target: nginx
-    - name: move nginx cache
-      if: "matrix.variant == 'fpm'"
-      run: rm -rf /tmp/.buildx-cache-nginx && mv /tmp/.buildx-cache-nginx-new /tmp/.buildx-cache-nginx
-
-  push:
-    needs: [build, vars]
-    if: "github.ref == 'refs/heads/main'"
-    runs-on: self-hosted
-    strategy:
-      matrix: ${{ fromJson(needs.vars.outputs.matrix) }}
-    steps:
-    - uses: actions/checkout@v2
-    - uses: docker/setup-qemu-action@v1
-    - uses: docker/setup-buildx-action@v1
-    - name: log in (docker hub)
-      uses: docker/login-action@v1
-      with:
-        username: ${{ secrets.DOCKER_HUB_LOGIN }}
-        password: ${{ secrets.DOCKER_HUB_TOKEN }}
-
-    # Push variant.
-    - uses: actions/cache@v2
-      with:
-        path: /tmp/.buildx-cache-variant
-        key: ${{ matrix.version }}-${{ matrix.variant }}-${{ github.sha }}
-        restore-keys: ${{ matrix.version }}-${{ matrix.variant }}-
-    - name: build variant
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        build-args: SOURCE_IMAGE=${{ matrix.source_image }}
-        tags: |
-          ${{ github.repository_owner }}/php:${{ matrix.version }}-${{ matrix.variant }}
-          ${{ github.repository_owner }}/php:${{ matrix.version }}-${{ matrix.variant }}-${{ needs.vars.outputs.date }}
-        outputs: type=registry
-        platforms: linux/amd64,linux/arm64
-        cache-from: type=local,src=/tmp/.buildx-cache-variant
-        target: variant
-
-    # Push nginx.
-    - uses: actions/cache@v2
-      if: "matrix.variant == 'fpm'"
-      with:
-        path: /tmp/.buildx-cache-nginx
-        key: ${{ matrix.version }}-nginx-${{ github.sha }}
-        restore-keys: ${{ matrix.version }}-nginx-
-    - name: build nginx
-      uses: docker/build-push-action@v2
-      if: "matrix.variant == 'fpm'"
-      with:
-        context: .
-        build-args: SOURCE_IMAGE=${{ matrix.source_image }}
-        tags: |
-          ${{ github.repository_owner }}/php:${{ matrix.version }}-nginx
-          ${{ github.repository_owner }}/php:${{ matrix.version }}-nginx-${{ needs.vars.outputs.date }}
-        outputs: type=registry
-        platforms: linux/amd64,linux/arm64
-        cache-from: type=local,src=/tmp/.buildx-cache-nginx
-        target: nginx
+#  build2:
+#    needs: [vars]
+#    runs-on: self-hosted
+#    strategy:
+#      matrix: ${{ fromJson(needs.vars.outputs.matrix) }}
+#    steps:
+#    - uses: actions/checkout@v2
+#    - uses: docker/setup-qemu-action@v1
+#    -
+#
+#
+#    # Build variant
+#    - uses: actions/cache@v2
+#      with:
+#        path: /tmp/.buildx-cache-variant
+#        key: ${{ matrix.version }}-${{ matrix.variant }}-${{ github.sha }}
+#        restore-keys: ${{ matrix.version }}-${{ matrix.variant }}-
+#
+#    # Build fpm & cli
+#    - name: build ${{ matrix.variant }}
+#      if: "matrix.variant == 'fpm' || matrix.variant == 'cli'"
+#      uses: docker/build-push-action@v2
+#      with:
+#        context: .
+#        build-args: SOURCE_IMAGE=${{ matrix.source_image }}
+#        tags: ${{ github.repository_owner }}/php:${{ matrix.version }}-${{ matrix.variant }}
+#        outputs: type=local,dest=/tmp/.buildx-output-variant
+#        platforms: linux/amd64,linux/arm64
+#        cache-to: type=local,dest=/tmp/.buildx-cache-variant-new
+#        cache-from: type=local,src=/tmp/.buildx-cache-variant
+#        target: variant
+#
+#    - name: move variant cache  # temp fix for https://github.com/docker/build-push-action/issues/252 & https://github.com/moby/buildkit/issues/1896.
+#      run: rm -rf /tmp/.buildx-cache-variant && mv /tmp/.buildx-cache-variant-new /tmp/.buildx-cache-variant
+#
+#    # Build nginx
+#    - uses: actions/cache@v2
+#      if: "matrix.variant == 'fpm'"
+#      with:
+#        path: /tmp/.buildx-cache-nginx
+#        key: ${{ matrix.version }}-nginx-${{ github.sha }}
+#        restore-keys: ${{ matrix.version }}-nginx-
+#    - name: build nginx
+#      uses: docker/build-push-action@v2
+#      if: "matrix.variant == 'fpm'"
+#      with:
+#        context: .
+#        build-args: SOURCE_IMAGE=${{ matrix.source_image }}
+#        tags: ${{ github.repository_owner }}/php:${{ matrix.version }}-nginx
+#        outputs: type=local,dest=/tmp/.buildx-output-nginx
+#        platforms: linux/amd64,linux/arm64
+#        cache-to: type=local,dest=/tmp/.buildx-cache-nginx-new
+#        cache-from: |
+#          type=local,src=/tmp/.buildx-cache-nginx
+#          type=local,src=/tmp/.buildx-cache-variant
+#        target: nginx
+#    - name: move nginx cache
+#      if: "matrix.variant == 'fpm'"
+#      run: rm -rf /tmp/.buildx-cache-nginx && mv /tmp/.buildx-cache-nginx-new /tmp/.buildx-cache-nginx
+#
+#  push:
+#    needs: [build, vars]
+#    if: "github.ref == 'refs/heads/main'"
+#    runs-on: self-hosted
+#    strategy:
+#      matrix: ${{ fromJson(needs.vars.outputs.matrix) }}
+#    steps:
+#    - uses: actions/checkout@v2
+#    - uses: docker/setup-qemu-action@v1
+#    - uses: docker/setup-buildx-action@v1
+#    - name: log in (docker hub)
+#      uses: docker/login-action@v1
+#      with:
+#        username: ${{ secrets.DOCKER_HUB_LOGIN }}
+#        password: ${{ secrets.DOCKER_HUB_TOKEN }}
+#
+#    # Push variant.
+#    - uses: actions/cache@v2
+#      with:
+#        path: /tmp/.buildx-cache-variant
+#        key: ${{ matrix.version }}-${{ matrix.variant }}-${{ github.sha }}
+#        restore-keys: ${{ matrix.version }}-${{ matrix.variant }}-
+#    - name: build variant
+#      uses: docker/build-push-action@v2
+#      with:
+#        context: .
+#        build-args: SOURCE_IMAGE=${{ matrix.source_image }}
+#        tags: |
+#          ${{ github.repository_owner }}/php:${{ matrix.version }}-${{ matrix.variant }}
+#          ${{ github.repository_owner }}/php:${{ matrix.version }}-${{ matrix.variant }}-${{ needs.vars.outputs.date }}
+#        outputs: type=registry
+#        platforms: linux/amd64,linux/arm64
+#        cache-from: type=local,src=/tmp/.buildx-cache-variant
+#        target: variant
+#
+#    # Push nginx.
+#    - uses: actions/cache@v2
+#      if: "matrix.variant == 'fpm'"
+#      with:
+#        path: /tmp/.buildx-cache-nginx
+#        key: ${{ matrix.version }}-nginx-${{ github.sha }}
+#        restore-keys: ${{ matrix.version }}-nginx-
+#    - name: build nginx
+#      uses: docker/build-push-action@v2
+#      if: "matrix.variant == 'fpm'"
+#      with:
+#        context: .
+#        build-args: SOURCE_IMAGE=${{ matrix.source_image }}
+#        tags: |
+#          ${{ github.repository_owner }}/php:${{ matrix.version }}-nginx
+#          ${{ github.repository_owner }}/php:${{ matrix.version }}-nginx-${{ needs.vars.outputs.date }}
+#        outputs: type=registry
+#        platforms: linux/amd64,linux/arm64
+#        cache-from: type=local,src=/tmp/.buildx-cache-nginx
+#        target: nginx
