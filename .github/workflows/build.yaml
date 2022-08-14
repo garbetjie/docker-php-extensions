@@ -15,23 +15,25 @@ jobs:
         ext:
         - amqp
         - bcmath
+        - sqlsrv
         include:
         - ext: sqlsrv
           arch: linux/amd64
-        - ext: pdo_sqlsrv
-          arch: linux/amd64
     steps:
-    - run: echo ::set-output name=stripped_php_version::"$(echo "${{ matrix.php_version }}" | awk -F. '{ print $1 "." $2 }')"
+    - run: |
+        echo ::set-output name=stripped_php_version::"$(echo "${{ matrix.php_version }}" | awk -F. '{ print $1 "." $2 }')"
+        echo ::set-output name=platforms::"$([[ -n "$arch" ]] && echo "$arch" || echo "linux/amd64,linux/arm64")"
       id: vars
     - run: |
-        echo "PHP version to use: ${{ steps.vars.outputs.stripped_php_version }}"
+        echo "Stripped PHP version to use: ${{ steps.vars.outputs.stripped_php_version }}"
+        echo "Platforms to build for: ${{ steps.vars.outputs.platforms }}"
 #    - uses: docker/setup-buildx-action@v1
 #    - uses: docker/setup-qemu-action@v1
 #    - uses: actions/cache@v2
 #      with:
-#        path: /tmp/.buildx-cache-variant
-#        key: ${{ matrix.php_version }}-${{ matrix.ext }}-${{ github.sha }}
-#        restore-keys: ${{ matrix.php_version }}-${{ matrix.ext }}-
+#        path: /tmp/.buildx-cache
+#        key: ${{ steps.vars.outputs.stripped_php_version }}-${{ matrix.ext }}-${{ github.sha }}
+#        restore-keys: ${{ steps.vars.outputs.stripped_php_version }}-${{ matrix.ext }}-
 #    - uses: docker/login-action@v2
 #      with:
 #        username: ${{ secrets.DOCKER_HUB_LOGIN }}
@@ -40,12 +42,11 @@ jobs:
 #      with:
 #        context: extensions/${{ matrix.ext }}
 #        build-args: PHP_VERSION=${{ matrix.php_version }}
-#        tags: ${{ secrets.DOCKER_HUB_LOGIN }}/php:${{ matrix.php_version }}-${{ matrix.variant }}
-#        outputs: type=local,dest=/tmp/.buildx-output-variant
+#        tags: ${{ secrets.DOCKER_HUB_LOGIN }}/php:${{ steps.vars.outputs.stripped_php_version }}-${{ matrix.ext }}
 #        platforms: linux/amd64,linux/arm64
+#        outputs: type=local,dest=/tmp/.buildx-output
 #        cache-to: type=local,dest=/tmp/.buildx-cache-variant-new
 #        cache-from: type=local,src=/tmp/.buildx-cache-variant
-#        target: variant
 
 
   # Current matrix:
