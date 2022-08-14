@@ -44,6 +44,8 @@ jobs:
 #      with:
 #        username: ${{ secrets.DOCKER_HUB_LOGIN }}
 #        password: ${{ secrets.DOCKER_HUB_TOKEN }}
+    - run: echo "$PWD"
+    - run: ls -lah
     - name: Build
       uses: docker/build-push-action@v2
       with:
