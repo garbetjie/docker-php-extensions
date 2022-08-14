@@ -47,9 +47,9 @@ jobs:
     - name: Build
       uses: docker/build-push-action@v2
       with:
-        context: extensions/${{ matrix.ext }}
+        context: ./extensions/${{ matrix.ext }}
         build-args: PHP_VERSION=${{ matrix.php_version }}
-        tags: ${{ secrets.DOCKER_HUB_LOGIN }}/php:${{ steps.vars.outputs.stripped_php_version }}-${{ matrix.ext }}
+        tags: ${{ secrets.DOCKER_HUB_REPO }}/php:${{ steps.vars.outputs.stripped_php_version }}-${{ matrix.ext }}
         platforms: "${{ steps.vars.outputs.platform }}"
         outputs: type=local,dest=/tmp/.buildx-output
         cache-to: type=local,dest=/tmp/.buildx-cache-new
