@@ -1,12 +1,20 @@
 #!/usr/bin/env sh
+
 set -xe
-# No directory.
-if [ ! -d /tmp/docker-php-dependencies.d ]; then
-  exit 0
+
+# Install APK dependencies.
+if [ -d /tmp/docker-php-dependencies.d/apk ]; then
+  echo "### Installing APK dependencies..."
+  cat /tmp/docker-php-dependencies.d/apk/* | tr '\n' ' ' | xargs apk add --no-cache
 fi
 
-# Install dependencies.
-cat /tmp/docker-php-dependencies.d/* | tr '\n' ' ' | xargs apk add --no-cache
+# Run custom setup scripts.
+if [ -d /tmp/docker-php-dependencies.d/shell ]; then
+  for filename in /tmp/docker-php-dependencies.d/shell/*; do
+    echo "### Executing extension setup script [$(basename "$filename")]..."
+    sh "$filename"
+  done
+fi
 
-# Remove dependency directory.
+# Clean up.
 rm -rf /tmp/docker-php-dependencies.d
