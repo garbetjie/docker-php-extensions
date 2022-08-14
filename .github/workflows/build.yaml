@@ -1,4 +1,7 @@
-on: workflow_dispatch
+on:
+  workflow_dispatch: true
+  push:
+    branches: [main]
 
 jobs:
   build_exts:
