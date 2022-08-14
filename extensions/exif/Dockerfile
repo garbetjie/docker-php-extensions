@@ -4,10 +4,11 @@ FROM php:${PHP_VERSION}-cli-alpine3.14
 # Install extension.
 RUN docker-php-ext-install exif
 
-# Package files for extension into tar file.
+# Package extension.
 RUN tar -cf /tmp/files.tar \
       /usr/local/etc/php/conf.d/docker-php-ext-exif.ini \
       /usr/local/lib/php/extensions/*-zts-*/exif.so
+
 
 FROM php:${PHP_VERSION}-cli-alpine3.14
 
@@ -16,6 +17,7 @@ COPY --from=0 /tmp/files.tar /tmp/
 
 # Extract tar file into it's own directory.
 RUN mkdir /tmp/root && tar -xf /tmp/files.tar -C /tmp/root
+
 
 FROM scratch
 
