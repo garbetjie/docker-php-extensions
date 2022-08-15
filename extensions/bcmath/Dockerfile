@@ -18,4 +18,4 @@ RUN mkdir /tmp/root && tar -xf /tmp/files.tar -C /tmp/root
 
 FROM scratch
 
-COPY --from=1 /tmp/root /ot /
+COPY --from=1 /tmp/root /
