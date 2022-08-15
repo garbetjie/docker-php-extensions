@@ -12,7 +12,7 @@ while [ $# -gt 0 ]; do
   esac
 done
 
-docker build --build-arg PHP_VERSION=8.0.8 $platform -t build/php:"$ext" -f extensions/$ext/Dockerfile --progress plain extensions/$ext
+docker build --build-arg PHP_VERSION=8.0.22 $platform -t build/php:"$ext" -f extensions/$ext/Dockerfile --progress plain extensions/$ext
 
 echo ""
 echo "-----------------------------------------"
@@ -21,7 +21,7 @@ echo "-----------------------------------------"
 docker images --filter reference=build/php:"$ext"
 
 cat <<EOT > tmp.Dockerfile
-FROM php:8.0.8-cli-alpine3.14
+FROM php:8.0.22-cli-alpine3.16
 COPY --from=build/php:$ext / /
 COPY builder/docker-php-install-dependencies.sh /usr/local/bin/docker-php-install-dependencies.sh
 RUN docker-php-install-dependencies.sh
