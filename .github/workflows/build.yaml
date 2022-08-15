@@ -9,6 +9,7 @@ jobs:
     name: "${{ matrix.ext }} [${{ matrix.php_version }}]"
     runs-on: ubuntu-latest
     strategy:
+      max-parallel: 4
       matrix:
         php_version:
         - 8.0.22
@@ -40,11 +41,11 @@ jobs:
         path: /tmp/.buildx-cache
         key: ${{ steps.vars.outputs.stripped_php_version }}-${{ matrix.ext }}-${{ github.sha }}
         restore-keys: ${{ steps.vars.outputs.stripped_php_version }}-${{ matrix.ext }}-
-#    - name: Log in to Docker
-#      uses: docker/login-action@v2
-#      with:
-#        username: ${{ secrets.DOCKER_HUB_LOGIN }}
-#        password: ${{ secrets.DOCKER_HUB_TOKEN }}
+    - name: Log in to Docker
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_HUB_LOGIN }}
+        password: ${{ secrets.DOCKER_HUB_TOKEN }}
     - name: Build
       uses: docker/build-push-action@v2
       with:
@@ -52,7 +53,7 @@ jobs:
         build-args: PHP_VERSION=${{ matrix.php_version }}
         tags: ${{ secrets.DOCKER_HUB_REPO }}/php:${{ steps.vars.outputs.stripped_php_version }}-${{ matrix.ext }}
         platforms: "${{ steps.vars.outputs.platform }}"
-        outputs: type=local,dest=/tmp/.buildx-output
+        push: true
         cache-to: type=local,dest=/tmp/.buildx-cache-new
         cache-from: type=local,src=/tmp/.buildx-cache
     - name: Replace cache  # temp fix for https://github.com/docker/build-push-action/issues/252 & https://github.com/moby/buildkit/issues/1896.
