@@ -1,8 +1,6 @@
 on:
   workflow_dispatch:
     inputs: {}
-  push:
-    branches: [modular-extensions]
 
 jobs:
   build_exts:
