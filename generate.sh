@@ -29,8 +29,9 @@ RUN docker-php-ext-configure $1
 RUN docker-php-ext-install $1
 
 # Package files for extension into tar file.
-RUN mkdir /tmp/docker-php-dependencies.d
-RUN echo > /tmp/docker-php-dependencies.d/${1}
+COPY apk /tmp/docker-php-dependencies.d/apk/$1
+COPY shell /tmp/docker-php-dependencies.d/shell/$1
+
 RUN tar -cf /tmp/files.tar \\
       /tmp/docker-php-dependencies.d \\
       /usr/local/etc/php/conf.d/docker-php-ext-$1.ini \\
@@ -50,3 +51,11 @@ FROM scratch
 COPY --from=1 /tmp/root /
 
 EOT
+
+cat <<EOT > "extensions/$1/shell"
+#!/usr/bin/env sh
+
+exit 0
+EOT
+
+touch "extensions/$1/apk"
