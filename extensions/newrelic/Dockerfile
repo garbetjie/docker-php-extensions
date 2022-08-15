@@ -13,8 +13,8 @@ RUN git clone https://github.com/newrelic/newrelic-php-agent.git .
 RUN git checkout v10.0.0.312
 
 # Build extension & move files.
-RUN make all && \
-    strip --strip-debug agent/modules/newrelic.so && \
+RUN make all
+RUN strip --strip-debug agent/modules/newrelic.so && \
     mv agent/modules/newrelic.so $(php-config --extension-dir)/newrelic.so && \
     mv agent/scripts/newrelic.ini.template /usr/local/etc/php/conf.d/docker-php-ext-newrelic.ini && \
     mv bin/daemon /usr/local/bin/newrelic-daemon
