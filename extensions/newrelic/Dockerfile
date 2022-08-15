@@ -1,5 +1,5 @@
 ARG PHP_VERSION=8.0.8
-FROM php:${PHP_VERSION}-cli-alpine3.14
+FROM php:${PHP_VERSION}-cli-alpine3.16
 
 # Install build dependencies.
 RUN apk add --no-cache binutils git go build-base curl-dev openssl-dev pcre-dev zlib-dev bash automake autoconf libtool $PHPIZE_DEPS
@@ -37,7 +37,7 @@ RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/newrelic.so
 
 
-FROM php:${PHP_VERSION}-cli-alpine3.14
+FROM php:${PHP_VERSION}-cli-alpine3.16
 
 COPY --from=0 /tmp/files.tar /tmp/
 RUN mkdir /tmp/root && tar -xf /tmp/files.tar -C /tmp/root
