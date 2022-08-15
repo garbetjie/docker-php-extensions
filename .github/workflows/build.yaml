@@ -16,8 +16,35 @@ jobs:
         - 8.1.9
         ext:
         - amqp
+        - apcu
         - bcmath
+        - bz2
+        - exif
+        - gd
+        - gettext
+        - gmp
+        - grpc
+        - igbinary
+        - imagick
+        - imap
+        - intl
+        - memcached
+        - msgpack
+        - newrelic
+        - opcache
+        - opencensus
+        - pcntl
+        - pdo_mysql
+        - pdo_sqlsrv
+        - protobuf
+        - redis
+        - soap
+        - sockets
         - sqlsrv
+        - ssh2
+        - xdebug
+        - yaml
+        - zip
         include:
         - ext: sqlsrv
           arch: linux/amd64
