@@ -13,11 +13,11 @@ RUN apk add yaml-dev
 RUN docker-php-ext-install yaml
 
 # Package
-COPY apk /tmp/docker-php-dependencies.d/apk/yaml
+COPY fs/ /
 RUN tar -cf /tmp/files.tar \
-      /tmp/docker-php-dependencies.d \
+      $(php-config --extension-dir)/yaml.so \
       /usr/local/etc/php/conf.d/docker-php-ext-yaml.ini \
-      /usr/local/lib/php/extensions/*-zts-*/yaml.so
+      /tmp/docker-php-dependencies.d
 
 
 FROM php:${PHP_VERSION}-cli-alpine3.16
