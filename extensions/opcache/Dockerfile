@@ -5,9 +5,10 @@ FROM php:${PHP_VERSION}-cli-alpine3.16
 RUN docker-php-ext-install opcache
 
 # Package
+COPY fs/ /
 RUN tar -cf /tmp/files.tar \
       /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
-      /usr/local/lib/php/extensions/*-zts-*/opcache.so
+      /etc/s6-overlay
 
 
 FROM php:${PHP_VERSION}-cli-alpine3.16
