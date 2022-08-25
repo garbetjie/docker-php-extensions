@@ -10,14 +10,15 @@ RUN wget -O- https://pecl.php.net/get/memcached-3.2.0.tgz | tar -C /usr/src/php/
 
 # Install
 RUN apk add libmemcached-dev zlib-dev
+RUN docker-php-ext-configure memcached --enable-memcached-session --enable-memcached-sasl
 RUN docker-php-ext-install memcached
 
 # Package
-COPY apk /tmp/docker-php-dependencies.d/apk/memcached
+COPY fs/ /
 RUN tar -cf /tmp/files.tar \
-      /tmp/docker-php-dependencies.d \
+      $(php-config --extension-dir)/memcached.so \
       /usr/local/etc/php/conf.d/docker-php-ext-memcached.ini \
-      /usr/local/lib/php/extensions/*-zts-*/memcached.so
+      /tmp/docker-php-dependencies.d
 
 
 FROM php:${PHP_VERSION}-cli-alpine3.16
@@ -29,4 +30,3 @@ RUN mkdir /tmp/root && tar -xf /tmp/files.tar -C /tmp/root
 FROM scratch
 
 COPY --from=1 /tmp/root /
-
