@@ -10,11 +10,11 @@ RUN docker-php-ext-configure zip --with-zip
 RUN docker-php-ext-install zip
 
 # Package
-COPY apk /tmp/docker-php-dependencies.d/apk/zip
+COPY fs/ /
 RUN tar -cf /tmp/files.tar \
-      /tmp/docker-php-dependencies.d \
+      $(php-config --extension-dir)/zip.so \
       /usr/local/etc/php/conf.d/docker-php-ext-zip.ini \
-      /usr/local/lib/php/extensions/*-zts-*/zip.so
+      /tmp/docker-php-dependencies.d
 
 
 FROM php:${PHP_VERSION}-cli-alpine3.16
