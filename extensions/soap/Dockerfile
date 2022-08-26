@@ -7,8 +7,8 @@ RUN docker-php-ext-install soap
 
 # Package
 RUN tar -cf /tmp/files.tar \
-      /usr/local/etc/php/conf.d/docker-php-ext-soap.ini \
-      /usr/local/lib/php/extensions/*-zts-*/soap.so
+      $(php-config --extension-dir)/soap.so \
+      /usr/local/etc/php/conf.d/docker-php-ext-soap.ini
 
 
 FROM php:${PHP_VERSION}-cli-alpine3.16

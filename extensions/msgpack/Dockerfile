@@ -13,8 +13,8 @@ RUN docker-php-ext-install msgpack
 
 # Package
 RUN tar -cf /tmp/files.tar \
-      /usr/local/etc/php/conf.d/docker-php-ext-msgpack.ini \
-      /usr/local/lib/php/extensions/*-zts-*/msgpack.so
+      $(php-config --extension-dir)/msgpack.so \
+      /usr/local/etc/php/conf.d/docker-php-ext-msgpack.ini
 
 
 FROM php:${PHP_VERSION}-cli-alpine3.16

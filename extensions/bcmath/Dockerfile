@@ -1,4 +1,4 @@
-ARG PHP_VERSION=8.0.8
+ARG PHP_VERSION
 FROM php:${PHP_VERSION}-cli-alpine3.16
 
 # Install
@@ -6,8 +6,8 @@ RUN docker-php-ext-install bcmath
 
 # Package
 RUN tar -cf /tmp/files.tar \
-      /usr/local/etc/php/conf.d/docker-php-ext-bcmath.ini \
-      /usr/local/lib/php/extensions/*-zts-*/bcmath.so
+      $(php-config --extension-dir)/bcmath.so \
+      /usr/local/etc/php/conf.d/docker-php-ext-bcmath.ini
 
 
 FROM php:${PHP_VERSION}-cli-alpine3.16

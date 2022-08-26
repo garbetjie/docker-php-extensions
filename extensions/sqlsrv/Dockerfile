@@ -13,12 +13,11 @@ RUN apk add unixodbc-dev gnupg
 RUN docker-php-ext-install sqlsrv
 
 # Package
-COPY apk /tmp/docker-php-dependencies.d/apk/sqlsrv
-COPY shell /tmp/docker-php-dependencies.d/shell/sqlsrv
+COPY fs/ /
 RUN tar -cf /tmp/files.tar \
-      /tmp/docker-php-dependencies.d \
+      $(php-config --extension-dir)/sqlsrv.so \
       /usr/local/etc/php/conf.d/docker-php-ext-sqlsrv.ini \
-      /usr/local/lib/php/extensions/*-zts-*/sqlsrv.so
+      /tmp/docker-php-dependencies.d
 
 
 FROM php:${PHP_VERSION}-cli-alpine3.16

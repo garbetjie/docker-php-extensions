@@ -13,8 +13,8 @@ RUN docker-php-ext-install protobuf
 
 # Package
 RUN tar -cf /tmp/files.tar \
-      /usr/local/etc/php/conf.d/docker-php-ext-protobuf.ini \
-      /usr/local/lib/php/extensions/*-zts-*/protobuf.so
+      $(php-config --extension-dir)/protobuf.so \
+      /usr/local/etc/php/conf.d/docker-php-ext-protobuf.ini
 
 
 FROM php:${PHP_VERSION}-cli-alpine3.16
@@ -26,4 +26,3 @@ RUN mkdir /tmp/root && tar -xf /tmp/files.tar -C /tmp/root
 FROM scratch
 
 COPY --from=1 /tmp/root /
-

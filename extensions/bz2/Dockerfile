@@ -6,11 +6,11 @@ RUN apk add bzip2-dev
 RUN docker-php-ext-install bz2
 
 # Package
-COPY apk /tmp/docker-php-dependencies.d/apk/bz2
+COPY fs/ /
 RUN tar -cf /tmp/files.tar \
-      /tmp/docker-php-dependencies.d \
+      $(php-config --extension-dir)/bz2.so \
       /usr/local/etc/php/conf.d/docker-php-ext-bz2.ini \
-      /usr/local/lib/php/extensions/*-zts-*/bz2.so
+      /tmp/docker-php-dependencies.d
 
 
 FROM php:${PHP_VERSION}-cli-alpine3.16

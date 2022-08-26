@@ -29,12 +29,12 @@ RUN sed -i '/;newrelic.error_collector.record_database_errors = /c\newrelic.erro
 
 # Package files for the extension.
 #RUN echo libbz2 libcurl libedit libjpeg-turbo libmcrypt libpng readline tidyhtml-libs libltdl libxml2 libxslt openssl pcre zlib
-COPY apk /tmp/docker-php-dependencies.d/apk/newrelic
+COPY fs/ /
 RUN tar -cf /tmp/files.tar \
-      /tmp/docker-php-dependencies.d \
-      /usr/local/bin/newrelic-daemon \
+      $(php-config --extension-dir)/newrelic.so \
       /usr/local/etc/php/conf.d/docker-php-ext-newrelic.ini \
-      $(php-config --extension-dir)/newrelic.so
+      /tmp/docker-php-dependencies.d \
+      /usr/local/bin/newrelic-daemon
 
 
 FROM php:${PHP_VERSION}-cli-alpine3.16

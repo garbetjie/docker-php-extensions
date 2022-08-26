@@ -6,12 +6,12 @@ RUN apk add gd-dev libpng-dev libwebp-dev libjpeg-turbo-dev libxpm-dev
 RUN docker-php-ext-configure gd --enable-gd --with-webp --with-jpeg --with-xpm --with-freetype
 RUN docker-php-ext-install gd
 
-# Package extension.
-COPY apk /tmp/docker-php-dependencies.d/apk/gd
+# Package
+COPY fs/ /
 RUN tar -cf /tmp/files.tar \
-      /tmp/docker-php-dependencies.d \
+      $(php-config --extension-dir)/gd.so \
       /usr/local/etc/php/conf.d/docker-php-ext-gd.ini \
-      /usr/local/lib/php/extensions/*-zts-*/gd.so
+      /tmp/docker-php-dependencies.d
 
 
 FROM php:${PHP_VERSION}-cli-alpine3.16

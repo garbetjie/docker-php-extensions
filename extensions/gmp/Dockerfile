@@ -6,11 +6,11 @@ RUN apk add gmp-dev
 RUN docker-php-ext-install gmp
 
 # Package
-COPY apk /tmp/docker-php-dependencies.d/apk/gmp
+COPY fs/ /
 RUN tar -cf /tmp/files.tar \
-      /tmp/docker-php-dependencies.d \
+      $(php-config --extension-dir)/gmp.so \
       /usr/local/etc/php/conf.d/docker-php-ext-gmp.ini \
-      /usr/local/lib/php/extensions/*-zts-*/gmp.so
+      /tmp/docker-php-dependencies.d
 
 
 FROM php:${PHP_VERSION}-cli-alpine3.16
