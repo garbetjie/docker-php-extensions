@@ -12,7 +12,7 @@ RUN wget -O- https://pecl.php.net/get/xdebug-3.1.5.tgz | tar -C /usr/src/php/ext
 RUN docker-php-ext-install xdebug
 
 # Package
-COPY fs/ /
+COPY services/ /etc/s6-overlay/s6-rc.d/
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/xdebug.so \
       /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \

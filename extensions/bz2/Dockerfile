@@ -6,7 +6,7 @@ RUN apk add bzip2-dev
 RUN docker-php-ext-install bz2
 
 # Package
-COPY fs/ /
+COPY apk /tmp/docker-php-dependencies.d/apk/bz2
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/bz2.so \
       /usr/local/etc/php/conf.d/docker-php-ext-bz2.ini \

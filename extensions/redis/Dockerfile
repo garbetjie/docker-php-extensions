@@ -13,7 +13,7 @@ RUN apk add zstd-dev
 RUN docker-php-ext-install redis
 
 # Package
-COPY fs/ /
+COPY apk /tmp/docker-php-dependencies.d/apk/redis
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/redis.so \
       /usr/local/etc/php/conf.d/docker-php-ext-redis.ini \

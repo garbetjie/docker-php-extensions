@@ -7,7 +7,7 @@ RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl
 RUN docker-php-ext-install imap
 
 # Package
-COPY fs/ /
+COPY apk /tmp/docker-php-dependencies.d/apk/imap
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/imap.so \
       /usr/local/etc/php/conf.d/docker-php-ext-imap.ini \

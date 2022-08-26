@@ -13,7 +13,7 @@ RUN apk add zlib-dev linux-headers binutils
 RUN docker-php-ext-install grpc && strip --strip-debug /usr/local/lib/php/extensions/*-zts-*/grpc.so
 
 # Package
-COPY fs/ /
+COPY apk /tmp/docker-php-dependencies.d/apk/grpc
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/grpc.so \
       /usr/local/etc/php/conf.d/docker-php-ext-grpc.ini \

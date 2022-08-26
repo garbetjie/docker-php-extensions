@@ -13,7 +13,7 @@ RUN apk add rabbitmq-c-dev
 RUN docker-php-ext-install amqp
 
 # Package
-COPY fs/ /
+COPY apk /tmp/docker-php-dependencies.d/apk/amqp
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/amqp.so \
       /usr/local/etc/php/conf.d/docker-php-ext-amqp.ini \

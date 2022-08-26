@@ -13,7 +13,7 @@ RUN wget -O- https://pecl.php.net/get/ssh2-1.3.1.tgz | tar -C /usr/src/php/ext/s
 RUN docker-php-ext-install ssh2
 
 # Package
-COPY fs/ /
+COPY apk /tmp/docker-php-dependencies.d/apk/ssh2
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/ssh2.so \
       /usr/local/etc/php/conf.d/docker-php-ext-ssh2.ini \

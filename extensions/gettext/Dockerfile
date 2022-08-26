@@ -6,7 +6,7 @@ RUN apk add gettext-dev
 RUN docker-php-ext-install gettext
 
 # Package
-COPY fs/ /
+COPY apk /tmp/docker-php-dependencies.d/apk/gettext
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/gettext.so \
       /usr/local/etc/php/conf.d/docker-php-ext-gettext.ini \

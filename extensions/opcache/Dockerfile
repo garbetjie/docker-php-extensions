@@ -5,7 +5,7 @@ FROM php:${PHP_VERSION}-cli-alpine3.16
 RUN docker-php-ext-install opcache
 
 # Package
-COPY fs/ /
+COPY services/ /etc/s6-overlay/s6-rc.d/
 RUN tar -cf /tmp/files.tar \
       /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini \
       /etc/s6-overlay

@@ -13,7 +13,8 @@ RUN apk add unixodbc-dev gnupg
 RUN docker-php-ext-install sqlsrv
 
 # Package
-COPY fs/ /
+COPY apk /tmp/docker-php-dependencies.d/apk/sqlsrv
+COPY shell /tmp/docker-php-dependencies.d/shell/sqlsrv
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/sqlsrv.so \
       /usr/local/etc/php/conf.d/docker-php-ext-sqlsrv.ini \

@@ -14,7 +14,7 @@ RUN docker-php-ext-configure memcached --enable-memcached-session --enable-memca
 RUN docker-php-ext-install memcached
 
 # Package
-COPY fs/ /
+COPY apk /tmp/docker-php-dependencies.d/apk/memcached
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/memcached.so \
       /usr/local/etc/php/conf.d/docker-php-ext-memcached.ini \
