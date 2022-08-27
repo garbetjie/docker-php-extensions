@@ -30,7 +30,7 @@ COPY --from=garbetjie/php:8.0-opcache / /
 COPY --from=garbetjie/php:8.0-xdebug / /
 
 # Run the setup script.
-RUN wget -O- https://raw.githubusercontent.com/garbetjie/docker-php/main/builder/docker-php-install-dependencies.sh | sh
+RUN wget -O- https://raw.githubusercontent.com/garbetjie/docker-php/main/install-dependencies.sh | sh
 ```
 
 
