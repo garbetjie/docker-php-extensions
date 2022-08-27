@@ -15,47 +15,64 @@ fi
 
 cat <<EOT > "extensions/$1/Dockerfile"
 ARG PHP_VERSION
-FROM php:\${PHP_VERSION}-cli-alpine3.14
+FROM php:\${PHP_VERSION}-cli-alpine3.16
 
-# Unpack PHP source
+# Unpack source
 RUN docker-php-source extract
 
-# Download and unpack from PECL
+# Download
 RUN mkdir /usr/src/php/ext/${1}
 RUN wget -O- https://pecl.php.net/get/${1}-VERSION.tgz | tar -C /usr/src/php/ext/${1} -xzf - --strip-components 1
 
-# Install extension.
+# Install
 RUN docker-php-ext-configure $1
 RUN docker-php-ext-install $1
 
-# Package files for extension into tar file.
+# Package
+COPY services/ /etc/s6-overlay/s6-rc.d/
 COPY apk /tmp/docker-php-dependencies.d/apk/$1
 COPY shell /tmp/docker-php-dependencies.d/shell/$1
-
 RUN tar -cf /tmp/files.tar \\
-      /tmp/docker-php-dependencies.d \\
+      \$(php-config --extension-dir)/$1.so \\
       /usr/local/etc/php/conf.d/docker-php-ext-$1.ini \\
-      /usr/local/lib/php/extensions/*-zts-*/$1.so
+      /tmp/docker-php-dependencies.d \\
+      /etc/s6-overlay
 
-FROM php:\${PHP_VERSION}-cli-alpine3.14
 
-# Copy in tar file.
+FROM php:\${PHP_VERSION}-cli-alpine3.16
+
 COPY --from=0 /tmp/files.tar /tmp/
-
-# Extract tar file into it's own directory.
 RUN mkdir /tmp/root && tar -xf /tmp/files.tar -C /tmp/root
+
 
 FROM scratch
 
-# Copy in only the files required for the extension.
 COPY --from=1 /tmp/root /
-
 EOT
 
+# Create file system
+
+# Make APK dependency file.
+touch "extensions/$1/apk"
+
+# Make shell dependency file.
 cat <<EOT > "extensions/$1/shell"
 #!/usr/bin/env sh
 
 exit 0
 EOT
 
-touch "extensions/$1/apk"
+# Create service files.
+mkdir -p "extensions/$1/services/config/contents.d"
+touch    "extensions/$1/services/config/contents.d/config-ini-$1"
+
+mkdir -p "extensions/$1/services/config-ini-$1"
+echo "oneshot" > "extensions/$1/services/config-ini-$1/type"
+echo "with-contenv sh /etc/s6-overlay/s6-rc.d/config-ini-$1/run" > "extensions/$1/services/config-ini-$1/up"
+
+cat <<EOF > "extensions/$1/services/config-ini-$1/run"
+#!/usr/bin/env sh
+
+cat <<EOT > "\$(php-config --ini-dir)/zz-config-ini-$1.ini"
+EOT
+EOF
