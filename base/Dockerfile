@@ -20,9 +20,12 @@ COPY services/user /tmp/root/etc/s6-overlay/s6-rc.d/user
 FROM php:${PHP_VERSION}-cli-alpine3.16 AS cli
 
 STOPSIGNAL SIGTERM
+WORKDIR /srv
 
 # Copy in base file system.
 COPY --from=fs /tmp/root/ /
+
+RUN rm -rf /var/www
 
 # Define PHP INI configuration.
 ENV INI_EXPOSE_PHP="false" \
@@ -48,12 +51,14 @@ CMD ["php", "-a"]
 FROM php:${PHP_VERSION}-fpm-alpine3.16 AS www
 
 STOPSIGNAL SIGTERM
+WORKDIR /srv
 
 # Copy in s6-overlay.
 COPY --from=fs /tmp/root/ /
 
 # Add nginx.
 RUN apk add --no-cache nginx
+RUN rm -rf /var/www
 
 # Add additional services.
 COPY services/php-fpm /etc/s6-overlay/s6-rc.d/php-fpm
