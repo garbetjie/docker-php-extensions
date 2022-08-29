@@ -57,18 +57,20 @@ WORKDIR /srv
 COPY --from=fs /tmp/root/ /
 
 # Add nginx.
-RUN apk add --no-cache nginx
-RUN rm -rf /var/www
+RUN apk add --no-cache nginx && \
+    rm -rf /var/www
 
 # Add additional services.
 COPY services/php-fpm /etc/s6-overlay/s6-rc.d/php-fpm
+COPY services/config-fpm /etc/s6-overlay/s6-rc.d/config-fpm
 COPY services/nginx /etc/s6-overlay/s6-rc.d/nginx
-RUN touch /etc/s6-overlay/s6-rc.d/user/contents.d/nginx /etc/s6-overlay/s6-rc.d/user/contents.d/php-fpm
+RUN touch /etc/s6-overlay/s6-rc.d/user/contents.d/nginx \
+          /etc/s6-overlay/s6-rc.d/user/contents.d/php-fpm \
+          /etc/s6-overlay/s6-rc.d/user/contents.d/config-fpm
 
 # Define FPM configuration.
-ENV FPM_LISTEN="" \
-    FPM_PM="static" \
-    FPM_PM_MAX_CHILDREN=0 \
+ENV FPM_PM="static" \
+    FPM_PM_MAX_CHILDREN="90%" \
     FPM_PM_MIN_SPARE_SERVERS=1 \
     FPM_PM_MAX_SPARE_SERVERS=3 \
     FPM_PM_MAX_REQUESTS=10000 \
