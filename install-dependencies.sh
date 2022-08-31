@@ -5,7 +5,7 @@ set -xe
 # Install APK dependencies.
 if [ -d /tmp/docker-php-dependencies.d/apk ]; then
   echo "### Installing APK dependencies..."
-  cat /tmp/docker-php-dependencies.d/apk/* | tr '\n' ' ' | xargs apk add --no-cache
+  awk '{ print $0}' /tmp/docker-php-dependencies.d/apk/* | tr '\n' ' ' | xargs apk add --no-cache
 fi
 
 # Run custom setup scripts.
