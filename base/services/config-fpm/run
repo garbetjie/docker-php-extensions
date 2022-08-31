@@ -43,7 +43,9 @@ fi
 cat <<EOT > /usr/local/etc/php-fpm.d/zz-www.conf
 [www]
 access.log = /dev/null
-listen = /run/php-fpm.sock
+listen = /var/run/php-fpm.sock
+listen.owner = www-data
+listen.group = www-data
 pm = ${FPM_PM}
 pm.max_children = ${FPM_PM_MAX_CHILDREN}
 pm.min_spare_servers = ${FPM_PM_MIN_SPARE_SERVERS}

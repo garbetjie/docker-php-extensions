@@ -58,15 +58,19 @@ COPY --from=fs /tmp/root/ /
 
 # Add nginx.
 RUN apk add --no-cache nginx && \
-    rm -rf /var/www
+    mkdir -p /etc/nginx/server.d && \
+    rm -rf /var/www /etc/nginx/http.d/*.conf
 
 # Add additional services.
-COPY services/php-fpm /etc/s6-overlay/s6-rc.d/php-fpm
 COPY services/config-fpm /etc/s6-overlay/s6-rc.d/config-fpm
+COPY services/config-nginx /etc/s6-overlay/s6-rc.d/config-nginx
+COPY services/php-fpm /etc/s6-overlay/s6-rc.d/php-fpm
 COPY services/nginx /etc/s6-overlay/s6-rc.d/nginx
+COPY nginx.conf /etc/nginx/nginx.conf
 RUN touch /etc/s6-overlay/s6-rc.d/user/contents.d/nginx \
           /etc/s6-overlay/s6-rc.d/user/contents.d/php-fpm \
-          /etc/s6-overlay/s6-rc.d/user/contents.d/config-fpm
+          /etc/s6-overlay/s6-rc.d/config/contents.d/config-fpm \
+          /etc/s6-overlay/s6-rc.d/config/contents.d/config-nginx
 
 # Define FPM configuration.
 ENV FPM_PM="static" \
