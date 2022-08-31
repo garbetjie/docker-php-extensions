@@ -7,7 +7,7 @@ jobs:
     name: "${{ matrix.ext }} [${{ matrix.php_version }}]"
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 2
+      max-parallel: 4
       matrix:
         php_version:
         - 8.0.22
