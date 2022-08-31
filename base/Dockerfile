@@ -91,7 +91,7 @@ ENV NGINX_ABSOLUTE_REDIRECT="on" \
     NGINX_LOG_FORMAT="main" \
     NGINX_PORT=80 \
     NGINX_PORT_IN_REDIRECT="on" \
-    NGINX_ROOT="/srv"
+    NGINX_ROOT="/srv/public"
 
 # Define PHP INI configuration.
 ENV INI_EXPOSE_PHP="false" \
