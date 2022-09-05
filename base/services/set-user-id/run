@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+set -e
+
+usermod -u "$PUID" app
+groupmod -g "$PGID" app
