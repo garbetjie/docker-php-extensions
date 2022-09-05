@@ -17,6 +17,7 @@ FROM php:${PHP_VERSION}-cli-alpine3.16
 
 COPY --from=0 /tmp/files.tar /tmp/
 RUN mkdir /tmp/root && tar -xf /tmp/files.tar -C /tmp/root
+RUN chmod 1777 /tmp/root/tmp
 
 
 FROM scratch
