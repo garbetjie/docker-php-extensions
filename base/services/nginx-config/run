@@ -6,5 +6,5 @@ echo "gzip_proxied ${NGINX_GZIP_PROXIED:-any};" > /etc/nginx/http.d/50-gzip_prox
 echo "absolute_redirect ${NGINX_ABSOLUTE_REDIRECT:-on};" > /etc/nginx/http.d/50-absolute_redirect.conf
 echo "port_in_redirect ${PORT_IN_REDIRECT:-off};" > /etc/nginx/http.d/50-port_in_redirect.conf
 
-echo "client_max_body_size ${INI_MAX_REQUEST_SIZE};" > /etc/nginx/server.d/50-client_max_body_size.conf
-echo "root ${NGINX_ROOT:-/srv/public};" > /etc/nginx/server.d/50-root.conf
+echo "client_max_body_size ${INI_POST_MAX_SIZE};" > /etc/nginx/server.d/50-client_max_body_size.conf
+echo "root ${NGINX_ROOT:-/app};" > /etc/nginx/server.d/50-root.conf

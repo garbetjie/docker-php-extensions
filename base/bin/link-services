@@ -1,0 +1,30 @@
+#!/usr/bin/env sh
+set -x
+# Must have at least two services.
+if [ $# -lt 2 ]; then
+  printf 'Usage: %s \e[4mtarget\e[0m \e[4mchild\e[0m [, \e[4mchild\e[0m...]\n' "$0"
+  exit 1
+fi
+
+target="$1"
+shift
+
+target_dir="/etc/s6-overlay/s6-rc.d/$target"
+target_type="$(cat "$target_dir/type")"
+
+if [ "$target_type" = "oneshot" ]; then
+  deps_dir="$target_dir/dependencies.d"
+elif [ "$target_type" = "bundle" ]; then
+  deps_dir="$target_dir/contents.d"
+else
+  exit 0
+fi
+
+if [ ! -d "$deps_dir" ]; then
+  mkdir "$deps_dir"
+fi
+
+while [ $# -gt 0 ]; do
+  touch "$deps_dir/$1"
+  shift
+done

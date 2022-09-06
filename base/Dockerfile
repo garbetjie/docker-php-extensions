@@ -7,25 +7,30 @@ RUN wget https://github.com/just-containers/s6-overlay/releases/download/v3.1.0.
 RUN wget https://github.com/just-containers/s6-overlay/releases/download/v3.1.0.1/s6-overlay-$(uname -m).tar.xz -P /tmp
 RUN tar -C /tmp/root/ -Jxpf /tmp/s6-overlay-noarch.tar.xz
 RUN tar -C /tmp/root/ -Jxpf /tmp/s6-overlay-$(uname -m).tar.xz
-RUN mkdir /tmp/root/srv
+RUN mkdir /tmp/root/app
 
 COPY bin/ /tmp/root/usr/local/bin/
 
 # Copy core services.
-COPY services/config /tmp/root/etc/s6-overlay/s6-rc.d/config
-COPY services/config-ini-core /tmp/root/etc/s6-overlay/s6-rc.d/config-ini-core
-COPY services/user /tmp/root/etc/s6-overlay/s6-rc.d/user
+COPY services/ /tmp/root/etc/s6-overlay/s6-rc.d
 
 
-FROM php:${PHP_VERSION}-cli-alpine3.16 AS cli
+FROM php:${PHP_VERSION}-alpine3.16 AS shared
 
 STOPSIGNAL SIGTERM
-WORKDIR /srv
+ENTRYPOINT ["/init"]
 
-# Copy in base file system.
 COPY --from=fs /tmp/root/ /
+WORKDIR /app
 
-RUN rm -rf /var/www
+ENV PUID=1000 \
+    PGID=1000
+
+RUN set -ex; \
+    apk add --no-cache shadow su-exec; \
+    rm -rf /var/www; \
+    addgroup -g "$PGID" app; \
+    adduser -s /bin/sh -G app -u "$PUID" -D app
 
 # Define PHP INI configuration.
 ENV INI_EXPOSE_PHP="false" \
@@ -35,42 +40,16 @@ ENV INI_EXPOSE_PHP="false" \
     INI_HTML_ERRORS="off" \
     INI_MAX_EXECUTION_TIME=30 \
     INI_MAX_INPUT_TIME=30 \
-    INI_MAX_REQUEST_SIZE="8M" \
     INI_MEMORY_LIMIT="64M" \
     INI_POST_MAX_SIZE="8M" \
     INI_SESSION_NAME="session" \
     INI_SESSION_SAVE_HANDLER="files" \
-    INI_SESSION_SAVE_PATH="/tmp/.php-sessions" \
+    INI_SESSION_SAVE_PATH="/tmp/sessions" \
     INI_SYS_TEMP_DIR="/tmp" \
     INI_UPLOAD_MAX_FILESIZE="8M"
 
-ENTRYPOINT ["/init"]
-CMD ["php", "-a"]
 
-
-FROM php:${PHP_VERSION}-fpm-alpine3.16 AS www
-
-STOPSIGNAL SIGTERM
-WORKDIR /srv
-
-# Copy in s6-overlay.
-COPY --from=fs /tmp/root/ /
-
-# Add nginx.
-RUN apk add --no-cache nginx && \
-    mkdir -p /etc/nginx/server.d && \
-    rm -rf /var/www /etc/nginx/http.d/*.conf
-
-# Add additional services.
-COPY services/config-fpm /etc/s6-overlay/s6-rc.d/config-fpm
-COPY services/config-nginx /etc/s6-overlay/s6-rc.d/config-nginx
-COPY services/php-fpm /etc/s6-overlay/s6-rc.d/php-fpm
-COPY services/nginx /etc/s6-overlay/s6-rc.d/nginx
-COPY nginx.conf /etc/nginx/nginx.conf
-RUN touch /etc/s6-overlay/s6-rc.d/user/contents.d/nginx \
-          /etc/s6-overlay/s6-rc.d/user/contents.d/php-fpm \
-          /etc/s6-overlay/s6-rc.d/config/contents.d/config-fpm \
-          /etc/s6-overlay/s6-rc.d/config/contents.d/config-nginx
+FROM shared AS www
 
 # Define FPM configuration.
 ENV FPM_PM="static" \
@@ -78,9 +57,9 @@ ENV FPM_PM="static" \
     FPM_PM_MIN_SPARE_SERVERS=1 \
     FPM_PM_MAX_SPARE_SERVERS=3 \
     FPM_PM_MAX_REQUESTS=10000 \
-    FPM_REQUEST_TERMINATE_TIMEOUT=60 \
     FPM_REQUEST_SLOWLOG_TIMEOUT=5 \
-    FPM_SLOWLOG="/proc/self/fd/2"
+    FPM_SLOWLOG="/proc/self/fd/2" \
+    FPM_REQUEST_TERMINATE_TIMEOUT=60
 
 # Define nginx configuration.
 ENV NGINX_ABSOLUTE_REDIRECT="on" \
@@ -91,23 +70,17 @@ ENV NGINX_ABSOLUTE_REDIRECT="on" \
     NGINX_LOG_FORMAT="main" \
     NGINX_PORT=80 \
     NGINX_PORT_IN_REDIRECT="on" \
-    NGINX_ROOT="/srv/public"
+    NGINX_ROOT="/app"
 
-# Define PHP INI configuration.
-ENV INI_EXPOSE_PHP="false" \
-    INI_DISPLAY_ERRORS="false" \
-    INI_DATE_TIMEZONE="" \
-    INI_ERROR_REPORTING="E_ALL & ~E_DEPRECATED & ~E_STRICT" \
-    INI_HTML_ERRORS="off" \
-    INI_MAX_EXECUTION_TIME=30 \
-    INI_MAX_INPUT_TIME=30 \
-    INI_MAX_REQUEST_SIZE="8M" \
-    INI_MEMORY_LIMIT="64M" \
-    INI_POST_MAX_SIZE="8M" \
-    INI_SESSION_NAME="session" \
-    INI_SESSION_SAVE_HANDLER="files" \
-    INI_SESSION_SAVE_PATH="/tmp/.php-sessions" \
-    INI_SYS_TEMP_DIR="/tmp" \
-    INI_UPLOAD_MAX_FILESIZE="8M"
+COPY nginx.conf /etc/nginx/nginx.conf
 
-ENTRYPOINT ["/init"]
+RUN set -e; \
+    apk add --no-cache nginx; \
+    mkdir -p /etc/nginx/server.d; \
+    rm -rf /var/www /etc/nginx/http.d/*.conf; \
+    link-services user nginx php-fpm
+
+
+FROM shared AS cli
+
+CMD ["/command/with-contenv", "su-exec", "app:app", "php", "-a"]

@@ -12,10 +12,10 @@ fi
 # Ensure the session directory exists & is writable.
 if [ "$INI_SESSION_SAVE_HANDLER" = "files" ] && [ ! -d "$INI_SESSION_SAVE_PATH" ]; then
   mkdir -p "$INI_SESSION_SAVE_PATH"
-  chown -R www-data:www-data "$INI_SESSION_SAVE_PATH"
+  chown -R app:app "$INI_SESSION_SAVE_PATH"
 fi
 
-cat <<EOT > "$(php-config --ini-dir)/zz-config-ini-core.ini"
+cat <<EOT > "$(php-config --ini-dir)/zz-ini-core.ini"
 expose_php = ${INI_EXPOSE_PHP}
 display_errors = ${INI_DISPLAY_ERRORS}
 error_reporting = ${INI_ERROR_REPORTING}
