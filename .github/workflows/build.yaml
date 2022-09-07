@@ -87,12 +87,15 @@ jobs:
     strategy:
       max-parallel: 2
       matrix:
-        variant:
-        - cli
-        - www
-        php_version:
-        - 8.0.22
-        - 8.1.9
+        include:
+        - php_version: 8.0.22-fpm
+          target: www
+        - php_version: 8.0.22-cli
+          target: cli
+        - php_version: 8.1.9-fpm
+          target: www
+        - php_version: 8.1.9-cli
+          target: cli
     steps:
     - uses: actions/checkout@v3
     - name: Set variables
@@ -118,7 +121,7 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         context: ./base
-        target: "${{ matrix.variant }}"
+        target: "${{ matrix.target }}"
         build-args: PHP_VERSION=${{ matrix.php_version }}
         tags: ${{ secrets.DOCKER_HUB_REPO }}/php:${{ steps.vars.outputs.stripped_php_version }}-${{ matrix.variant }}
         platforms: linux/amd64,linux/arm64
