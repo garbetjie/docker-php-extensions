@@ -82,7 +82,7 @@ jobs:
       run: rm -rf /tmp/.buildx-cache && mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
   build_base:
-    name: "build base [${{ matrix.variant }}@${{ matrix.php_version }}]"
+    name: "build base [${{ matrix.target }}@${{ matrix.php_version }}]"
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 2
