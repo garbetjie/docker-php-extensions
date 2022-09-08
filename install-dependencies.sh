@@ -2,13 +2,10 @@
 
 set -xe
 
-# Copying the extension layers causes permissions to be lost. We'll need to fix this.
-chmod 1777 /tmp
-
 # Install APK dependencies.
 if [ -d /tmp/docker-php-dependencies.d/apk ]; then
   echo "### Installing APK dependencies..."
-  awk '{ print $0}' /tmp/docker-php-dependencies.d/apk/* | tr '\n' ' ' | xargs apk add --no-cache
+  awk '{ print $0 }' /tmp/docker-php-dependencies.d/apk/* | tr '\n' ' ' | xargs apk add --no-cache
 fi
 
 # Run custom setup scripts.
