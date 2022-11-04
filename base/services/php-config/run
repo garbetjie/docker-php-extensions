@@ -1,7 +1,5 @@
 #!/usr/bin/env sh
 
-set -x
-
 # Attempt to figure out the default timezone to use.
 if [ "$PHP_DATE_TIMEZONE" != "" ]; then
   tz="$PHP_DATE_TIMEZONE"
