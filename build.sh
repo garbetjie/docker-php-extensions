@@ -23,8 +23,7 @@ docker images --filter reference=build/php:"$ext"
 cat <<EOT > tmp.Dockerfile
 FROM php:8.0.22-cli-alpine3.16
 COPY --from=build/php:$ext / /
-COPY builder/docker-php-install-dependencies.sh /usr/local/bin/docker-php-install-dependencies.sh
-RUN docker-php-install-dependencies.sh
+RUN wget -O- https://raw.githubusercontent.com/garbetjie/docker-php/main/install-dependencies.sh | sh
 EOT
 
 docker build -t build/php:testing $platform --progress plain -f tmp.Dockerfile .
