@@ -17,7 +17,7 @@ COPY apk /tmp/docker-php-dependencies.d/apk/pdo_sqlsrv
 COPY shell /tmp/docker-php-dependencies.d/shell/pdo_sqlsrv
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/pdo_sqlsrv.so \
-      /usr/local/etc/php/conf.d/docker-php-ext-pdo_sqlsrv.ini \
+      $(php-config --ini-dir)/docker-php-ext-pdo_sqlsrv.ini \
       /tmp/docker-php-dependencies.d
 
 

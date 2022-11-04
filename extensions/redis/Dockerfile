@@ -16,7 +16,7 @@ RUN docker-php-ext-install redis
 COPY apk /tmp/docker-php-dependencies.d/apk/redis
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/redis.so \
-      /usr/local/etc/php/conf.d/docker-php-ext-redis.ini \
+      $(php-config --ini-dir)/docker-php-ext-redis.ini \
       /tmp/docker-php-dependencies.d
 
 

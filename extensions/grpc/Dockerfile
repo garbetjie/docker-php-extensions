@@ -16,7 +16,7 @@ RUN docker-php-ext-install grpc && strip --strip-debug /usr/local/lib/php/extens
 COPY apk /tmp/docker-php-dependencies.d/apk/grpc
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/grpc.so \
-      /usr/local/etc/php/conf.d/docker-php-ext-grpc.ini \
+      $(php-config --ini-dir)/docker-php-ext-grpc.ini \
       /tmp/docker-php-dependencies.d
 
 

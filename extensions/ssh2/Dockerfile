@@ -16,7 +16,7 @@ RUN docker-php-ext-install ssh2
 COPY apk /tmp/docker-php-dependencies.d/apk/ssh2
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/ssh2.so \
-      /usr/local/etc/php/conf.d/docker-php-ext-ssh2.ini \
+      $(php-config --ini-dir)/docker-php-ext-ssh2.ini \
       /tmp/docker-php-dependencies.d
 
 

@@ -17,7 +17,7 @@ COPY apk /tmp/docker-php-dependencies.d/apk/sqlsrv
 COPY shell /tmp/docker-php-dependencies.d/shell/sqlsrv
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/sqlsrv.so \
-      /usr/local/etc/php/conf.d/docker-php-ext-sqlsrv.ini \
+      $(php-config --ini-dir)/docker-php-ext-sqlsrv.ini \
       /tmp/docker-php-dependencies.d
 
 

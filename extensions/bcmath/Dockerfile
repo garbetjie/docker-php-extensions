@@ -7,7 +7,7 @@ RUN docker-php-ext-install bcmath
 # Package
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/bcmath.so \
-      /usr/local/etc/php/conf.d/docker-php-ext-bcmath.ini
+      $(php-config --ini-dir)/docker-php-ext-bcmath.ini
 
 
 FROM php:${PHP_VERSION}-cli-alpine3.16

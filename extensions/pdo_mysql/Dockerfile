@@ -7,7 +7,7 @@ RUN docker-php-ext-install pdo_mysql
 # Package
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/pdo_mysql.so \
-      /usr/local/etc/php/conf.d/docker-php-ext-pdo_mysql.ini
+      $(php-config --ini-dir)/docker-php-ext-pdo_mysql.ini
 
 
 FROM php:${PHP_VERSION}-cli-alpine3.16

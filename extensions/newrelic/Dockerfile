@@ -16,7 +16,7 @@ RUN git checkout v10.0.0.312
 RUN make all
 RUN strip --strip-debug agent/modules/newrelic.so && \
     mv agent/modules/newrelic.so $(php-config --extension-dir)/newrelic.so && \
-    mv agent/scripts/newrelic.ini.template /usr/local/etc/php/conf.d/docker-php-ext-newrelic.ini && \
+    mv agent/scripts/newrelic.ini.template $(php-config --ini-dir)/docker-php-ext-newrelic.ini && \
     mv bin/daemon /usr/local/bin/newrelic-daemon
 
 # Set some defaults in the INI file.
@@ -32,7 +32,7 @@ RUN sed -i '/;newrelic.error_collector.record_database_errors = /c\newrelic.erro
 COPY apk /tmp/docker-php-dependencies.d/apk/newrelic
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/newrelic.so \
-      /usr/local/etc/php/conf.d/docker-php-ext-newrelic.ini \
+      $(php-config --ini-dir)/docker-php-ext-newrelic.ini \
       /tmp/docker-php-dependencies.d \
       /usr/local/bin/newrelic-daemon
 

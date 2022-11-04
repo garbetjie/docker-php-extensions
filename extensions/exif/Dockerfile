@@ -7,7 +7,7 @@ RUN docker-php-ext-install exif
 # Package
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/exif.so \
-      /usr/local/etc/php/conf.d/docker-php-ext-exif.ini
+      $(php-config --ini-dir)/docker-php-ext-exif.ini
 
 
 FROM php:${PHP_VERSION}-cli-alpine3.16

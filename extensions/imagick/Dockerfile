@@ -16,7 +16,7 @@ RUN docker-php-ext-install imagick
 COPY apk /tmp/docker-php-dependencies.d/apk/imagick
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/imagick.so \
-      /usr/local/etc/php/conf.d/docker-php-ext-imagick.ini \
+      $(php-config --ini-dir)/docker-php-ext-imagick.ini \
       /tmp/docker-php-dependencies.d
 
 

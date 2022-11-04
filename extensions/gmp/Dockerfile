@@ -9,7 +9,7 @@ RUN docker-php-ext-install gmp
 COPY apk /tmp/docker-php-dependencies.d/apk/gmp
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/gmp.so \
-      /usr/local/etc/php/conf.d/docker-php-ext-gmp.ini \
+      $(php-config --ini-dir)/docker-php-ext-gmp.ini \
       /tmp/docker-php-dependencies.d
 
 

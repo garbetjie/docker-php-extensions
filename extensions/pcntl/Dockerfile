@@ -7,7 +7,7 @@ RUN docker-php-ext-install pcntl
 # Package
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/pcntl.so \
-      /usr/local/etc/php/conf.d/docker-php-ext-pcntl.ini
+      $(php-config --ini-dir)/docker-php-ext-pcntl.ini
 
 
 FROM php:${PHP_VERSION}-cli-alpine3.16

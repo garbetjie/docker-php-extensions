@@ -7,7 +7,7 @@ RUN docker-php-ext-install sockets
 # Package
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/sockets.so \
-      /usr/local/etc/php/conf.d/docker-php-ext-sockets.ini
+      $(php-config --ini-dir)/docker-php-ext-sockets.ini
 
 
 FROM php:${PHP_VERSION}-cli-alpine3.16

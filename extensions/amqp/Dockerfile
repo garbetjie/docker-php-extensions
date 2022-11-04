@@ -16,7 +16,7 @@ RUN docker-php-ext-install amqp
 COPY apk /tmp/docker-php-dependencies.d/apk/amqp
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/amqp.so \
-      /usr/local/etc/php/conf.d/docker-php-ext-amqp.ini \
+      $(php-config --ini-dir)/docker-php-ext-amqp.ini \
       /tmp/docker-php-dependencies.d
 
 

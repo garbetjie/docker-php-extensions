@@ -6,7 +6,7 @@ RUN docker-php-ext-install opcache
 
 # Package
 RUN tar -cf /tmp/files.tar \
-      /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini
+      $(php-config --ini-dir)/docker-php-ext-opcache.ini
 
 
 FROM php:${PHP_VERSION}-cli-alpine3.16

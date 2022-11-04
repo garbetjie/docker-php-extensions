@@ -10,7 +10,7 @@ RUN docker-php-ext-install imap
 COPY apk /tmp/docker-php-dependencies.d/apk/imap
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/imap.so \
-      /usr/local/etc/php/conf.d/docker-php-ext-imap.ini \
+      $(php-config --ini-dir)/docker-php-ext-imap.ini \
       /tmp/docker-php-dependencies.d
 
 

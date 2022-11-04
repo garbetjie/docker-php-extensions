@@ -13,7 +13,7 @@ RUN docker-php-ext-install zip
 COPY apk /tmp/docker-php-dependencies.d/apk/zip
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/zip.so \
-      /usr/local/etc/php/conf.d/docker-php-ext-zip.ini \
+      $(php-config --ini-dir)/docker-php-ext-zip.ini \
       /tmp/docker-php-dependencies.d
 
 

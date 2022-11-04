@@ -17,7 +17,7 @@ RUN docker-php-ext-install memcached
 COPY apk /tmp/docker-php-dependencies.d/apk/memcached
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/memcached.so \
-      /usr/local/etc/php/conf.d/docker-php-ext-memcached.ini \
+      $(php-config --ini-dir)/docker-php-ext-memcached.ini \
       /tmp/docker-php-dependencies.d
 
 

@@ -14,7 +14,7 @@ RUN docker-php-ext-install apcu
 # Package
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/apcu.so \
-      /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini
+      $(php-config --ini-dir)/docker-php-ext-apcu.ini
 
 
 FROM php:${PHP_VERSION}-cli-alpine3.16

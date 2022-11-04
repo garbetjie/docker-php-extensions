@@ -16,7 +16,7 @@ RUN docker-php-ext-install yaml
 COPY apk /tmp/docker-php-dependencies.d/apk/yaml
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/yaml.so \
-      /usr/local/etc/php/conf.d/docker-php-ext-yaml.ini \
+      $(php-config --ini-dir)/docker-php-ext-yaml.ini \
       /tmp/docker-php-dependencies.d
 
 

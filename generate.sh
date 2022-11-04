@@ -33,7 +33,7 @@ COPY apk /tmp/docker-php-dependencies.d/apk/$1
 COPY shell /tmp/docker-php-dependencies.d/shell/$1
 RUN tar -cf /tmp/files.tar \\
       \$(php-config --extension-dir)/$1.so \\
-      /usr/local/etc/php/conf.d/docker-php-ext-$1.ini \\
+      \$(php-config --ini-dir)/docker-php-ext-$1.ini \\
       /tmp/docker-php-dependencies.d \\
       /etc/s6-overlay
 

@@ -14,7 +14,7 @@ RUN docker-php-ext-install igbinary
 # Package
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/igbinary.so \
-      /usr/local/etc/php/conf.d/docker-php-ext-igbinary.ini
+      $(php-config --ini-dir)/docker-php-ext-igbinary.ini
 
 
 FROM php:${PHP_VERSION}-cli-alpine3.16
