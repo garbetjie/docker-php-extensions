@@ -33,20 +33,20 @@ RUN set -ex; \
     adduser -s /bin/sh -G app -u "$PUID" -D app
 
 # Define PHP INI configuration.
-ENV INI_EXPOSE_PHP="false" \
-    INI_DISPLAY_ERRORS="false" \
-    INI_DATE_TIMEZONE="" \
-    INI_ERROR_REPORTING="E_ALL & ~E_DEPRECATED & ~E_STRICT" \
-    INI_HTML_ERRORS="off" \
-    INI_MAX_EXECUTION_TIME=30 \
-    INI_MAX_INPUT_TIME=30 \
-    INI_MEMORY_LIMIT="64M" \
-    INI_POST_MAX_SIZE="8M" \
-    INI_SESSION_NAME="session" \
-    INI_SESSION_SAVE_HANDLER="files" \
-    INI_SESSION_SAVE_PATH="/tmp/sessions" \
-    INI_SYS_TEMP_DIR="/tmp" \
-    INI_UPLOAD_MAX_FILESIZE="8M"
+ENV PHP_EXPOSE_PHP="false" \
+    PHP_DISPLAY_ERRORS="false" \
+    PHP_DATE_TIMEZONE="" \
+    PHP_ERROR_REPORTING="E_ALL & ~E_DEPRECATED & ~E_STRICT" \
+    PHP_HTML_ERRORS="off" \
+    PHP_MAX_EXECUTION_TIME=30 \
+    PHP_MAX_INPUT_TIME=30 \
+    PHP_MEMORY_LIMIT="64M" \
+    PHP_POST_MAX_SIZE="8M" \
+    PHP_SESSION_NAME="session" \
+    PHP_SESSION_SAVE_HANDLER="files" \
+    PHP_SESSION_SAVE_PATH="/tmp/sessions" \
+    PHP_SYS_TEMP_DIR="/tmp" \
+    PHP_UPLOAD_MAX_FILESIZE="8M"
 
 
 FROM shared AS www
@@ -78,7 +78,7 @@ RUN set -e; \
     apk add --no-cache nginx; \
     mkdir -p /etc/nginx/server.d; \
     rm -rf /var/www /etc/nginx/http.d/*.conf; \
-    link-services user nginx php-fpm
+    link-s6-services user nginx fpm
 
 
 FROM shared AS cli

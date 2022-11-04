@@ -12,16 +12,16 @@ if echo "$FPM_PM_MAX_CHILDREN" | grep -qF '%'; then
   fi
 
   # Determine PHP memory limit in MB
-  if echo "$INI_MEMORY_LIMIT" | grep -qE '[Mm]$'; then
-    php_memory_limit_in_mb="$INI_MEMORY_LIMIT"
-  elif echo "$INI_MEMORY_LIMIT" | grep -qE '[Gg]$'; then
-    php_memory_limit_in_mb="$((INI_MEMORY_LIMIT * 1024))"
-  elif echo "$INI_MEMORY_LIMIT" | grep -qE '[Kk]$'; then
-    php_memory_limit_in_mb="$((INI_MEMORY_LIMIT / 1024))"
-  elif [ "$INI_MEMORY_LIMIT" = "-1" ]; then
+  if echo "$PHP_MEMORY_LIMIT" | grep -qE '[Mm]$'; then
+    php_memory_limit_in_mb="$PHP_MEMORY_LIMIT"
+  elif echo "$PHP_MEMORY_LIMIT" | grep -qE '[Gg]$'; then
+    php_memory_limit_in_mb="$((PHP_MEMORY_LIMIT * 1024))"
+  elif echo "$PHP_MEMORY_LIMIT" | grep -qE '[Kk]$'; then
+    php_memory_limit_in_mb="$((PHP_MEMORY_LIMIT / 1024))"
+  elif [ "$PHP_MEMORY_LIMIT" = "-1" ]; then
     php_memory_limit_in_mb="$container_memory_limit_in_mb"
   else
-    php_memory_limit_in_mb="$((INI_MEMORY_LIMIT / 1024 / 1024))"
+    php_memory_limit_in_mb="$((PHP_MEMORY_LIMIT / 1024 / 1024))"
   fi
 
   FPM_PM_MAX_CHILDREN="$(
