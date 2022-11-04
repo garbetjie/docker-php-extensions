@@ -29,7 +29,6 @@ RUN docker-php-ext-configure $1
 RUN docker-php-ext-install $1
 
 # Package
-COPY services/ /etc/s6-overlay/s6-rc.d/
 COPY apk /tmp/docker-php-dependencies.d/apk/$1
 COPY shell /tmp/docker-php-dependencies.d/shell/$1
 RUN tar -cf /tmp/files.tar \\
