@@ -83,7 +83,13 @@ newrelic.appname = "${PHP_NEWRELIC_APPNAME:-PHP Application}"
 newrelic.browser_monitoring.auto_instrument = ${PHP_NEWRELIC_BROWSER_MONITORING_AUTO_INSTRUMENT:-true}
 newrelic.framework = "$PHP_NEWRELIC_FRAMEWORK"
 newrelic.loglevel = "${PHP_NEWRELIC_LOGLEVEL:-info}"
+newrelic.logfile = "${PHP_NEWRELIC_LOGFILE:-/proc/1/fd/2}"
 newrelic.labels = "$PHP_NEWRELIC_LABELS"
 newrelic.process_host.display_name = "$PHP_NEWRELIC_PROCESS_HOST_DISPLAY_NAME"
+newrelic.daemon.app_timeout = "${PHP_NEWRELIC_DAEMON_APP_TIMEOUT:-10m}"
+newrelic.daemon.loglevel = "${PHP_NEWRELIC_DAEMON_LOG_LEVEL:-info}"
+newrelic.daemon.logfile = "${PHP_NEWRELIC_DAEMON_LOGFILE:-/proc/1/fd/2}"
+newrelic.daemon.location = "${PHP_NEWRELIC_DAEMON_LOCATION:-/usr/local/bin/newrelic-daemon}"
+newrelic.error_collector.record_database_errors = ${PHP_NEWRELIC_ERROR_COLLECTOR_RECORD_DATABASE_ERRORS:-true}
 EOT
 fi
