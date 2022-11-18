@@ -28,6 +28,7 @@ jobs:
         - intl
         - memcached
         - memprof
+        - mongodb
         - msgpack
         - newrelic
         - opcache
@@ -41,6 +42,7 @@ jobs:
         - sockets
         - sqlsrv
         - ssh2
+        - uopz
         - xdebug
         - yaml
         - zip
