@@ -12,6 +12,7 @@ jobs:
         php_version:
         - 8.0.25
         - 8.1.12
+        - 8.2.0RC6
         ext:
         - amqp
         - apcu
@@ -98,6 +99,10 @@ jobs:
         - php_version: 8.1.12-fpm
           target: www
         - php_version: 8.1.12-cli
+          target: cli
+        - php_version: 8.2.0RC6-fpm
+          target: www
+        - php_version: 8.2.0RC6-cli
           target: cli
     steps:
     - uses: actions/checkout@v3
