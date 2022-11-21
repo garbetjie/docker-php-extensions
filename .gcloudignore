@@ -1,8 +1,0 @@
-.circleci/
-cloudbuild.yaml
-index.php
-README.md
-push.sh
-.idea/
-.git/
-.cloudbuild/*.txt
