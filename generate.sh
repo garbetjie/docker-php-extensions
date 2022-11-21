@@ -34,8 +34,7 @@ COPY shell /tmp/docker-php-dependencies.d/shell/$1
 RUN tar -cf /tmp/files.tar \\
       \$(php-config --extension-dir)/$1.so \\
       \$(php-config --ini-dir)/docker-php-ext-$1.ini \\
-      /tmp/docker-php-dependencies.d \\
-      /etc/s6-overlay
+      /tmp/docker-php-dependencies.d
 
 
 FROM php:\${PHP_VERSION}-cli-alpine3.16
@@ -61,18 +60,3 @@ cat <<EOT > "extensions/$1/shell"
 
 exit 0
 EOT
-
-# Create service files.
-mkdir -p "extensions/$1/services/config/contents.d"
-touch    "extensions/$1/services/config/contents.d/config-ini-$1"
-
-mkdir -p "extensions/$1/services/config-ini-$1"
-echo "oneshot" > "extensions/$1/services/config-ini-$1/type"
-echo "with-contenv sh /etc/s6-overlay/s6-rc.d/config-ini-$1/run" > "extensions/$1/services/config-ini-$1/up"
-
-cat <<EOF > "extensions/$1/services/config-ini-$1/run"
-#!/usr/bin/env sh
-
-cat <<EOT > "\$(php-config --ini-dir)/zz-config-ini-$1.ini"
-EOT
-EOF
