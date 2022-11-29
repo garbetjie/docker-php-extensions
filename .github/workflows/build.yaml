@@ -88,12 +88,12 @@ jobs:
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
     - name: Build
       uses: docker/build-push-action@v3
+      continue-on-error: ${{ matrix.experimental }}
       with:
         context: ./extensions/${{ matrix.ext }}
         build-args: PHP_VERSION=${{ matrix.php_version }}
         tags: ${{ secrets.DOCKER_HUB_REPO }}/php:${{ matrix.short_php_version }}-${{ matrix.ext }}
         platforms: "${{ matrix.arch }}"
-        continue-on-error: ${{ matrix.experimental }}
         push: true
         cache-to: type=local,dest=/tmp/.buildx-cache-new
         cache-from: type=local,src=/tmp/.buildx-cache
