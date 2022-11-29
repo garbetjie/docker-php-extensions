@@ -58,14 +58,14 @@ jobs:
           arch: linux/amd64
 
         - php_version: 8.2.0RC6
-          short_php_version: 8.2
+          short_php_version: "8.2"
           experimental: true
 
         - php_version: 8.0.25
-          short_php_version: 8.0
+          short_php_version: "8.0"
 
         - php_version: 8.1.12
-          short_php_version: 8.1
+          short_php_version: "8.1"
     steps:
     - uses: actions/checkout@v3
 #    - name: Get stripped PHP version
