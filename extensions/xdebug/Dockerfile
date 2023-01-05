@@ -5,6 +5,7 @@ FROM php:${PHP_VERSION}-cli-alpine3.16
 RUN docker-php-source extract
 
 # Download
+RUN apk add --no-cache linux-headers
 RUN mkdir /usr/src/php/ext/xdebug
 RUN wget -O- https://pecl.php.net/get/xdebug-3.2.0.tgz | tar -C /usr/src/php/ext/xdebug -xzf - --strip-components 1
 
