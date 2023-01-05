@@ -6,7 +6,7 @@ RUN docker-php-source extract
 
 # Download
 RUN mkdir /usr/src/php/ext/mongodb
-RUN wget -O- https://pecl.php.net/get/mongodb-1.14.2.tgz | tar -C /usr/src/php/ext/mongodb -xzf - --strip-components 1
+RUN wget -O- https://pecl.php.net/get/mongodb-1.15.0.tgz | tar -C /usr/src/php/ext/mongodb -xzf - --strip-components 1
 
 # Install
 #RUN docker-php-ext-configure mongodb

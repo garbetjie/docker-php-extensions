@@ -6,7 +6,7 @@ RUN docker-php-source extract
 
 # Download
 RUN mkdir /usr/src/php/ext/xdebug
-RUN wget -O- https://pecl.php.net/get/xdebug-3.1.5.tgz | tar -C /usr/src/php/ext/xdebug -xzf - --strip-components 1
+RUN wget -O- https://pecl.php.net/get/xdebug-3.2.0.tgz | tar -C /usr/src/php/ext/xdebug -xzf - --strip-components 1
 
 # Install
 RUN docker-php-ext-install xdebug
