@@ -2,6 +2,7 @@ ARG PHP_VERSION
 FROM php:${PHP_VERSION}-cli-alpine3.16
 
 # Install
+RUN apk add --no-cache linux-headers
 RUN docker-php-ext-install sockets
 
 # Package
