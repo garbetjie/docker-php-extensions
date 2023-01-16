@@ -1,8 +1,10 @@
-ARG PHP_VERSION=8.0.8
+ARG PHP_VERSION
 FROM php:${PHP_VERSION}-cli-alpine3.16
 
 # Install build dependencies.
-RUN apk add --no-cache binutils git go build-base curl-dev openssl-dev pcre-dev zlib-dev bash automake autoconf libtool $PHPIZE_DEPS
+RUN echo "https://dl-cdn.alpinelinux.org/alpine/v3.15/main" >> /etc/apk/repositories
+RUN apk add --no-cache git go curl-dev openssl-dev pcre-dev zlib-dev bash automake autoconf libtool $PHPIZE_DEPS \
+                       binutils file fortify-headers g++ gcc=10.3.1_git20211027-r0 libc-dev make patch  # build-base packages - we need to specify gcc version
 
 # Create working directory.
 RUN mkdir /tmp/newrelic
