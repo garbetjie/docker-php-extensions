@@ -3,8 +3,8 @@ ARG PHP_VERSION
 FROM alpine:3.16 AS fs
 
 RUN mkdir /tmp/root
-RUN wget https://github.com/just-containers/s6-overlay/releases/download/v3.1.0.1/s6-overlay-noarch.tar.xz -P /tmp
-RUN wget https://github.com/just-containers/s6-overlay/releases/download/v3.1.0.1/s6-overlay-$(uname -m).tar.xz -P /tmp
+RUN wget https://github.com/just-containers/s6-overlay/releases/download/v3.1.2.1/s6-overlay-noarch.tar.xz -P /tmp
+RUN wget https://github.com/just-containers/s6-overlay/releases/download/v3.1.2.1/s6-overlay-$(uname -m).tar.xz -P /tmp
 RUN tar -C /tmp/root/ -Jxpf /tmp/s6-overlay-noarch.tar.xz
 RUN tar -C /tmp/root/ -Jxpf /tmp/s6-overlay-$(uname -m).tar.xz
 RUN mkdir /tmp/root/app
