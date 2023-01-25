@@ -106,23 +106,25 @@ jobs:
       matrix:
         include:
         - php_version: 8.0.26-fpm
+          short_php_version: 8.0
           target: www
         - php_version: 8.0.26-cli
+          short_php_version: 8.0
           target: cli
         - php_version: 8.1.13-fpm
+          short_php_version: 8.1
           target: www
         - php_version: 8.1.13-cli
+          short_php_version: 8.1
           target: cli
         - php_version: 8.2.0-fpm
+          short_php_version: 8.2
           target: www
         - php_version: 8.2.0-cli
+          short_php_version: 8.2
           target: cli
     steps:
     - uses: actions/checkout@v3
-    - name: Set variables
-      run: |
-        echo ::set-output name=stripped_php_version::"$(echo "${{ matrix.php_version }}" | awk -F. '{ print $1 "." $2 }')"
-      id: vars
     - name: Set up buildx
       uses: docker/setup-buildx-action@v2
     - name: Set up QEMU
@@ -131,8 +133,8 @@ jobs:
       uses: actions/cache@v3
       with:
         path: /tmp/.buildx-cache
-        key: ${{ steps.vars.outputs.stripped_php_version }}-${{ matrix.target }}-${{ github.sha }}
-        restore-keys: ${{ steps.vars.outputs.stripped_php_version }}-${{ matrix.target }}-
+        key: ${{ matrix.short_php_version }}-${{ matrix.target }}-${{ github.sha }}
+        restore-keys: ${{ matrix.short_php_version }}-${{ matrix.target }}-
     - name: Log in to Docker
       uses: docker/login-action@v2
       with:
@@ -144,7 +146,7 @@ jobs:
         context: ./base
         target: "${{ matrix.target }}"
         build-args: PHP_VERSION=${{ matrix.php_version }}
-        tags: ${{ secrets.DOCKER_HUB_REPO }}/php:${{ steps.vars.outputs.stripped_php_version }}-${{ matrix.target }}
+        tags: ${{ secrets.DOCKER_HUB_REPO }}/php:${{ matrix.short_php_version }}-${{ matrix.target }}
         platforms: linux/amd64,linux/arm64
         push: true
         cache-to: type=local,dest=/tmp/.buildx-cache-new
