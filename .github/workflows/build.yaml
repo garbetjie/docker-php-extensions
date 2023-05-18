@@ -7,16 +7,12 @@ on:
 
 jobs:
   ext:
-    name: "${{ matrix.ext }}: ${{ matrix.php_version }}"
+    name: "${{ matrix.ext }} [${{ matrix.php_version }}]"
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       max-parallel: 4
       matrix:
-        php_version:
-        - "8.0"
-        - "8.1"
-        - "8.2"
         ext:
         - amqp
         - apcu
@@ -53,6 +49,12 @@ jobs:
         - xdebug
         - yaml
         - zip
+
+        php_version:
+        - "8.0"
+        - "8.1"
+        - "8.2"
+
         include:
         - arch: linux/amd64,linux/arm64
         - experimental: false
