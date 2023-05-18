@@ -14,9 +14,9 @@ jobs:
       max-parallel: 4
       matrix:
         php_version:
-        - 8.0.26
-        - 8.1.13
-        - 8.2.0
+        - "8.0"
+        - "8.1"
+        - "8.2"
         ext:
         - amqp
         - apcu
