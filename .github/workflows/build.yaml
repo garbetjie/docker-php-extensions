@@ -7,7 +7,7 @@ on:
 
 jobs:
   ext:
-    name: "${{ matrix.ext }}: ${{ matrix.short_php_version }}"
+    name: "${{ matrix.ext }}: ${{ matrix.php_version }}"
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }}
     strategy:
@@ -22,6 +22,7 @@ jobs:
         - apcu
         - bcmath
         - bz2
+        - ds
         - exif
         - gd
         - gettext
@@ -61,15 +62,12 @@ jobs:
         - ext: pdo_sqlsrv
           arch: linux/amd64
 
-        - php_version: 8.2.0
-          short_php_version: "8.2"
+        - php_version: "8.2"
           experimental: true
 
-        - php_version: 8.0.26
-          short_php_version: "8.0"
+        - php_version: "8.0"
 
-        - php_version: 8.1.13
-          short_php_version: "8.1"
+        - php_version: "8.1"
     steps:
     - uses: actions/checkout@v3
 
@@ -83,8 +81,8 @@ jobs:
       uses: actions/cache@v3
       with:
         path: /tmp/.buildx-cache
-        key: ${{ matrix.short_php_version }}-${{ matrix.ext }}-${{ github.sha }}
-        restore-keys: ${{ matrix.short_php_version }}-${{ matrix.ext }}-
+        key: ${{ matrix.php_version }}-${{ matrix.ext }}-${{ github.sha }}
+        restore-keys: ${{ matrix.php_version }}-${{ matrix.ext }}-
 
     - name: Log in to Docker
       uses: docker/login-action@v2
@@ -98,7 +96,7 @@ jobs:
       with:
         context: ./extensions/${{ matrix.ext }}
         build-args: PHP_VERSION=${{ matrix.php_version }}
-        tags: ${{ vars.DOCKER_HUB_REPO }}/php:${{ matrix.short_php_version }}-${{ matrix.ext }}
+        tags: ${{ vars.DOCKER_HUB_REPO }}/php:${{ matrix.php_version }}-${{ matrix.ext }}
         platforms: "${{ matrix.arch }}"
         push: true
         cache-to: type=local,dest=/tmp/.buildx-cache-new
