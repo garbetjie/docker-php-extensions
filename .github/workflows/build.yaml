@@ -92,7 +92,6 @@ jobs:
 
     - name: Build
       uses: docker/build-push-action@v3
-      continue-on-error: ${{ matrix.experimental }}
       with:
         context: ./extensions/${{ matrix.ext }}
         build-args: PHP_VERSION=${{ matrix.php_version }}
