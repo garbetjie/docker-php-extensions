@@ -1,5 +1,6 @@
 ARG PHP_VERSION
-FROM php:${PHP_VERSION}-cli-alpine3.16
+ARG ALPINE_VERSION=3.18
+FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION}
 
 # Unpack source
 RUN docker-php-source extract

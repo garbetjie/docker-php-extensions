@@ -57,19 +57,17 @@ jobs:
 
         include:
         - arch: linux/amd64,linux/arm64
-        - experimental: false
+        - alpine_version: "3.18"
 
         - ext: sqlsrv
           arch: linux/amd64
         - ext: pdo_sqlsrv
           arch: linux/amd64
 
-        - php_version: "8.2"
-          experimental: true
-
         - php_version: "8.0"
+          ext: newrelic
+          alpine_version: "3.16"
 
-        - php_version: "8.1"
     steps:
     - uses: actions/checkout@v3
 
