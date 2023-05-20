@@ -92,7 +92,9 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         context: ./extensions/${{ matrix.ext }}
-        build-args: PHP_VERSION=${{ matrix.php_version }}
+        build-args: |
+          PHP_VERSION=${{ matrix.php_version }}
+          ALPINE_VERSION=${{ matrix.alpine_version }}
         tags: ${{ vars.DOCKER_HUB_REPO }}/php:${{ matrix.php_version }}-${{ matrix.ext }}
         platforms: "${{ matrix.arch }}"
         push: true
