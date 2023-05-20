@@ -4,17 +4,20 @@ set -e -o pipefail
 
 platform=""
 ext="$1"
-php_version="8.0.22"
+php_version="8.1"
+alpine_version="3.18"
 
 while [ $# -gt 0 ]; do
   case "$1" in
     --x86) platform="--platform linux/amd64"; shift;;
+    --arm) platform="--platform linux/arm64"; shift;;
+    --alpine-version) alpine_version="$2"; shift 2;;
     --php-version) php_version="$2"; shift 2;;
     *) ext="$1"; shift;;
   esac
 done
 
-docker build --build-arg "PHP_VERSION=$php_version" $platform -t build/php:"$ext" -f extensions/$ext/Dockerfile --progress plain extensions/$ext
+docker build --build-arg "PHP_VERSION=$php_version" --build-arg "ALPINE_VERSION=$alpine_version" $platform -t build/php:"$ext" -f extensions/$ext/Dockerfile --progress plain extensions/$ext
 
 echo ""
 echo "-----------------------------------------"
