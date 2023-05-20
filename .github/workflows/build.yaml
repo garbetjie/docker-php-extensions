@@ -64,7 +64,6 @@ jobs:
           arch: linux/amd64
 
         - php_version: "8.0"
-          ext: newrelic
           alpine_version: "3.16"
 
     steps:
