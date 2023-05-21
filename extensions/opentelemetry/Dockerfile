@@ -6,17 +6,17 @@ FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION}
 RUN docker-php-source extract
 
 # Download
-RUN mkdir /usr/src/php/ext/otel_instrumentation
+RUN mkdir /usr/src/php/ext/opentelemetry
 RUN apk add git
-RUN git clone https://github.com/open-telemetry/opentelemetry-php-instrumentation.git /usr/src/php/ext/otel_instrumentation
+RUN git clone https://github.com/open-telemetry/opentelemetry-php-instrumentation.git /usr/src/php/ext/opentelemetry
 
 # Install
-RUN docker-php-ext-install otel_instrumentation
+RUN docker-php-ext-install opentelemetry
 
 ## Package
 RUN tar -cf /tmp/files.tar \
-      $(php-config --extension-dir)/otel_instrumentation.so \
-      $(php-config --ini-dir)/docker-php-ext-otel_instrumentation.ini
+      $(php-config --extension-dir)/opentelemetry.so \
+      $(php-config --ini-dir)/docker-php-ext-opentelemetry.ini
 
 
 FROM php:${PHP_VERSION}-cli-alpine3.16

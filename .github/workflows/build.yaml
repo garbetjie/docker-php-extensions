@@ -34,7 +34,7 @@ jobs:
         - newrelic
         - opcache
         - opencensus
-        - otel_instrumentation
+        - opentelemetry
         - pcntl
         - pdo_mysql
         - pdo_sqlsrv
