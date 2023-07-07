@@ -26,7 +26,7 @@ echo "-----------------------------------------"
 docker images --filter reference=build/php:"$ext"
 
 cat <<EOT | docker build -t build/php:testing $platform --progress plain -
-FROM php:$php_version-cli-alpine3.16
+FROM php:$php_version-cli-alpine$alpine_version
 COPY --from=build/php:$ext / /
 RUN wget -O- https://raw.githubusercontent.com/garbetjie/docker-php/main/install-dependencies.sh | sh
 EOT
