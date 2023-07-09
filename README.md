@@ -79,6 +79,7 @@ available for:
 | pdo_sqlsrv    | ✅                 | ❌                 | ✅       | ✅       | ✅       |
 | protobuf      | ✅                 | ✅                 | ✅       | ✅       | ✅       |
 | redis         | ✅                 | ✅                 | ✅       | ✅       | ✅       |
+| snappy        | ✅                 | ✅                 | ✅       | ✅       | ✅       |
 | soap          | ✅                 | ✅                 | ✅       | ✅       | ✅       |
 | sockets       | ✅                 | ✅                 | ✅       | ✅       | ✅       |
 | sqlsrv        | ✅                 | ❌                 | ✅       | ✅       | ✅       |
