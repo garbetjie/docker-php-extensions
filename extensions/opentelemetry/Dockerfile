@@ -6,9 +6,9 @@ FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION}
 RUN docker-php-source extract
 
 # Download
-RUN mkdir /usr/src/php/ext/opentelemetry
 RUN apk add git
-RUN git clone https://github.com/open-telemetry/opentelemetry-php-instrumentation.git /usr/src/php/ext/opentelemetry
+RUN git clone https://github.com/open-telemetry/opentelemetry-php-instrumentation.git /usr/src/php/ext/opentelemetry.git
+RUN mv /usr/src/php/ext/opentelemetry.git/ext /usr/src/php/ext/opentelemetry
 
 # Install
 RUN docker-php-ext-install opentelemetry
