@@ -69,7 +69,7 @@ available for:
 | intl          | ✅                 | ✅                 | ✅       | ✅       | ✅       |
 | memcached     | ✅                 | ✅                 | ✅       | ✅       | ✅       |
 | msgpack       | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| newrelic      | ✅                 | ✅                 | ✅       | ✅       | ❌       |
+| newrelic      | ✅                 | ✅                 | ✅       | ✅       | ✅       |
 | opcache       | ✅                 | ✅                 | ✅       | ✅       | ✅       |
 | opencensus    | ✅                 | ✅                 | ✅       | ✅       | ✅       |
 | opencensus    | ✅                 | ✅                 | ✅       | ✅       | ✅       |
