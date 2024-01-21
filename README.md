@@ -51,42 +51,42 @@ For example, the `grpc` extension can be fetched from the `garbetjie/php:8.2-grp
 The table below shows a support matrix of the available extensions, as well as which platforms & PHP versions they're
 available for:
 
-| extension     | Arch: linux/amd64 | Arch: linux/arm64 | PHP 8.0 | PHP 8.1 | PHP 8.2 |
-|---------------|-------------------|-------------------|---------|---------|---------|
-| amqp          | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| apcu          | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| bcmath        | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| bz2           | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| ds            | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| exif          | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| gd            | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| gettext       | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| gmp           | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| grpc          | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| igbinary      | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| imagick       | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| imap          | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| intl          | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| memcached     | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| msgpack       | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| newrelic      | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| opcache       | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| opencensus    | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| opencensus    | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| opentelemetry | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| pcntl         | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| pdo_mysql     | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| pdo_sqlsrv    | ✅                 | ❌                 | ✅       | ✅       | ✅       |
-| protobuf      | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| redis         | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| snappy        | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| soap          | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| sockets       | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| sqlsrv        | ✅                 | ❌                 | ✅       | ✅       | ✅       |
-| ssh2          | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| xdebug        | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| yaml          | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| zip           | ✅                 | ✅                 | ✅       | ✅       | ✅       |
+| extension     | Arch: linux/amd64 | Arch: linux/arm64 | PHP 8.0 | PHP 8.1 | PHP 8.2 | PHP 8.3 |
+|---------------|-------------------|-------------------|---------|---------|---------|---------|
+| amqp          | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
+| apcu          | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| bcmath        | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| bz2           | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| ds            | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| exif          | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| gd            | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| gettext       | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| gmp           | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| grpc          | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| igbinary      | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| imagick       | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| imap          | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| intl          | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| memcached     | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| msgpack       | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| newrelic      | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| opcache       | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| opencensus    | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| opencensus    | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| opentelemetry | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| pcntl         | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| pdo_mysql     | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| pdo_sqlsrv    | ✅                 | ❌                 | ✅       | ✅       | ✅       |         |
+| protobuf      | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| redis         | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| snappy        | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| soap          | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| sockets       | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| sqlsrv        | ✅                 | ❌                 | ✅       | ✅       | ✅       |         |
+| ssh2          | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| xdebug        | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| yaml          | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| zip           | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
     
 
 <!--
