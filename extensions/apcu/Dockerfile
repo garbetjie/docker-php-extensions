@@ -7,7 +7,7 @@ RUN docker-php-source extract
 
 # Download
 RUN mkdir /usr/src/php/ext/apcu
-RUN wget -O- https://pecl.php.net/get/apcu-5.1.22.tgz | tar -C /usr/src/php/ext/apcu -xzf - --strip-components 1
+RUN wget -O- https://pecl.php.net/get/apcu-5.1.23.tgz | tar -C /usr/src/php/ext/apcu -xzf - --strip-components 1
 
 # Install
 RUN docker-php-ext-install apcu
