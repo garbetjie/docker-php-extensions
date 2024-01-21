@@ -33,11 +33,11 @@ RUN strip --strip-debug agent/modules/newrelic.so && \
     mv bin/daemon /usr/local/bin/newrelic-daemon
 
 # Package files for the extension.
-COPY apk /tmp/docker-php-dependencies.d/apk/newrelic
+COPY apk /docker-php-extensions/apk/newrelic
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/newrelic.so \
       $(php-config --ini-dir)/docker-php-ext-newrelic.ini \
-      /tmp/docker-php-dependencies.d \
+      /docker-php-extensions \
       /usr/local/bin/newrelic-daemon
 
 
@@ -45,7 +45,6 @@ FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION}
 
 COPY --from=0 /tmp/files.tar /tmp/
 RUN mkdir /tmp/root && tar -xf /tmp/files.tar -C /tmp/root
-RUN chmod 1777 /tmp/root/tmp
 
 
 FROM scratch

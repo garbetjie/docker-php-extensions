@@ -3,18 +3,18 @@
 set -xe
 
 # Install APK dependencies.
-if [ -d /tmp/docker-php-dependencies.d/apk ]; then
+if [ -d /docker-php-extensions/dependencies/apk ]; then
   echo "### Installing APK dependencies..."
-  awk '{ print $0 }' /tmp/docker-php-dependencies.d/apk/* | tr '\n' ' ' | xargs apk add --no-cache
+  awk '{ print $0 }' /docker-php-extensions/dependencies/apk/* | tr '\n' ' ' | xargs apk add --no-cache
 fi
 
 # Run custom setup scripts.
-if [ -d /tmp/docker-php-dependencies.d/shell ]; then
-  for filename in /tmp/docker-php-dependencies.d/shell/*; do
+if [ -d /docker-php-extensions/dependencies/shell ]; then
+  for filename in /docker-php-extensions/dependencies/shell/*; do
     echo "### Executing extension setup script [$(basename "$filename")]..."
     sh "$filename"
   done
 fi
 
 # Clean up.
-rm -rf /tmp/docker-php-dependencies.d
+rm -rf /docker-php-extensions
