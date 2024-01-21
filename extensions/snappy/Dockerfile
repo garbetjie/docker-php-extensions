@@ -23,7 +23,7 @@ RUN tar -cf /tmp/files.tar \
 RUN ls -lah $(php-config --extension-dir)
 RUN ls -lah $(php-config --ini-dir)
 
-FROM php:${PHP_VERSION}-cli-alpine3.16
+FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION}
 
 COPY --from=0 /tmp/files.tar /tmp/
 RUN mkdir /tmp/root && tar -xf /tmp/files.tar -C /tmp/root

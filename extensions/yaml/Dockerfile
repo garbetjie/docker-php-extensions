@@ -21,7 +21,7 @@ RUN tar -cf /tmp/files.tar \
       /docker-php-extensions
 
 
-FROM php:${PHP_VERSION}-cli-alpine3.16
+FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION}
 
 COPY --from=0 /tmp/files.tar /tmp/
 RUN mkdir /tmp/root && tar -xf /tmp/files.tar -C /tmp/root
