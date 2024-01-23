@@ -70,7 +70,7 @@ available for:
 | memcached     | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | memprof       | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | mongodb       | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
-| msgpack       | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| msgpack       | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | newrelic      | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | opcache       | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | opencensus    | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |

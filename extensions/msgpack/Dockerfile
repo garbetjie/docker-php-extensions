@@ -7,7 +7,7 @@ RUN docker-php-source extract
 
 # Download
 RUN mkdir /usr/src/php/ext/msgpack
-RUN wget -O- https://pecl.php.net/get/msgpack-2.1.2.tgz | tar -C /usr/src/php/ext/msgpack -xzf - --strip-components 1
+RUN wget -O- https://pecl.php.net/get/msgpack-2.2.0.tgz | tar -C /usr/src/php/ext/msgpack -xzf - --strip-components 1
 
 # Install
 RUN docker-php-ext-install msgpack
