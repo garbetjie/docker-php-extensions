@@ -72,7 +72,7 @@ available for:
 | mongodb       | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | msgpack       | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | newrelic      | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
-| opcache       | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| opcache       | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | opencensus    | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | opencensus    | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | opentelemetry | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
