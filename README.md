@@ -63,7 +63,7 @@ available for:
 | gettext       | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | gmp           | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | grpc          | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
-| igbinary      | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| igbinary      | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | imagick       | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | imap          | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | intl          | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
