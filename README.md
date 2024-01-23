@@ -73,7 +73,6 @@ available for:
 | msgpack       | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | newrelic      | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | opcache       | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
-| opencensus    | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | opentelemetry | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | pcntl         | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | pdo_mysql     | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
