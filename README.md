@@ -67,7 +67,7 @@ available for:
 | imagick       | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | imap          | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | intl          | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
-| memcached     | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| memcached     | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | msgpack       | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | newrelic      | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | opcache       | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
