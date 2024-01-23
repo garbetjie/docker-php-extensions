@@ -68,6 +68,7 @@ available for:
 | imap          | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | intl          | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | memcached     | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
+| memprof       | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | msgpack       | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | newrelic      | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | opcache       | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
