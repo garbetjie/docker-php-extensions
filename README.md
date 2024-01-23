@@ -65,7 +65,7 @@ available for:
 | grpc          | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | igbinary      | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | imagick       | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
-| imap          | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| imap          | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | intl          | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | memcached     | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | msgpack       | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
