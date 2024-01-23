@@ -80,9 +80,9 @@ available for:
 | pdo_sqlsrv    | ✅                 | ❌                 | ✅       | ✅       | ✅       | ✅       |
 | protobuf      | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | redis         | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
-| snappy        | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
-| soap          | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
-| sockets       | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| snappy        | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
+| soap          | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
+| sockets       | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | sqlsrv        | ✅                 | ❌                 | ✅       | ✅       | ✅       | ✅       |
 | ssh2          | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | xdebug        | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
