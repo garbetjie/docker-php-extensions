@@ -74,9 +74,8 @@ available for:
 | newrelic      | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | opcache       | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | opencensus    | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
-| opencensus    | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | opentelemetry | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
-| pcntl         | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| pcntl         | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | pdo_mysql     | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | pdo_sqlsrv    | ✅                 | ❌                 | ✅       | ✅       | ✅       |         |
 | protobuf      | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
