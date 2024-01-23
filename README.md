@@ -76,14 +76,14 @@ available for:
 | opencensus    | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | opentelemetry | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | pcntl         | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
-| pdo_mysql     | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
-| pdo_sqlsrv    | ✅                 | ❌                 | ✅       | ✅       | ✅       |         |
+| pdo_mysql     | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
+| pdo_sqlsrv    | ✅                 | ❌                 | ✅       | ✅       | ✅       | ✅       |
 | protobuf      | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | redis         | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | snappy        | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | soap          | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | sockets       | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
-| sqlsrv        | ✅                 | ❌                 | ✅       | ✅       | ✅       |         |
+| sqlsrv        | ✅                 | ❌                 | ✅       | ✅       | ✅       | ✅       |
 | ssh2          | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | xdebug        | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | yaml          | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
