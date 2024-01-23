@@ -66,7 +66,7 @@ available for:
 | igbinary      | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | imagick       | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | imap          | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
-| intl          | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| intl          | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | memcached     | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | msgpack       | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | newrelic      | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
