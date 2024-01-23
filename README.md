@@ -78,7 +78,7 @@ available for:
 | pcntl         | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | pdo_mysql     | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | pdo_sqlsrv    | ✅                 | ❌                 | ✅       | ✅       | ✅       | ✅       |
-| protobuf      | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| protobuf      | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | redis         | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | snappy        | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | soap          | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
