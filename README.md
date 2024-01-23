@@ -69,6 +69,7 @@ available for:
 | intl          | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | memcached     | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | memprof       | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
+| mongodb       | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | msgpack       | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | newrelic      | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | opcache       | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
