@@ -73,7 +73,7 @@ available for:
 | msgpack       | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | newrelic      | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
 | opcache       | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
-| opentelemetry | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| opentelemetry | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | pcntl         | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | pdo_mysql     | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | pdo_sqlsrv    | ✅                 | ❌                 | ✅       | ✅       | ✅       | ✅       |
