@@ -71,7 +71,7 @@ available for:
 | memprof       | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | mongodb       | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | msgpack       | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
-| newrelic      | ✅                 | ✅                 | ✅       | ✅       | ✅       |         |
+| newrelic      | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | opcache       | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | opentelemetry | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
 | pcntl         | ✅                 | ✅                 | ✅       | ✅       | ✅       | ✅       |
