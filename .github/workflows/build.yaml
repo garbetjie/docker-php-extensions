@@ -53,9 +53,9 @@ jobs:
         - zip
 
         php_version:
-        - "8.0"
         - "8.1"
         - "8.2"
+        - "8.3"
 
         include:
         - arch: linux/amd64,linux/arm64
