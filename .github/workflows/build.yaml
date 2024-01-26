@@ -66,9 +66,6 @@ jobs:
         - ext: pdo_sqlsrv
           arch: linux/amd64
 
-        - php_version: "8.0"
-          alpine_version: "3.16"
-
     steps:
     - uses: actions/checkout@v3
 
