@@ -7,7 +7,7 @@ RUN docker-php-source extract
 
 # Download
 RUN mkdir /usr/src/php/ext/amqp
-RUN wget -O- https://pecl.php.net/get/amqp-2.1.1.tgz | tar -C /usr/src/php/ext/amqp -xzf - --strip-components 1
+RUN wget -O- https://pecl.php.net/get/amqp-2.1.2.tgz | tar -C /usr/src/php/ext/amqp -xzf - --strip-components 1
 
 # Install
 RUN apk add rabbitmq-c-dev
