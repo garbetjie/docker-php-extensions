@@ -15,7 +15,8 @@ fi
 
 cat <<EOT > "extensions/$1/Dockerfile"
 ARG PHP_VERSION
-FROM php:\${PHP_VERSION}-cli-alpine3.16
+ARG ALPINE_VERSION=3.18
+FROM php:\${PHP_VERSION}-cli-alpine\${ALPINE_VERSION}
 
 # Unpack source
 RUN docker-php-source extract
@@ -29,19 +30,18 @@ RUN docker-php-ext-configure $1
 RUN docker-php-ext-install $1
 
 # Package
-COPY apk /tmp/docker-php-dependencies.d/apk/$1
-COPY shell /tmp/docker-php-dependencies.d/shell/$1
+COPY apk /docker-php-extensions/apk/$1
+COPY shell /docker-php-extensions/shell/$1
 RUN tar -cf /tmp/files.tar \\
       \$(php-config --extension-dir)/$1.so \\
       \$(php-config --ini-dir)/docker-php-ext-$1.ini \\
-      /tmp/docker-php-dependencies.d
+      /docker-php-extensions
 
 
-FROM php:\${PHP_VERSION}-cli-alpine3.16
+FROM php:\${PHP_VERSION}-cli-alpine\${ALPINE_VERSION}
 
 COPY --from=0 /tmp/files.tar /tmp/
 RUN mkdir /tmp/root && tar -xf /tmp/files.tar -C /tmp/root
-RUN chmod 1777 /tmp/root/tmp
 
 
 FROM scratch
