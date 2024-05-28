@@ -7,7 +7,7 @@ RUN docker-php-source extract
 
 # Download
 RUN mkdir /usr/src/php/ext/swoole
-RUN wget -O- https://pecl.php.net/get/swoole-5.1.1.tgz | tar -C /usr/src/php/ext/swoole -xzf - --strip-components 1
+RUN wget -O- https://pecl.php.net/get/swoole-5.1.2.tgz | tar -C /usr/src/php/ext/swoole -xzf - --strip-components 1
 
 # Install
 RUN apk add openssl-dev curl-dev sqlite-dev postgresql-dev
