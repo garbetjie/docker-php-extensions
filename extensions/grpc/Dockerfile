@@ -7,7 +7,7 @@ RUN docker-php-source extract
 
 # Download
 RUN mkdir /usr/src/php/ext/grpc
-RUN wget -O- https://pecl.php.net/get/grpc-1.63.0.tgz | tar -C /usr/src/php/ext/grpc -xzf - --strip-components 1
+RUN wget -O- https://pecl.php.net/get/grpc-1.66.0.tgz | tar -C /usr/src/php/ext/grpc -xzf - --strip-components 1
 
 # Install
 RUN apk add zlib-dev linux-headers binutils
