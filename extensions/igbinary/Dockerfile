@@ -7,7 +7,7 @@ RUN docker-php-source extract
 
 # Download
 RUN mkdir /usr/src/php/ext/igbinary
-RUN wget -O- https://pecl.php.net/get/igbinary-3.2.15.tgz | tar -C /usr/src/php/ext/igbinary -xzf - --strip-components 1
+RUN wget -O- https://pecl.php.net/get/igbinary-3.2.16.tgz | tar -C /usr/src/php/ext/igbinary -xzf - --strip-components 1
 
 # Install
 RUN docker-php-ext-install igbinary
