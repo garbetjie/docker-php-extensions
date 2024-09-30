@@ -1,20 +1,20 @@
-ARG PHP_VERSION
-ARG ALPINE_VERSION=3.18
-FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION}
+ARG IMAGE_TAG="8.3-cli-bookworm"
+FROM php:$IMAGE_TAG
 
 # Install
-RUN apk add gettext-dev
+RUN apt-get update
+RUN apt-get install -y gettext
 RUN docker-php-ext-install gettext
 
 # Package
-COPY apk /docker-php-extensions/apk/gettext
+COPY apt /pkgs/apt/gettext
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/gettext.so \
       $(php-config --ini-dir)/docker-php-ext-gettext.ini \
-      /docker-php-extensions
+      /pkgs
 
 
-FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION}
+FROM php:$IMAGE_TAG
 
 COPY --from=0 /tmp/files.tar /tmp/
 RUN mkdir /tmp/root && tar -xf /tmp/files.tar -C /tmp/root
