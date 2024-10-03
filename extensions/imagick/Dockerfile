@@ -1,27 +1,27 @@
-ARG PHP_VERSION
-ARG ALPINE_VERSION=3.18
-FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION}
+ARG IMAGE_TAG="8.3-cli-bookworm"
+FROM php:$IMAGE_TAG
 
 # Unpack source
 RUN docker-php-source extract
 
 # Download
 RUN mkdir /usr/src/php/ext/imagick
-RUN wget -O- https://pecl.php.net/get/imagick-3.7.0.tgz | tar -C /usr/src/php/ext/imagick -xzf - --strip-components 1
+RUN curl https://pecl.php.net/get/imagick-3.7.0.tgz | tar -C /usr/src/php/ext/imagick -xzf - --strip-components 1
 
 # Install
-RUN apk add imagemagick-dev
+RUN apt-get update
+RUN apt-get install -y libmagick++-dev
 RUN docker-php-ext-install imagick
 
 # Package
-COPY apk /docker-php-extensions/apk/imagick
+COPY apt /pkgs/apt/imagick
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/imagick.so \
       $(php-config --ini-dir)/docker-php-ext-imagick.ini \
-      /docker-php-extensions
+      /pkgs
 
 
-FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION}
+FROM php:$IMAGE_TAG
 
 COPY --from=0 /tmp/files.tar /tmp/
 RUN mkdir /tmp/root && tar -xf /tmp/files.tar -C /tmp/root
