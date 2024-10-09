@@ -1,6 +1,5 @@
-ARG PHP_VERSION
-ARG ALPINE_VERSION=3.18
-FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION}
+ARG IMAGE_TAG="8.3-cli-bookworm"
+FROM php:$IMAGE_TAG
 
 # Install
 RUN docker-php-ext-install opcache
@@ -10,7 +9,7 @@ RUN tar -cf /tmp/files.tar \
       $(php-config --ini-dir)/docker-php-ext-opcache.ini
 
 
-FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION}
+FROM php:$IMAGE_TAG
 
 COPY --from=0 /tmp/files.tar /tmp/
 RUN mkdir /tmp/root && tar -xf /tmp/files.tar -C /tmp/root
