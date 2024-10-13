@@ -1,24 +1,24 @@
-ARG PHP_VERSION
-ARG ALPINE_VERSION=3.18
-FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION}
+ARG IMAGE_TAG="8.3-cli-bookworm"
+FROM php:$IMAGE_TAG
 
 # Unpack source
 RUN docker-php-source extract
 
 # Install
-RUN apk add cmake gnutls-dev libzip-dev libretls-dev zlib-dev
+RUN apt-get update
+RUN apt-get install -y cmake gnutls-dev libzip-dev zlib1g-dev
 RUN docker-php-ext-configure zip --with-zip
 RUN docker-php-ext-install zip
 
 # Package
-COPY apk /docker-php-extensions/apk/zip
+COPY apt /pkgs/apt/zip
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/zip.so \
       $(php-config --ini-dir)/docker-php-ext-zip.ini \
-      /docker-php-extensions
+      /pkgs
 
 
-FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION}
+FROM php:$IMAGE_TAG
 
 COPY --from=0 /tmp/files.tar /tmp/
 RUN mkdir /tmp/root && tar -xf /tmp/files.tar -C /tmp/root
