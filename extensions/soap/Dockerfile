@@ -1,9 +1,9 @@
-ARG PHP_VERSION
-ARG ALPINE_VERSION=3.18
-FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION}
+ARG IMAGE_TAG="8.3-cli-bookworm"
+FROM php:$IMAGE_TAG
 
 # Install
-RUN apk add libxml2-dev
+RUN apt-get update
+RUN apt-get install -y libxml2-dev
 RUN docker-php-ext-install soap
 
 # Package
@@ -12,7 +12,7 @@ RUN tar -cf /tmp/files.tar \
       $(php-config --ini-dir)/docker-php-ext-soap.ini
 
 
-FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION}
+FROM php:$IMAGE_TAG
 
 COPY --from=0 /tmp/files.tar /tmp/
 RUN mkdir /tmp/root && tar -xf /tmp/files.tar -C /tmp/root
