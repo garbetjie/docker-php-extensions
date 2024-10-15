@@ -1,12 +1,12 @@
-ARG PHP_VERSION
-ARG ALPINE_VERSION=3.18
-FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION}
+ARG IMAGE_TAG="8.3-cli-bookworm"
+FROM php:$IMAGE_TAG
 
 # Unpack source
 RUN docker-php-source extract
 
 # Download
-RUN apk add git
+RUN apt-get update
+RUN apt-get install -y git
 RUN git clone https://github.com/open-telemetry/opentelemetry-php-instrumentation.git /usr/src/php/ext/opentelemetry.git
 RUN mv /usr/src/php/ext/opentelemetry.git/ext /usr/src/php/ext/opentelemetry
 
@@ -19,7 +19,7 @@ RUN tar -cf /tmp/files.tar \
       $(php-config --ini-dir)/docker-php-ext-opentelemetry.ini
 
 
-FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION}
+FROM php:$IMAGE_TAG
 
 COPY --from=0 /tmp/files.tar /tmp/
 RUN mkdir /tmp/root && tar -xf /tmp/files.tar -C /tmp/root
