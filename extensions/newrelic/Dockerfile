@@ -1,12 +1,31 @@
-ARG PHP_VERSION
-ARG ALPINE_VERSION=3.18
-FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION}
+ARG IMAGE_TAG="8.3-cli-bookworm"
+FROM php:$IMAGE_TAG
 
 ARG ALPINE_VERSION
 
 # Run the > 3.16 installation.
-RUN apk add git go curl-dev openssl-dev pcre-dev zlib-dev bash automake autoconf libtool $PHPIZE_DEPS \
-            binutils file fortify-headers g++ gcc libc-dev make patch protobuf-c protobuf-c-dev
+RUN apt-get update
+RUN apt-get install -y \
+    git \
+    golang-go \
+    libcurl4-openssl-dev \
+    libssl-dev \
+    libpcre3 \
+    libpcre3-dev \
+    zlib1g-dev \
+    bash \
+    automake \
+    autoconf \
+    libtool \
+    $PHPIZE_DEPS \
+    binutils \
+    file \
+    build-essential \
+    patch \
+    libprotobuf-dev
+
+#RUN apk add git go curl-dev openssl-dev pcre-dev zlib-dev bash automake autoconf libtool $PHPIZE_DEPS \
+#            binutils file fortify-headers g++ gcc libc-dev make patch protobuf-c protobuf-c-dev
 
 # Create working directory.
 RUN mkdir /tmp/newrelic
@@ -24,15 +43,15 @@ RUN strip --strip-debug agent/modules/newrelic.so && \
     mv bin/daemon /usr/local/bin/newrelic-daemon
 
 # Package files for the extension.
-COPY apk /docker-php-extensions/apk/newrelic
+COPY apt /pkgs/apt/newrelic
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/newrelic.so \
       $(php-config --ini-dir)/docker-php-ext-newrelic.ini \
-      /docker-php-extensions \
+      /pkgs \
       /usr/local/bin/newrelic-daemon
 
 
-FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION}
+FROM php:$IMAGE_TAG
 
 COPY --from=0 /tmp/files.tar /tmp/
 RUN mkdir /tmp/root && tar -xf /tmp/files.tar -C /tmp/root
