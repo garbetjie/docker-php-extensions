@@ -20,7 +20,6 @@ done
 image_tag="$php_version$tag_suffix"
 set -x
 docker build \
-  --no-cache \
   -t build/php:"$ext" \
   --build-arg "IMAGE_TAG=$image_tag" \
   $platform \
