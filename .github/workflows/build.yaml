@@ -2,6 +2,7 @@ on:
   push:
     branches:
     - main
+    - convert-to-debian
   workflow_dispatch:
     inputs: {}
   schedule:
@@ -53,14 +54,11 @@ jobs:
         - zip
 
         php_version:
-        - "8.1"
         - "8.2"
         - "8.3"
 
         include:
         - arch: linux/amd64,linux/arm64
-        - alpine_version: "3.18"
-
         - ext: sqlsrv
           arch: linux/amd64
         - ext: pdo_sqlsrv
@@ -93,9 +91,8 @@ jobs:
       with:
         context: ./extensions/${{ matrix.ext }}
         build-args: |
-          PHP_VERSION=${{ matrix.php_version }}
-          ALPINE_VERSION=${{ matrix.alpine_version }}
-        tags: ${{ vars.DOCKER_HUB_REPO }}/php:${{ matrix.php_version }}-${{ matrix.ext }}
+          IMAGE_TAG=${{ matrix.php_tag }}-cli-bookworm
+        tags: ${{ vars.DOCKER_HUB_REPO }}/php:${{ matrix.php_version }}-${{ matrix.ext }}-debian
         platforms: "${{ matrix.arch }}"
         push: true
         cache-to: type=local,dest=/tmp/.buildx-cache-new
