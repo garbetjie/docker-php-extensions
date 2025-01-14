@@ -56,6 +56,7 @@ jobs:
         php_version:
         - "8.2"
         - "8.3"
+        - "8.4"
 
         include:
         - arch: linux/amd64,linux/arm64
