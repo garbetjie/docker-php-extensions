@@ -9,8 +9,8 @@ RUN mkdir /usr/src/php/ext/openswoole
 RUN curl https://pecl.php.net/get/openswoole-22.1.2.tgz | tar -C /usr/src/php/ext/openswoole -xzf - --strip-components 1
 
 # Install
-RUN apt-get update
-RUN apt-get install -y libcurl4-openssl-dev libpq-dev libssl-dev zlib1g-dev libc-ares-dev
+RUN apt update
+RUN apt install -y libcurl4-openssl-dev libpq-dev libssl-dev zlib1g-dev libc-ares-dev
 
 RUN docker-php-ext-configure openswoole \
     --enable-http2 \
@@ -23,11 +23,11 @@ RUN docker-php-ext-configure openswoole \
 RUN docker-php-ext-install openswoole
 
 # Package
-COPY apt /pkgs/apt/openswoole
+COPY apt /opt/docker-php-extensions/apt/openswoole
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/openswoole.so \
       $(php-config --ini-dir)/docker-php-ext-openswoole.ini \
-      /pkgs
+      /opt/docker-php-extensions
 
 
 FROM php:$IMAGE_TAG

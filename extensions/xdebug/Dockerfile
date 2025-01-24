@@ -9,8 +9,8 @@ RUN mkdir /usr/src/php/ext/xdebug
 RUN curl https://pecl.php.net/get/xdebug-3.3.2.tgz | tar -C /usr/src/php/ext/xdebug -xzf - --strip-components 1
 
 # Install
-RUN apt-get update
-RUN apt-get install -y linux-headers-generic
+RUN apt update
+RUN apt install -y linux-headers-generic
 RUN docker-php-ext-install xdebug
 
 # Package

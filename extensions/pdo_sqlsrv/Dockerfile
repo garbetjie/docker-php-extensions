@@ -9,17 +9,17 @@ RUN mkdir /usr/src/php/ext/pdo_sqlsrv
 RUN curl https://pecl.php.net/get/pdo_sqlsrv-5.12.0.tgz | tar -C /usr/src/php/ext/pdo_sqlsrv -xzf - --strip-components 1
 
 # Install
-RUN apt-get update
-RUN apt-get install -y unixodbc-dev gnupg
+RUN apt update
+RUN apt install -y unixodbc-dev gnupg
 RUN docker-php-ext-install pdo_sqlsrv
 
 # Package
-COPY apt /pkgs/apt/pdo_sqlsrv
-COPY shell /pkgs/shell/pdo_sqlsrv
+COPY apt /opt/docker-php-extensions/apt/pdo_sqlsrv
+COPY shell /opt/docker-php-extensions/shell/pdo_sqlsrv
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/pdo_sqlsrv.so \
       $(php-config --ini-dir)/docker-php-ext-pdo_sqlsrv.ini \
-      /pkgs
+      /opt/docker-php-extensions
 
 
 FROM php:$IMAGE_TAG

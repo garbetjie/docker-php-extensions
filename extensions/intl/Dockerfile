@@ -2,16 +2,16 @@ ARG IMAGE_TAG="8.3-cli-bookworm"
 FROM php:$IMAGE_TAG
 
 # Install
-RUN apt-get update
-RUN apt-get install -y libicu-dev
+RUN apt update
+RUN apt install -y libicu-dev
 RUN docker-php-ext-install intl
 
 # Package
-COPY apt /pkgs/apt/intl
+COPY apt /opt/docker-php-extensions/apt/intl
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/intl.so \
       $(php-config --ini-dir)/docker-php-ext-intl.ini \
-      /pkgs
+      /opt/docker-php-extensions
 
 
 FROM php:$IMAGE_TAG

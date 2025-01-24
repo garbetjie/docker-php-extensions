@@ -5,17 +5,17 @@ FROM php:$IMAGE_TAG
 RUN docker-php-source extract
 
 # Install
-RUN apt-get update
-RUN apt-get install -y cmake gnutls-dev libzip-dev zlib1g-dev
+RUN apt update
+RUN apt install -y cmake gnutls-dev libzip-dev zlib1g-dev
 RUN docker-php-ext-configure zip --with-zip
 RUN docker-php-ext-install zip
 
 # Package
-COPY apt /pkgs/apt/zip
+COPY apt /opt/docker-php-extensions/apt/zip
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/zip.so \
       $(php-config --ini-dir)/docker-php-ext-zip.ini \
-      /pkgs
+      /opt/docker-php-extensions
 
 
 FROM php:$IMAGE_TAG

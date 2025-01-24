@@ -9,17 +9,17 @@ RUN mkdir /usr/src/php/ext/sqlsrv
 RUN curl https://pecl.php.net/get/sqlsrv-5.12.0.tgz | tar -C /usr/src/php/ext/sqlsrv -xzf - --strip-components 1
 
 # Install
-RUN apt-get update
-RUN apt-get install -y unixodbc-dev gnupg
+RUN apt update
+RUN apt install -y unixodbc-dev gnupg
 RUN docker-php-ext-install sqlsrv
 
 # Package
-COPY apt /pkgs/apt/sqlsrv
-COPY shell /pkgs/shell/sqlsrv
+COPY apt /opt/docker-php-extensions/apt/sqlsrv
+COPY shell /opt/docker-php-extensions/shell/sqlsrv
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/sqlsrv.so \
       $(php-config --ini-dir)/docker-php-ext-sqlsrv.ini \
-      /pkgs
+      /opt/docker-php-extensions
 
 
 FROM php:$IMAGE_TAG

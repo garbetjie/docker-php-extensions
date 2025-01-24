@@ -9,17 +9,17 @@ RUN mkdir /usr/src/php/ext/memcached
 RUN curl https://pecl.php.net/get/memcached-3.2.0.tgz | tar -C /usr/src/php/ext/memcached -xzf - --strip-components 1
 
 # Install
-RUN apt-get update
-RUN apt-get install -y libmemcached-dev zlib1g-dev libssl-dev
+RUN apt update
+RUN apt install -y libmemcached-dev zlib1g-dev libssl-dev
 RUN docker-php-ext-configure memcached --enable-memcached-session --enable-memcached-sasl
 RUN docker-php-ext-install memcached
 
 # Package
-COPY apt /pkgs/apt/memcached
+COPY apt /opt/docker-php-extensions/apt/memcached
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/memcached.so \
       $(php-config --ini-dir)/docker-php-ext-memcached.ini \
-      /pkgs
+      /opt/docker-php-extensions
 
 
 FROM php:$IMAGE_TAG

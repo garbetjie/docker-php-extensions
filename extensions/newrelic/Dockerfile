@@ -4,8 +4,8 @@ FROM php:$IMAGE_TAG
 ARG ALPINE_VERSION
 
 # Run the > 3.16 installation.
-RUN apt-get update
-RUN apt-get install -y \
+RUN apt update
+RUN apt install -y \
     git \
     golang-go \
     libcurl4-openssl-dev \
@@ -43,11 +43,11 @@ RUN strip --strip-debug agent/modules/newrelic.so && \
     mv bin/daemon /usr/local/bin/newrelic-daemon
 
 # Package files for the extension.
-COPY apt /pkgs/apt/newrelic
+COPY apt /opt/docker-php-extensions/apt/newrelic
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/newrelic.so \
       $(php-config --ini-dir)/docker-php-ext-newrelic.ini \
-      /pkgs \
+      /opt/docker-php-extensions \
       /usr/local/bin/newrelic-daemon
 
 

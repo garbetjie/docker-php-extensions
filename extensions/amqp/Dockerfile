@@ -9,16 +9,16 @@ RUN mkdir /usr/src/php/ext/amqp
 RUN curl https://pecl.php.net/get/amqp-2.1.2.tgz | tar -C /usr/src/php/ext/amqp -xzf - --strip-components 1
 
 # Install
-RUN apt-get update
-RUN apt-get install -y librabbitmq-dev
+RUN apt update
+RUN apt install -y librabbitmq-dev
 RUN docker-php-ext-install amqp
 
 # Package
-COPY apt /pkgs/apt/amqp
+COPY apt /opt/docker-php-extensions/apt/amqp
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/amqp.so \
       $(php-config --ini-dir)/docker-php-ext-amqp.ini \
-      /pkgs
+      /opt/docker-php-extensions
 
 
 FROM php:$IMAGE_TAG

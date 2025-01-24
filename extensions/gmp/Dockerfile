@@ -2,16 +2,16 @@ ARG IMAGE_TAG="8.3-cli-bookworm"
 FROM php:$IMAGE_TAG
 
 # Install
-RUN apt-get update
-RUN apt-get install -y libgmp-dev
+RUN apt update
+RUN apt install -y libgmp-dev
 RUN docker-php-ext-install gmp
 
 # Package
-COPY apt /pkgs/apt/gmp
+COPY apt /opt/docker-php-extensions/apt/gmp
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/gmp.so \
       $(php-config --ini-dir)/docker-php-ext-gmp.ini \
-      /pkgs
+      /opt/docker-php-extensions
 
 
 FROM php:$IMAGE_TAG

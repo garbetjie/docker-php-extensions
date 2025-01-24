@@ -9,8 +9,8 @@ RUN mkdir /usr/src/php/ext/grpc
 RUN curl https://pecl.php.net/get/grpc-1.66.0.tgz | tar -C /usr/src/php/ext/grpc -xzf - --strip-components 1
 
 # Install
-RUN apt-get update
-RUN apt-get install -y zlib1g-dev linux-headers-generic binutils
+RUN apt update
+RUN apt install -y zlib1g-dev linux-headers-generic binutils
 RUN docker-php-ext-install grpc
 RUN strip --strip-debug /usr/local/lib/php/extensions/*-zts-*/grpc.so
 

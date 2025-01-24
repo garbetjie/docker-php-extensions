@@ -2,16 +2,16 @@ ARG IMAGE_TAG="8.3-cli-bookworm"
 FROM php:$IMAGE_TAG
 
 # Install
-RUN apt-get update
-RUN apt-get install -y libbz2-dev
+RUN apt update
+RUN apt install -y libbz2-dev
 RUN docker-php-ext-install bz2
 
 # Package
-COPY apt /pkgs/apt/bz2
+COPY apt /opt/docker-php-extensions/apt/bz2
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/bz2.so \
       $(php-config --ini-dir)/docker-php-ext-bz2.ini \
-      /pkgs
+      /opt/docker-php-extensions
 
 
 FROM php:$IMAGE_TAG

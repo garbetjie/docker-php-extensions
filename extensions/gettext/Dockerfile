@@ -2,16 +2,16 @@ ARG IMAGE_TAG="8.3-cli-bookworm"
 FROM php:$IMAGE_TAG
 
 # Install
-RUN apt-get update
-RUN apt-get install -y gettext
+RUN apt update
+RUN apt install -y gettext
 RUN docker-php-ext-install gettext
 
 # Package
-COPY apt /pkgs/apt/gettext
+COPY apt /opt/docker-php-extensions/apt/gettext
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/gettext.so \
       $(php-config --ini-dir)/docker-php-ext-gettext.ini \
-      /pkgs
+      /opt/docker-php-extensions
 
 
 FROM php:$IMAGE_TAG

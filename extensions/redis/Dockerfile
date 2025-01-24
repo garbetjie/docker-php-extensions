@@ -9,16 +9,16 @@ RUN mkdir /usr/src/php/ext/redis
 RUN curl https://pecl.php.net/get/redis-6.0.2.tgz | tar -C /usr/src/php/ext/redis -xzf - --strip-components 1
 
 # Install
-RUN apt-get update
-RUN apt-get install -y libzstd-dev
+RUN apt update
+RUN apt install -y libzstd-dev
 RUN docker-php-ext-install redis
 
 # Package
-COPY apt /pkgs/apt/redis
+COPY apt /opt/docker-php-extensions/apt/redis
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/redis.so \
       $(php-config --ini-dir)/docker-php-ext-redis.ini \
-      /pkgs
+      /opt/docker-php-extensions
 
 
 FROM php:$IMAGE_TAG

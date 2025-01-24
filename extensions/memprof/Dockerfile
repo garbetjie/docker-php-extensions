@@ -9,16 +9,16 @@ RUN mkdir /usr/src/php/ext/memprof
 RUN curl https://pecl.php.net/get/memprof-3.0.2.tgz | tar -C /usr/src/php/ext/memprof -xzf - --strip-components 1
 
 # Install
-RUN apt-get update
-RUN apt-get install -y libjudy-dev
+RUN apt update
+RUN apt install -y libjudy-dev
 RUN docker-php-ext-install memprof
 
 # Package
-COPY apt /pkgs/apt/memprof
+COPY apt /opt/docker-php-extensions/apt/memprof
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/memprof.so \
       $(php-config --ini-dir)/docker-php-ext-memprof.ini \
-      /pkgs
+      /opt/docker-php-extensions
 
 
 FROM php:$IMAGE_TAG
