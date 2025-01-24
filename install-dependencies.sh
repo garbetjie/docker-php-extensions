@@ -2,31 +2,21 @@
 
 set -xe
 
-# Install APK dependencies.
-if [ -d /docker-php-extensions/apk ]; then
-  echo "### Installing APK dependencies..."
-  awk '{ print $0 }' /docker-php-extensions/apk/* | tr '\n' ' ' | xargs apk add --no-cache
+# Install packages.
+if [ -d /opt/docker-php-extensions/apt ]; then
+  echo "### Installing package dependencies..."
+
+  apt update
+  awk '{ print $0 }' /opt/docker-php-extensions/apt/* | tr '\n' ' ' | xargs apt install -y
 fi
 
-if [ -d /tmp/docker-php-dependencies.d/apk ]; then
-  echo "### Installing APK dependencies..."
-  awk '{ print $0 }' /tmp/docker-php-dependencies.d/apk/* | tr '\n' ' ' | xargs apk add --no-cache
-fi
-
-# Run custom setup scripts.
-if [ -d /docker-php-extensions/shell ]; then
-  for filename in /docker-php-extensions/shell/*; do
-    echo "### Executing extension setup script [$(basename "$filename")]..."
-    sh "$filename"
-  done
-fi
-
-if [ -d /tmp/docker-php-dependencies.d/shell ]; then
-  for filename in /tmp/docker-php-dependencies.d/shell/*; do
+# Run custom shell scripts.
+if [ -d /opt/docker-php-extensions/shell ]; then
+  for filename in /opt/docker-php-extensions/shell/*; do
     echo "### Executing extension setup script [$(basename "$filename")]..."
     sh "$filename"
   done
 fi
 
 # Clean up.
-rm -rf /docker-php-extensions /tmp/docker-php-dependencies.d
+rm -rf /opt/docker-php-extensions/
