@@ -36,10 +36,18 @@ docker images --filter reference=build/php:"$ext"
 cat <<EOT | docker build -t build/php:testing $platform --progress plain -
 FROM php:$image_tag
 COPY --from=build/php:$ext / /
-RUN apt-get update && \
-    if [ -d /pkgs/apt ]; then awk '{ print \$0 }' /pkgs/apt/* | tr '\n' ' ' | xargs apt-get install -y; fi && \
+RUN apt update && \
+    if [ -d /opt/docker-php-extensions/apt ]; then awk '{ print \$0 }' /pkgs/apt/* | tr '\n' ' ' | xargs apt install -y; fi && \
+    { \
+      if [ -d /opt/docker-php-extensions/shell ]; then \
+        for filename in /opt/docker-php-extensions/shell/*; do \
+          echo "### Executing extension setup script [$(basename "\$filename")]..." && \
+          bash "\$filename"; \
+        done \
+      fi \
+    } && \
     rm -rf /var/lib/apt/lists/* && \
-    apt-get clean
+    apt clean
 EOT
 
 start_size="$(docker image inspect php:$image_tag | jq -r '.[0].Size')"
