@@ -11,6 +11,7 @@ RUN curl https://pecl.php.net/get/amqp-2.1.2.tgz | tar -C /usr/src/php/ext/amqp 
 # Install
 RUN apt-get update
 RUN apt-get install -y librabbitmq-dev libssh-dev
+RUN docker-php-ext-configure amqp
 RUN docker-php-ext-install amqp
 
 # Package
