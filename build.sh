@@ -6,12 +6,14 @@ platform=""
 ext="$1"
 php_version="8.1"
 tag_suffix="-cli-bookworm"
-alpine_version="3.19"
+skip_cache=""
 
 while [ $# -gt 0 ]; do
   case "$1" in
     --x86) platform="--platform linux/amd64"; shift;;
     --arm) platform="--platform linux/arm64"; shift;;
+    --no-cache) skip_cache="--no-cache"; shift;;
+
     --php-version) php_version="$2"; shift 2;;
     *) ext="$1"; shift;;
   esac
@@ -23,6 +25,7 @@ docker build \
   -t build/php:"$ext" \
   --build-arg "IMAGE_TAG=$image_tag" \
   $platform \
+  $skip_cache \
   -f extensions/$ext/Dockerfile \
   --progress plain \
   extensions/$ext
