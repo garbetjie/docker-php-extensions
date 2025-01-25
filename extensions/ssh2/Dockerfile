@@ -5,8 +5,8 @@ FROM php:$IMAGE_TAG
 RUN docker-php-source extract
 
 # Download
-RUN apt update
-RUN apt install -y libssh2-1-dev
+RUN apt-get update
+RUN apt-get install -y libssh2-1-dev
 RUN mkdir /usr/src/php/ext/ssh2
 RUN curl https://pecl.php.net/get/ssh2-1.4.1.tgz | tar -C /usr/src/php/ext/ssh2 -xzf - --strip-components 1
 

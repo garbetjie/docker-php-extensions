@@ -9,8 +9,8 @@ RUN mkdir /usr/src/php/ext/amqp
 RUN curl https://pecl.php.net/get/amqp-2.1.2.tgz | tar -C /usr/src/php/ext/amqp -xzf - --strip-components 1
 
 # Install
-RUN apt update
-RUN apt install -y librabbitmq-dev
+RUN apt-get update
+RUN apt-get install -y librabbitmq-dev
 RUN docker-php-ext-install amqp
 
 # Package

@@ -5,8 +5,8 @@ FROM php:$IMAGE_TAG
 RUN docker-php-source extract
 
 # Download
-RUN apt update
-RUN apt install -y git
+RUN apt-get update
+RUN apt-get install -y git
 RUN git clone --recursive --depth=1 https://github.com/kjdev/php-ext-snappy.git /usr/src/php/ext/snappy
 
 # Install

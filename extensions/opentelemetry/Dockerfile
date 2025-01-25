@@ -5,8 +5,8 @@ FROM php:$IMAGE_TAG
 RUN docker-php-source extract
 
 # Download
-RUN apt update
-RUN apt install -y git
+RUN apt-get update
+RUN apt-get install -y git
 RUN git clone https://github.com/open-telemetry/opentelemetry-php-instrumentation.git /usr/src/php/ext/opentelemetry.git
 RUN mv /usr/src/php/ext/opentelemetry.git/ext /usr/src/php/ext/opentelemetry
 

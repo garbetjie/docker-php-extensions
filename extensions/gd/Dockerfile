@@ -2,8 +2,8 @@ ARG IMAGE_TAG="8.3-cli-bookworm"
 FROM php:$IMAGE_TAG
 
 # Install
-RUN apt update
-RUN apt install -y libgd-dev libpng-dev libwebp-dev libjpeg62-turbo-dev libxpm-dev
+RUN apt-get update
+RUN apt-get install -y libgd-dev libpng-dev libwebp-dev libjpeg62-turbo-dev libxpm-dev
 RUN docker-php-ext-configure gd --enable-gd --with-webp --with-jpeg --with-xpm --with-freetype
 RUN docker-php-ext-install gd
 

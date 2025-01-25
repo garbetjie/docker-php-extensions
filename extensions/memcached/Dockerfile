@@ -9,8 +9,8 @@ RUN mkdir /usr/src/php/ext/memcached
 RUN curl https://pecl.php.net/get/memcached-3.2.0.tgz | tar -C /usr/src/php/ext/memcached -xzf - --strip-components 1
 
 # Install
-RUN apt update
-RUN apt install -y libmemcached-dev zlib1g-dev libssl-dev
+RUN apt-get update
+RUN apt-get install -y libmemcached-dev zlib1g-dev libssl-dev
 RUN docker-php-ext-configure memcached --enable-memcached-session --enable-memcached-sasl
 RUN docker-php-ext-install memcached
 

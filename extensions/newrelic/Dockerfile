@@ -4,8 +4,8 @@ FROM php:$IMAGE_TAG
 ARG ALPINE_VERSION
 
 # Run the > 3.16 installation.
-RUN apt update
-RUN apt install -y \
+RUN apt-get update
+RUN apt-get install -y \
     git \
     golang-go \
     libcurl4-openssl-dev \

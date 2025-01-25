@@ -5,8 +5,8 @@ FROM php:$IMAGE_TAG
 RUN docker-php-source extract
 
 # Install
-RUN apt update
-RUN apt install -y cmake gnutls-dev libzip-dev zlib1g-dev
+RUN apt-get update
+RUN apt-get install -y cmake gnutls-dev libzip-dev zlib1g-dev
 RUN docker-php-ext-configure zip --with-zip
 RUN docker-php-ext-install zip
 

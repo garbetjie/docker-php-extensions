@@ -9,8 +9,8 @@ RUN mkdir /usr/src/php/ext/openswoole
 RUN curl https://pecl.php.net/get/openswoole-22.1.2.tgz | tar -C /usr/src/php/ext/openswoole -xzf - --strip-components 1
 
 # Install
-RUN apt update
-RUN apt install -y libcurl4-openssl-dev libpq-dev libssl-dev zlib1g-dev libc-ares-dev
+RUN apt-get update
+RUN apt-get install -y libcurl4-openssl-dev libpq-dev libssl-dev zlib1g-dev libc-ares-dev
 
 RUN docker-php-ext-configure openswoole \
     --enable-http2 \

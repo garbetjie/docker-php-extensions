@@ -9,8 +9,8 @@ RUN mkdir /usr/src/php/ext/yaml
 RUN curl https://pecl.php.net/get/yaml-2.2.3.tgz | tar -C /usr/src/php/ext/yaml -xzf - --strip-components 1
 
 # Install
-RUN apt update
-RUN apt install -y libyaml-dev
+RUN apt-get update
+RUN apt-get install -y libyaml-dev
 RUN docker-php-ext-install yaml
 
 # Package

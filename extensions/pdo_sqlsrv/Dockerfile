@@ -9,8 +9,8 @@ RUN mkdir /usr/src/php/ext/pdo_sqlsrv
 RUN curl https://pecl.php.net/get/pdo_sqlsrv-5.12.0.tgz | tar -C /usr/src/php/ext/pdo_sqlsrv -xzf - --strip-components 1
 
 # Install
-RUN apt update
-RUN apt install -y unixodbc-dev gnupg
+RUN apt-get update
+RUN apt-get install -y unixodbc-dev gnupg
 RUN docker-php-ext-install pdo_sqlsrv
 
 # Package
