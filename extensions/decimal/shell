@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e -o pipefail
+set -ex -o pipefail
 
 # Download mpdecimal
 curl https://www.bytereef.org/software/mpdecimal/releases/mpdecimal-4.0.0.tar.gz --output /tmp/mpdecimal.tar.gz
