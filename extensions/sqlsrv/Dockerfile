@@ -11,6 +11,8 @@ RUN curl https://pecl.php.net/get/sqlsrv-5.12.0.tgz | tar -C /usr/src/php/ext/sq
 # Install
 RUN apt-get update
 RUN apt-get install -y unixodbc-dev gnupg
+
+RUN docker-php-ext-configure sqlsrv
 RUN docker-php-ext-install sqlsrv
 
 # Package

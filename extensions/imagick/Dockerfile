@@ -11,6 +11,7 @@ RUN curl https://pecl.php.net/get/imagick-3.7.0.tgz | tar -C /usr/src/php/ext/im
 # Install
 RUN apt-get update
 RUN apt-get install -y libmagick++-dev
+RUN docker-php-ext-configure imagick
 RUN docker-php-ext-install imagick
 
 # Package

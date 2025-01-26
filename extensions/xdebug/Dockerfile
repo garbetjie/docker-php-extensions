@@ -11,6 +11,8 @@ RUN curl https://pecl.php.net/get/xdebug-3.3.2.tgz | tar -C /usr/src/php/ext/xde
 # Install
 RUN apt-get update
 RUN apt-get install -y linux-headers-generic
+
+RUN docker-php-ext-configure xdebug
 RUN docker-php-ext-install xdebug
 
 # Package

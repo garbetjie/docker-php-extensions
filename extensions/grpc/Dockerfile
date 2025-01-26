@@ -11,6 +11,7 @@ RUN curl https://pecl.php.net/get/grpc-1.66.0.tgz | tar -C /usr/src/php/ext/grpc
 # Install
 RUN apt-get update
 RUN apt-get install -y zlib1g-dev linux-headers-generic binutils
+RUN docker-php-ext-configure grpc
 RUN docker-php-ext-install grpc
 RUN strip --strip-debug /usr/local/lib/php/extensions/*-zts-*/grpc.so
 

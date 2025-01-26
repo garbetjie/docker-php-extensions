@@ -11,6 +11,7 @@ RUN git clone https://github.com/open-telemetry/opentelemetry-php-instrumentatio
 RUN mv /usr/src/php/ext/opentelemetry.git/ext /usr/src/php/ext/opentelemetry
 
 # Install
+RUN docker-php-ext-configure opentelemetry
 RUN docker-php-ext-install opentelemetry
 
 ## Package
