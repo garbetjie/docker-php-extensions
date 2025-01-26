@@ -2,6 +2,7 @@ ARG IMAGE_TAG="8.3-cli-bookworm"
 FROM php:$IMAGE_TAG
 
 # Install
+RUN docker-php-ext-configure bcmath
 RUN docker-php-ext-install bcmath
 
 # Package
