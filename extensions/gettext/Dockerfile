@@ -4,7 +4,7 @@ FROM php:$IMAGE_TAG
 # Install
 RUN apt-get update
 RUN apt-get install -y gettext
-RUN docker-php-ext-configure gettext
+RUN docker-php-ext-configure gettext --with-gettext
 RUN docker-php-ext-install gettext
 
 # Package
