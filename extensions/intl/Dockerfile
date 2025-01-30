@@ -4,8 +4,6 @@ FROM php:$IMAGE_TAG
 # Install
 RUN apt-get update
 RUN apt-get install -y libicu-dev
-
-RUN docker-php-ext-configure intl
 RUN docker-php-ext-install intl
 
 # Package

@@ -11,7 +11,6 @@ RUN mkdir /usr/src/php/ext/ssh2
 RUN curl https://pecl.php.net/get/ssh2-1.4.1.tgz | tar -C /usr/src/php/ext/ssh2 -xzf - --strip-components 1
 
 # Install
-RUN docker-php-ext-configure ssh2
 RUN docker-php-ext-install ssh2
 
 # Package

@@ -11,8 +11,6 @@ RUN curl https://pecl.php.net/get/yaml-2.2.3.tgz | tar -C /usr/src/php/ext/yaml 
 # Install
 RUN apt-get update
 RUN apt-get install -y libyaml-dev
-
-RUN docker-php-ext-configure yaml
 RUN docker-php-ext-install yaml
 
 # Package

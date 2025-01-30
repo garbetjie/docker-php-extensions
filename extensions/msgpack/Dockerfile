@@ -9,7 +9,6 @@ RUN mkdir /usr/src/php/ext/msgpack
 RUN curl https://pecl.php.net/get/msgpack-2.2.0.tgz | tar -C /usr/src/php/ext/msgpack -xzf - --strip-components 1
 
 # Install
-RUN docker-php-ext-configure msgpack
 RUN docker-php-ext-install msgpack
 
 # Package

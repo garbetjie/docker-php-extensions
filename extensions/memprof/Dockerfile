@@ -11,8 +11,6 @@ RUN curl https://pecl.php.net/get/memprof-3.0.2.tgz | tar -C /usr/src/php/ext/me
 # Install
 RUN apt-get update
 RUN apt-get install -y libjudy-dev
-
-RUN docker-php-ext-configure memprof
 RUN docker-php-ext-install memprof
 
 # Package

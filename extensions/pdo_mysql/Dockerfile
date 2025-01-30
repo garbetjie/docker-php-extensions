@@ -2,7 +2,6 @@ ARG IMAGE_TAG="8.3-cli-bookworm"
 FROM php:$IMAGE_TAG
 
 # Install
-RUN docker-php-ext-configure pdo_mysql
 RUN docker-php-ext-install pdo_mysql
 
 # Package

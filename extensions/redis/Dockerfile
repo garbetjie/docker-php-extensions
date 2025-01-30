@@ -11,8 +11,6 @@ RUN curl https://pecl.php.net/get/redis-6.0.2.tgz | tar -C /usr/src/php/ext/redi
 # Install
 RUN apt-get update
 RUN apt-get install -y libzstd-dev
-
-RUN docker-php-ext-configure redis
 RUN docker-php-ext-install redis
 
 # Package
