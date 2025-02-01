@@ -75,6 +75,9 @@ jobs:
         username: ${{ secrets.DOCKER_HUB_LOGIN }}
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
+    - name: Pull Buildkit image whilst logged in.
+      run: docker pull moby/buildkit:buildx-stable-1
+
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3
 
