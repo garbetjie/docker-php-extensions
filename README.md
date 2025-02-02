@@ -66,7 +66,6 @@ available for:
 | grpc          | ✅                 | ✅                 | ✅       | ✅       | ✅       |
 | igbinary      | ✅                 | ✅                 | ✅       | ✅       | ✅       |
 | imagick       | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| imap          | ✅                 | ✅                 | ✅       | ✅       | ✅       |
 | intl          | ✅                 | ✅                 | ✅       | ✅       | ✅       |
 | memcached     | ✅                 | ✅                 | ✅       | ✅       | ✅       |
 | memprof       | ✅                 | ✅                 | ✅       | ✅       | ✅       |

@@ -21,7 +21,7 @@ jobs:
         - apcu
         - bcmath
         - bz2
-        # - decimal
+        - decimal
         - ds
         - exif
         - gd
@@ -30,7 +30,6 @@ jobs:
         - grpc
         - igbinary
         - imagick
-        - imap
         - intl
         - memcached
         - memprof
