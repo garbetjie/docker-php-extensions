@@ -6,11 +6,11 @@ RUN apk add bzip2-dev
 RUN docker-php-ext-install bz2
 
 # Package
-COPY apk /docker-php-extensions/apk/bz2
+COPY apk /opt/docker-php-extensions/apk/bz2
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/bz2.so \
       $(php-config --ini-dir)/docker-php-ext-bz2.ini \
-      /docker-php-extensions
+      /opt/docker-php-extensions
 
 
 FROM php:${IMAGE_TAG}

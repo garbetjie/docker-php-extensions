@@ -6,11 +6,11 @@ RUN apk add gmp-dev
 RUN docker-php-ext-install gmp
 
 # Package
-COPY apk /docker-php-extensions/apk/gmp
+COPY apk /opt/docker-php-extensions/apk/gmp
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/gmp.so \
       $(php-config --ini-dir)/docker-php-ext-gmp.ini \
-      /docker-php-extensions
+      /opt/docker-php-extensions
 
 
 FROM php:${IMAGE_TAG}

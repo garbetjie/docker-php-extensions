@@ -6,11 +6,11 @@ RUN apk add gettext-dev
 RUN docker-php-ext-install gettext
 
 # Package
-COPY apk /docker-php-extensions/apk/gettext
+COPY apk /opt/docker-php-extensions/apk/gettext
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/gettext.so \
       $(php-config --ini-dir)/docker-php-ext-gettext.ini \
-      /docker-php-extensions
+      /opt/docker-php-extensions
 
 
 FROM php:${IMAGE_TAG}

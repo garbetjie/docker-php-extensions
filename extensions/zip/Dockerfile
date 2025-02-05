@@ -10,11 +10,11 @@ RUN docker-php-ext-configure zip --with-zip
 RUN docker-php-ext-install zip
 
 # Package
-COPY apk /docker-php-extensions/apk/zip
+COPY apk /opt/docker-php-extensions/apk/zip
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/zip.so \
       $(php-config --ini-dir)/docker-php-ext-zip.ini \
-      /docker-php-extensions
+      /opt/docker-php-extensions
 
 
 FROM php:${IMAGE_TAG}

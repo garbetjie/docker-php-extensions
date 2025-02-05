@@ -13,11 +13,11 @@ RUN apk add yaml-dev
 RUN docker-php-ext-install yaml
 
 # Package
-COPY apk /docker-php-extensions/apk/yaml
+COPY apk /opt/docker-php-extensions/apk/yaml
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/yaml.so \
       $(php-config --ini-dir)/docker-php-ext-yaml.ini \
-      /docker-php-extensions
+      /opt/docker-php-extensions
 
 
 FROM php:${IMAGE_TAG}

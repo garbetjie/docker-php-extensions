@@ -22,11 +22,11 @@ RUN docker-php-ext-configure swoole  \
 RUN docker-php-ext-install swoole
 
 # Package
-COPY apk /docker-php-extensions/apk/swoole
+COPY apk /opt/docker-php-extensions/apk/swoole
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/swoole.so \
       $(php-config --ini-dir)/docker-php-ext-swoole.ini \
-      /docker-php-extensions
+      /opt/docker-php-extensions
 
 
 FROM php:${IMAGE_TAG}

@@ -13,11 +13,11 @@ RUN apk add imagemagick-dev
 RUN docker-php-ext-install imagick
 
 # Package
-COPY apk /docker-php-extensions/apk/imagick
+COPY apk /opt/docker-php-extensions/apk/imagick
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/imagick.so \
       $(php-config --ini-dir)/docker-php-ext-imagick.ini \
-      /docker-php-extensions
+      /opt/docker-php-extensions
 
 
 FROM php:${IMAGE_TAG}

@@ -13,11 +13,11 @@ RUN apk add zlib-dev linux-headers binutils
 RUN docker-php-ext-install grpc && strip --strip-debug /usr/local/lib/php/extensions/*-zts-*/grpc.so
 
 # Package
-COPY apk /docker-php-extensions/apk/grpc
+COPY apk /opt/docker-php-extensions/apk/grpc
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/grpc.so \
       $(php-config --ini-dir)/docker-php-ext-grpc.ini \
-      /docker-php-extensions
+      /opt/docker-php-extensions
 
 
 FROM php:${IMAGE_TAG}

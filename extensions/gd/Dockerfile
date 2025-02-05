@@ -7,11 +7,11 @@ RUN docker-php-ext-configure gd --enable-gd --with-webp --with-jpeg --with-xpm -
 RUN docker-php-ext-install gd
 
 # Package
-COPY apk /docker-php-extensions/apk/gd
+COPY apk /opt/opt/docker-php-extensions/apk/gd
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/gd.so \
       $(php-config --ini-dir)/docker-php-ext-gd.ini \
-      /docker-php-extensions
+      /opt/opt/docker-php-extensions
 
 
 FROM php:${IMAGE_TAG}

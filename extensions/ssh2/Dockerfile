@@ -13,11 +13,11 @@ RUN wget -O- https://pecl.php.net/get/ssh2-1.4.1.tgz | tar -C /usr/src/php/ext/s
 RUN docker-php-ext-install ssh2
 
 # Package
-COPY apk /docker-php-extensions/apk/ssh2
+COPY apk /opt/docker-php-extensions/apk/ssh2
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/ssh2.so \
       $(php-config --ini-dir)/docker-php-ext-ssh2.ini \
-      /docker-php-extensions
+      /opt/docker-php-extensions
 
 
 FROM php:${IMAGE_TAG}

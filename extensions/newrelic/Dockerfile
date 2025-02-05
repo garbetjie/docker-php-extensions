@@ -23,11 +23,11 @@ RUN strip --strip-debug agent/modules/newrelic.so && \
     mv bin/daemon /usr/local/bin/newrelic-daemon
 
 # Package files for the extension.
-COPY apk /docker-php-extensions/apk/newrelic
+COPY apk /opt/docker-php-extensions/apk/newrelic
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/newrelic.so \
       $(php-config --ini-dir)/docker-php-ext-newrelic.ini \
-      /docker-php-extensions \
+      /opt/docker-php-extensions \
       /usr/local/bin/newrelic-daemon
 
 

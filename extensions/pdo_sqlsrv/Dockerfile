@@ -13,12 +13,12 @@ RUN apk add unixodbc-dev gnupg
 RUN docker-php-ext-install pdo_sqlsrv
 
 # Package
-COPY apk /docker-php-extensions/apk/pdo_sqlsrv
-COPY shell /docker-php-extensions/shell/pdo_sqlsrv
+COPY apk /opt/docker-php-extensions/apk/pdo_sqlsrv
+COPY shell /opt/docker-php-extensions/shell/pdo_sqlsrv
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/pdo_sqlsrv.so \
       $(php-config --ini-dir)/docker-php-ext-pdo_sqlsrv.ini \
-      /docker-php-extensions
+      /opt/docker-php-extensions
 
 
 FROM php:${IMAGE_TAG}

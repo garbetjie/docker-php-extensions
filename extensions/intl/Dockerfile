@@ -6,11 +6,11 @@ RUN apk add icu-dev
 RUN docker-php-ext-install intl
 
 # Package
-COPY apk /docker-php-extensions/apk/intl
+COPY apk /opt/docker-php-extensions/apk/intl
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/intl.so \
       $(php-config --ini-dir)/docker-php-ext-intl.ini \
-      /docker-php-extensions
+      /opt/docker-php-extensions
 
 
 FROM php:${IMAGE_TAG}

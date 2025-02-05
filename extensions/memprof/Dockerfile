@@ -13,11 +13,11 @@ RUN apk add judy-dev bsd-compat-headers
 RUN docker-php-ext-install memprof
 
 # Package
-COPY apk /docker-php-extensions/apk/memprof
+COPY apk /opt/docker-php-extensions/apk/memprof
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/memprof.so \
       $(php-config --ini-dir)/docker-php-ext-memprof.ini \
-      /docker-php-extensions
+      /opt/docker-php-extensions
 
 
 FROM php:${IMAGE_TAG}

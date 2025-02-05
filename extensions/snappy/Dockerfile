@@ -13,11 +13,11 @@ RUN docker-php-ext-configure snappy
 RUN docker-php-ext-install snappy
 
 # Package
-COPY apk /docker-php-extensions/apk/snappy
+COPY apk /opt/docker-php-extensions/apk/snappy
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/snappy.so \
       $(php-config --ini-dir)/docker-php-ext-snappy.ini \
-      /docker-php-extensions
+      /opt/docker-php-extensions
 
 RUN ls -lah $(php-config --extension-dir)
 RUN ls -lah $(php-config --ini-dir)
