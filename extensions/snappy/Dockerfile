@@ -1,6 +1,5 @@
-ARG PHP_VERSION
-ARG ALPINE_VERSION=3.18
-FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION}
+ARG IMAGE_TAG="8.4-cli-alpine"
+FROM php:${IMAGE_TAG}
 
 # Unpack source
 RUN docker-php-source extract
@@ -23,7 +22,7 @@ RUN tar -cf /tmp/files.tar \
 RUN ls -lah $(php-config --extension-dir)
 RUN ls -lah $(php-config --ini-dir)
 
-FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION}
+FROM php:${IMAGE_TAG}
 
 COPY --from=0 /tmp/files.tar /tmp/
 RUN mkdir /tmp/root && tar -xf /tmp/files.tar -C /tmp/root

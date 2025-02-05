@@ -10,16 +10,17 @@ on:
 jobs:
   ext:
     name: "${{ matrix.ext }} [${{ matrix.php_version }}]"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 600
     strategy:
-      max-parallel: 4
+      max-parallel: 2
       matrix:
         ext:
         - amqp
         - apcu
         - bcmath
         - bz2
+        - decimal
         - ds
         - exif
         - gd
@@ -53,9 +54,9 @@ jobs:
         - zip
 
         php_version:
-        - "8.1"
         - "8.2"
         - "8.3"
+        - "8.4"
 
         include:
         - arch: linux/amd64,linux/arm64
@@ -93,8 +94,7 @@ jobs:
       with:
         context: ./extensions/${{ matrix.ext }}
         build-args: |
-          PHP_VERSION=${{ matrix.php_version }}
-          ALPINE_VERSION=${{ matrix.alpine_version }}
+          IMAGE_TAG=${{ matrix.php_version }}-cli-alpine
         tags: ${{ vars.DOCKER_HUB_REPO }}/php:${{ matrix.php_version }}-${{ matrix.ext }}
         platforms: "${{ matrix.arch }}"
         push: true

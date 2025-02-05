@@ -1,6 +1,5 @@
-ARG PHP_VERSION
-ARG ALPINE_VERSION=3.18
-FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION}
+ARG IMAGE_TAG="8.4-cli-alpine"
+FROM php:${IMAGE_TAG}
 
 ARG ALPINE_VERSION
 
@@ -32,7 +31,7 @@ RUN tar -cf /tmp/files.tar \
       /usr/local/bin/newrelic-daemon
 
 
-FROM php:${PHP_VERSION}-cli-alpine${ALPINE_VERSION}
+FROM php:${IMAGE_TAG}
 
 COPY --from=0 /tmp/files.tar /tmp/
 RUN mkdir /tmp/root && tar -xf /tmp/files.tar -C /tmp/root
