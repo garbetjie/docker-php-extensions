@@ -1,44 +1,55 @@
 #!/usr/bin/env bash
 
+docker buildx use multiarch &>/dev/null
+
+[[ $? -ne 0 ]] && docker buildx create --name multiarch --use --platform linux/amd64,linux/arm64
+docker buildx use multiarch &>/dev/null
+
+[[ $? -ne 0 ]] && {
+  echo "Unable to use/create buildx builder [multiarch]."
+  exit 1
+}
+
 set -e -o pipefail
 
-platform=""
 ext="$1"
 php_version="8.1"
-alpine_version="3.19"
+tag_suffix="-cli-alpine"
+skip_cache=""
 
 while [ $# -gt 0 ]; do
   case "$1" in
-    --x86) platform="--platform linux/amd64"; shift;;
-    --arm) platform="--platform linux/arm64"; shift;;
+    --no-cache) skip_cache="--no-cache"; shift;;
+
     --php-version) php_version="$2"; shift 2;;
     *) ext="$1"; shift;;
   esac
 done
 
-docker build \
-  --no-cache \
+image_tag="$php_version$tag_suffix"
+set -x
+docker buildx build \
   -t build/php:"$ext" \
-  --build-arg "PHP_VERSION=$php_version" \
-  --build-arg "ALPINE_VERSION=$alpine_version" \
-  $platform \
+  --load \
+  --build-arg "IMAGE_TAG=$image_tag" \
+  $skip_cache \
   -f extensions/$ext/Dockerfile \
   --progress plain \
   extensions/$ext
-
+set +x
 echo ""
 echo "-----------------------------------------"
 echo "Image list:"
 echo "-----------------------------------------"
 docker images --filter reference=build/php:"$ext"
 
-cat <<EOT | docker build -t build/php:testing $platform --progress plain -
-FROM php:$php_version-cli-alpine$alpine_version
+cat <<EOT | docker build -t build/php:testing --progress plain -
+FROM php:$image_tag
 COPY --from=build/php:$ext / /
-RUN wget -O- https://raw.githubusercontent.com/garbetjie/docker-php/main/install-dependencies.sh | sh
+RUN curl https://raw.githubusercontent.com/garbetjie/docker-php-extensions/refs/heads/convert-to-debian/install-dependencies.sh | sh
 EOT
 
-start_size="$(docker image inspect php:$php_version-cli-alpine$alpine_version | jq -r '.[0].Size')"
+start_size="$(docker image inspect php:$image_tag | jq -r '.[0].Size')"
 end_size="$(docker image inspect build/php:testing | jq -r '.[0].Size')"
 echo "Final layer size: $(echo "scale=1; ($end_size - $start_size)" | bc | numfmt --to=iec --round=nearest)"
 
@@ -46,4 +57,8 @@ echo ""
 echo "-----------------------------------------"
 echo "Module listing:"
 echo "-----------------------------------------"
-docker run --rm $platform build/php:testing php -m
+docker run --rm build/php:testing php -m
+
+echo "Extension loaded?"
+
+docker run --rm build/php:testing php -r 'echo extension_loaded("'"$ext"'") ? "Yes\n" : "No\n";'
