@@ -1,15 +1,5 @@
 #!/usr/bin/env bash
 
-docker buildx use multiarch &>/dev/null
-
-[[ $? -ne 0 ]] && docker buildx create --name multiarch --use --platform linux/amd64,linux/arm64
-docker buildx use multiarch &>/dev/null
-
-[[ $? -ne 0 ]] && {
-  echo "Unable to use/create buildx builder [multiarch]."
-  exit 1
-}
-
 set -e -o pipefail
 
 ext="$1"
@@ -28,14 +18,15 @@ done
 
 image_tag="$php_version$tag_suffix"
 set -x
-docker buildx build \
+docker build \
   -t build/php:"$ext" \
-  --load \
-  --build-arg "IMAGE_TAG=$image_tag" \
+  --platform linux/arm64,linux/amd64 \
+  --build-arg "PHP_VERSION=$php_version" \
   $skip_cache \
   -f extensions/$ext/Dockerfile \
   --progress plain \
   extensions/$ext
+
 set +x
 echo ""
 echo "-----------------------------------------"
@@ -43,10 +34,10 @@ echo "Image list:"
 echo "-----------------------------------------"
 docker images --filter reference=build/php:"$ext"
 
-cat <<EOT | docker build -t build/php:testing --progress plain -
+cat <<EOT | docker build $skip_cache -t build/php:testing --progress plain -
 FROM php:$image_tag
 COPY --from=build/php:$ext / /
-RUN curl https://raw.githubusercontent.com/garbetjie/docker-php-extensions/refs/heads/convert-to-debian/install-dependencies.sh | sh
+RUN curl https://raw.githubusercontent.com/garbetjie/docker-php-extensions/refs/heads/main/install-dependencies.sh | sh
 EOT
 
 start_size="$(docker image inspect php:$image_tag | jq -r '.[0].Size')"
