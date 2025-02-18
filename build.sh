@@ -37,7 +37,7 @@ docker images --filter reference=build/php:"$ext"
 cat <<EOT | docker build $skip_cache -t build/php:testing --progress plain -
 FROM php:$image_tag
 COPY --from=build/php:$ext / /
-RUN curl https://raw.githubusercontent.com/garbetjie/docker-php-extensions/refs/heads/main/install-dependencies.sh | sh
+RUN curl https://raw.githubusercontent.com/garbetjie/docker-php-extensions/refs/heads/convert-to-debian/install-dependencies.sh | sh
 EOT
 
 start_size="$(docker image inspect php:$image_tag | jq -r '.[0].Size')"
