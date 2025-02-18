@@ -1,5 +1,5 @@
-ARG IMAGE_TAG="8.3-cli-bookworm"
-FROM php:$IMAGE_TAG
+ARG PHP_VERSION="8.4"
+FROM php:${PHP_VERSION}-cli-bookworm
 
 ARG ALPINE_VERSION
 
@@ -51,7 +51,7 @@ RUN tar -cf /tmp/files.tar \
       /usr/local/bin/newrelic-daemon
 
 
-FROM php:$IMAGE_TAG
+FROM php:${PHP_VERSION}-cli-bookworm
 
 COPY --from=0 /tmp/files.tar /tmp/
 RUN mkdir /tmp/root && tar -xf /tmp/files.tar -C /tmp/root
