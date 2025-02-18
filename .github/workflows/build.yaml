@@ -81,8 +81,8 @@ jobs:
       uses: actions/cache@v4
       with:
         path: /tmp/.buildx-cache
-        key: ${{ matrix.php_version }}-${{ matrix.ext }}-${{ github.sha }}
-        restore-keys: ${{ matrix.php_version }}-${{ matrix.ext }}-
+        key: ${{ matrix.php_version }}-${{ matrix.ext }}-${{ github.sha }}-debian
+        restore-keys: ${{ matrix.php_version }}-${{ matrix.ext }}-debian-
 
     - name: Log in to Docker
       uses: docker/login-action@v3
@@ -96,7 +96,7 @@ jobs:
         context: ./extensions/${{ matrix.ext }}
         build-args: |
           PHP_VERSION=${{ matrix.php_version }}
-        tags: ${{ vars.DOCKER_HUB_REPO }}/php:${{ matrix.php_version }}-${{ matrix.ext }}
+        tags: ${{ vars.DOCKER_HUB_REPO }}/php:${{ matrix.php_version }}-${{ matrix.ext }}-debian
         platforms: "${{ matrix.arch }}"
         push: true
         cache-to: type=local,dest=/tmp/.buildx-cache-new
