@@ -6,8 +6,8 @@ set -xe
 if [ -d /opt/docker-php-extensions/apt ]; then
   echo "### Installing package dependencies..."
 
-  apt update
-  awk '{ print $0 }' /opt/docker-php-extensions/apt/* | tr '\n' ' ' | xargs apt install -y
+  apt-get update
+  awk '{ print $0 }' /opt/docker-php-extensions/apt/* | tr '\n' ' ' | xargs apt-get install -y
 fi
 
 # Run custom shell scripts.
