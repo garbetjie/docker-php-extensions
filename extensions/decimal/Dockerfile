@@ -1,4 +1,4 @@
-ARG IMAGE_TAG="8.4-cli-bookworm"
+ARG PHP_VERSION="8.4"
 FROM php:${PHP_VERSION}-cli-bookworm
 
 # Unpack source
