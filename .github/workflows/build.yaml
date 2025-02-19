@@ -81,7 +81,7 @@ jobs:
       uses: actions/cache@v4
       with:
         path: /tmp/.buildx-cache
-        key: ${{ matrix.php_version }}-${{ matrix.ext }}-${{ github.sha }}-debian
+        key: ${{ matrix.php_version }}-${{ matrix.ext }}-debian-${{ github.sha }}
         restore-keys: ${{ matrix.php_version }}-${{ matrix.ext }}-debian-
 
     - name: Log in to Docker
