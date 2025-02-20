@@ -1,46 +1,18 @@
 ARG PHP_VERSION="8.4"
+ARG NEWRELIC_VERSION="11.6.0.19"
 FROM php:${PHP_VERSION}-cli-bookworm
 
-ARG ALPINE_VERSION
-
-# Run the > 3.16 installation.
-RUN apt-get update
-RUN apt-get install -y \
-    git \
-    golang-go \
-    libcurl4-openssl-dev \
-    libssl-dev \
-    libpcre3 \
-    libpcre3-dev \
-    zlib1g-dev \
-    bash \
-    automake \
-    autoconf \
-    libtool \
-    $PHPIZE_DEPS \
-    binutils \
-    file \
-    build-essential \
-    patch \
-    libprotobuf-dev
-
-#RUN apk add git go curl-dev openssl-dev pcre-dev zlib-dev bash automake autoconf libtool $PHPIZE_DEPS \
-#            binutils file fortify-headers g++ gcc libc-dev make patch protobuf-c protobuf-c-dev
-
-# Create working directory.
-RUN mkdir /tmp/newrelic
 WORKDIR /tmp/newrelic
 
-# Get source code, and check out required version.
-RUN git clone https://github.com/newrelic/newrelic-php-agent.git .
-RUN git checkout v11.6.0.19
+RUN curl https://download.newrelic.com/php_agent/archive/11.6.0.19/newrelic-php5-11.6.0.19-linux.tar.gz | tar -xzf - --strip-components 1
 
-# Build extension & move files.
-RUN make all
-RUN strip --strip-debug agent/modules/newrelic.so && \
-    mv agent/modules/newrelic.so $(php-config --extension-dir)/newrelic.so && \
-    mv agent/scripts/newrelic.ini.template $(php-config --ini-dir)/docker-php-ext-newrelic.ini && \
-    mv bin/daemon /usr/local/bin/newrelic-daemon
+RUN set -e; \
+    if [ "$(uname -m)" = "x86_64" ]; then arch="x64"; else arch="aarch64"; fi; \
+    extension_version="$(basename "$(php-config --extension-dir)" | tr -cd '[:digit:]')"; \
+    cp agent/$arch/newrelic-$extension_version.so $(php-config --extension-dir)/newrelic.so; \
+    cp scripts/newrelic.ini.template $(php-config --ini-dir)/docker-php-ext-newrelic.ini; \
+    cp daemon/newrelic-daemon.$arch /usr/bin/newrelic-daemon; \
+    mkdir /var/log/newrelic
 
 # Package files for the extension.
 COPY apt /opt/docker-php-extensions/apt/newrelic
@@ -48,7 +20,8 @@ RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/newrelic.so \
       $(php-config --ini-dir)/docker-php-ext-newrelic.ini \
       /opt/docker-php-extensions \
-      /usr/local/bin/newrelic-daemon
+      /usr/bin/newrelic-daemon \
+      /var/log/newrelic
 
 
 FROM php:${PHP_VERSION}-cli-bookworm
