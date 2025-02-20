@@ -33,7 +33,7 @@ WORKDIR /tmp/newrelic
 
 # Get source code, and check out required version.
 RUN git clone https://github.com/newrelic/newrelic-php-agent.git .
-RUN git checkout v10.16.0.5
+RUN git checkout v11.6.0.19
 
 # Build extension & move files.
 RUN make all
