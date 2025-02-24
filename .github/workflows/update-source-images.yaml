@@ -1,4 +1,7 @@
 on:
+  push:
+    branches:
+      - convert-to-debian
   workflow_dispatch:
     inputs: {}
   schedule:
