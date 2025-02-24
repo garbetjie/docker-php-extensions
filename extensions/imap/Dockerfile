@@ -1,5 +1,6 @@
+ARG SOURCE_IMAGE="php"
 ARG PHP_VERSION="8.4"
-FROM php:${PHP_VERSION}-cli-bookworm
+FROM ${SOURCE_IMAGE}:${PHP_VERSION}-cli-bookworm
 
 # PHP 8.4+ doesn't bundle imap anymore; so we need to get it from PECL if not bundled.
 RUN set -e; \
@@ -23,7 +24,7 @@ RUN tar -cf /tmp/files.tar \
     /opt/docker-php-extensions
 
 
-FROM php:${PHP_VERSION}-cli-bookworm
+FROM ${SOURCE_IMAGE}:${PHP_VERSION}-cli-bookworm
 
 COPY --from=0 /tmp/files.tar /tmp/
 RUN mkdir /tmp/root && tar -xf /tmp/files.tar -C /tmp/root

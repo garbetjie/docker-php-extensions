@@ -1,5 +1,6 @@
+ARG SOURCE_IMAGE="php"
 ARG PHP_VERSION="8.4"
-FROM php:${PHP_VERSION}-cli-bookworm
+FROM ${SOURCE_IMAGE}:${PHP_VERSION}-cli-bookworm
 
 # Install
 RUN docker-php-ext-install opcache
@@ -9,7 +10,7 @@ RUN tar -cf /tmp/files.tar \
       $(php-config --ini-dir)/docker-php-ext-opcache.ini
 
 
-FROM php:${PHP_VERSION}-cli-bookworm
+FROM ${SOURCE_IMAGE}:${PHP_VERSION}-cli-bookworm
 
 COPY --from=0 /tmp/files.tar /tmp/
 RUN mkdir /tmp/root && tar -xf /tmp/files.tar -C /tmp/root

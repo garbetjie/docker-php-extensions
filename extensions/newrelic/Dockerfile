@@ -1,6 +1,7 @@
+ARG SOURCE_IMAGE="php"
 ARG PHP_VERSION="8.4"
 ARG NEWRELIC_VERSION="11.6.0.19"
-FROM php:${PHP_VERSION}-cli-bookworm
+FROM ${SOURCE_IMAGE}:${PHP_VERSION}-cli-bookworm
 
 WORKDIR /tmp/newrelic
 
@@ -24,7 +25,7 @@ RUN tar -cf /tmp/files.tar \
       /var/log/newrelic
 
 
-FROM php:${PHP_VERSION}-cli-bookworm
+FROM ${SOURCE_IMAGE}:${PHP_VERSION}-cli-bookworm
 
 COPY --from=0 /tmp/files.tar /tmp/
 RUN mkdir /tmp/root && tar -xf /tmp/files.tar -C /tmp/root
