@@ -1,0 +1,42 @@
+on:
+  workflow_dispatch:
+    inputs: {}
+  schedule:
+    - cron: "0 6 * * 6"
+
+jobs:
+  build:
+    name: "Update source image [${{ matrix.php_version }}]"
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        php_version:
+        - "8.2"
+        - "8.3"
+        - "8.4"
+    steps:
+    - name: Set up AWS
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: "${{ secrets.AWS_ACCESS_KEY }}"
+        aws-secret-access-key: "${{ secrets.AWS_SECRET_KEY }}"
+        aws-region: "af-south-1"
+
+    - name: Log in to ECR
+      uses: aws-actions/amazon-ecr-login@v2
+      with:
+        registries: "489891245217"
+
+    - name: Pull source image
+      run: docker pull "php:${{ matrix.php_version }}-cli-bookworm"
+
+    - name: Tag target image
+      run: |
+        docker tag \
+          "php:${{ matrix.php_version }}-cli-bookworm" \
+          "489891245217.dkr.ecr.af-south-1.amazonaws.com/php/sources:${{ matrix.php_version }}-cli-bookworm"
+
+    - name: Push target image
+      run: |
+        docker push \
+          "489891245217.dkr.ecr.af-south-1.amazonaws.com/php/sources:${{ matrix.php_version }}-cli-bookworm"
