@@ -1,4 +1,5 @@
-
+ARG SOURCE_IMAGE="php"
+ARG PHP_VERSION="8.4"
 FROM ${SOURCE_IMAGE}:${PHP_VERSION}-cli-bookworm
 
 # Unpack source
