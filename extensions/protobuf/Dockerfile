@@ -7,7 +7,7 @@ RUN docker-php-source extract
 
 # Download
 RUN mkdir /usr/src/php/ext/protobuf
-RUN curl https://pecl.php.net/get/protobuf-4.28.1.tgz | tar -C /usr/src/php/ext/protobuf -xzf - --strip-components 1
+RUN curl https://pecl.php.net/get/protobuf-4.29.3.tgz | tar -C /usr/src/php/ext/protobuf -xzf - --strip-components 1
 
 # Install
 RUN docker-php-ext-install protobuf
