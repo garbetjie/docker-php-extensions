@@ -51,7 +51,7 @@ For example, the `grpc` extension can be fetched from the `garbetjie/php:8.2-grp
 The table below shows a support matrix of the available extensions, as well as which platforms & PHP versions they're
 available for:
 
-| extension     | Arch: linux/amd64 | Arch: linux/arm64 | PHP 8.1 | PHP 8.2 | PHP 8.3 |
+| extension     | Arch: linux/amd64 | Arch: linux/arm64 | PHP 8.2 | PHP 8.3 | PHP 8.4 |
 |---------------|-------------------|-------------------|---------|---------|---------|
 | amqp          | ✅                 | ✅                 | ✅       | ✅       | ✅       |
 | apcu          | ✅                 | ✅                 | ✅       | ✅       | ✅       |
@@ -85,7 +85,7 @@ available for:
 | sqlsrv        | ✅                 | ❌                 | ✅       | ✅       | ✅       |
 | ssh2          | ✅                 | ✅                 | ✅       | ✅       | ✅       |
 | swoole        | ✅                 | ✅                 | ✅       | ✅       | ✅       |
-| uopz          | ✅                 | ✅                 | ✅       | ✅       | ✅       |
+| uopz          | ✅                 | ✅                 | ✅       | ✅       | ❌       |
 | xdebug        | ✅                 | ✅                 | ✅       | ✅       | ✅       |
 | yaml          | ✅                 | ✅                 | ✅       | ✅       | ✅       |
 | zip           | ✅                 | ✅                 | ✅       | ✅       | ✅       |
