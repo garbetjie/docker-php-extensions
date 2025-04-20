@@ -19,6 +19,7 @@ RUN mkdir /tmp/root && tar -xf /tmp/files.tar -C /tmp/root
 
 # Debugging of arch.
 RUN file /tmp/root$(php-config --extension-dir)/bcmath.so
+RUN arch
 
 
 FROM scratch
