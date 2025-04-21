@@ -113,8 +113,10 @@ jobs:
         context: ./extensions/${{ matrix.ext }}
         build-args: |
           PHP_VERSION=${{ matrix.php_version }}
-          SOURCE_IMAGE=489891245217.dkr.ecr.af-south-1.amazonaws.com/mirrored/php
-        tags: ${{ vars.DOCKER_HUB_REPO }}/php:${{ matrix.php_version }}-${{ matrix.ext }}-debian
+          SOURCE_IMAGE=${{ vars.AWS_REPO_HOST }}/mirrored/php
+        tags: |
+          ${{ vars.DOCKER_HUB_REPO }}/php:${{ matrix.php_version }}-${{ matrix.ext }}-debian
+          ${{ vars.AWS_REPO_HOST }}/php:${{ matrix.php_version }}-${{ matrix.ext }}
         platforms: "${{ matrix.arch }}"
         push: true
         cache-to: type=local,dest=/tmp/.buildx-cache-new
