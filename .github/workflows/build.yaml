@@ -113,7 +113,7 @@ jobs:
         context: ./extensions/${{ matrix.ext }}
         build-args: |
           PHP_VERSION=${{ matrix.php_version }}
-          SOURCE_IMAGE=489891245217.dkr.ecr.af-south-1.amazonaws.com/php/sources
+          SOURCE_IMAGE=489891245217.dkr.ecr.af-south-1.amazonaws.com/mirrored/php
         tags: ${{ vars.DOCKER_HUB_REPO }}/php:${{ matrix.php_version }}-${{ matrix.ext }}-debian
         platforms: "${{ matrix.arch }}"
         push: true
