@@ -101,10 +101,15 @@ jobs:
         aws-secret-access-key: "${{ secrets.AWS_SECRET_KEY }}"
         aws-region: "af-south-1"
 
-    - name: Log in to ECR
+    - name: Log in to ECR (private)
       uses: aws-actions/amazon-ecr-login@v2
       with:
         registries: "489891245217"
+
+    - name: Log in to ECR (public)
+      uses: aws-actions/amazon-ecr-login@v2
+      with:
+        registry-type: public
 
     - name: Build
       uses: docker/build-push-action@v6
