@@ -30,10 +30,6 @@ jobs:
     - name: Copy source image
       run: |
         docker buildx imagetools create \
+          --progress plain \
           --tag "489891245217.dkr.ecr.af-south-1.amazonaws.com/mirrored/php:${{ matrix.php_version }}-cli-bookworm" \
           "php:${{ matrix.php_version }}-cli-bookworm"
-
-#    - name: Push target image
-#      run: |
-#        docker push \
-#          "489891245217.dkr.ecr.af-south-1.amazonaws.com/php/sources:${{ matrix.php_version }}-cli-bookworm"
