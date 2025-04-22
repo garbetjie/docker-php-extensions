@@ -18,6 +18,7 @@ RUN docker-php-ext-install ssh2
 COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
 COPY apt /opt/docker-php-extensions/apt/ssh2
 RUN tar -cf /tmp/files.tar \
+      /usr/local/bin/docker-php-install-ext-deps.sh \
       $(php-config --extension-dir)/ssh2.so \
       $(php-config --ini-dir)/docker-php-ext-ssh2.ini \
       /opt/docker-php-extensions

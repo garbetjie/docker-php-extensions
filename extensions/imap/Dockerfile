@@ -20,9 +20,10 @@ RUN docker-php-ext-install imap
 COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
 COPY apt /opt/docker-php-extensions/apt/imap
 RUN tar -cf /tmp/files.tar \
-    $(php-config --extension-dir)/imap.so \
-    $(php-config --ini-dir)/docker-php-ext-imap.ini \
-    /opt/docker-php-extensions
+      /usr/local/bin/docker-php-install-ext-deps.sh \
+      $(php-config --extension-dir)/imap.so \
+      $(php-config --ini-dir)/docker-php-ext-imap.ini \
+      /opt/docker-php-extensions
 
 
 FROM ${SOURCE_IMAGE}:${PHP_VERSION}-cli-bookworm

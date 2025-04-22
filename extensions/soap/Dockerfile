@@ -10,6 +10,7 @@ RUN docker-php-ext-install soap
 # Package
 COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
 RUN tar -cf /tmp/files.tar \
+      /usr/local/bin/docker-php-install-ext-deps.sh \
       $(php-config --extension-dir)/soap.so \
       $(php-config --ini-dir)/docker-php-ext-soap.ini
 

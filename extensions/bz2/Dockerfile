@@ -11,6 +11,7 @@ RUN docker-php-ext-install bz2
 COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
 COPY apt /opt/docker-php-extensions/apt/bz2
 RUN tar -cf /tmp/files.tar \
+      /usr/local/bin/docker-php-install-ext-deps.sh \
       $(php-config --extension-dir)/bz2.so \
       $(php-config --ini-dir)/docker-php-ext-bz2.ini \
       /opt/docker-php-extensions

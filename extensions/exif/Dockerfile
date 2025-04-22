@@ -8,6 +8,7 @@ RUN docker-php-ext-install exif
 # Package
 COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
 RUN tar -cf /tmp/files.tar \
+      /usr/local/bin/docker-php-install-ext-deps.sh \
       $(php-config --extension-dir)/exif.so \
       $(php-config --ini-dir)/docker-php-ext-exif.ini
 

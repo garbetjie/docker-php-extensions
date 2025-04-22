@@ -19,6 +19,7 @@ RUN docker-php-ext-install decimal
 COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
 COPY shell /opt/docker-php-extensions/shell/decimal
 RUN tar -cf /tmp/files.tar \
+      /usr/local/bin/docker-php-install-ext-deps.sh \
       $(php-config --extension-dir)/decimal.so \
       $(php-config --ini-dir)/docker-php-ext-decimal.ini \
       /opt/docker-php-extensions

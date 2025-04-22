@@ -8,6 +8,7 @@ RUN docker-php-ext-install pdo_mysql
 # Package
 COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
 RUN tar -cf /tmp/files.tar \
+      /usr/local/bin/docker-php-install-ext-deps.sh \
       $(php-config --extension-dir)/pdo_mysql.so \
       $(php-config --ini-dir)/docker-php-ext-pdo_mysql.ini
 

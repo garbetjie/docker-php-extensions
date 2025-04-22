@@ -19,6 +19,7 @@ COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
 COPY apt /opt/docker-php-extensions/apt/sqlsrv
 COPY shell /opt/docker-php-extensions/shell/sqlsrv
 RUN tar -cf /tmp/files.tar \
+      /usr/local/bin/docker-php-install-ext-deps.sh \
       $(php-config --extension-dir)/sqlsrv.so \
       $(php-config --ini-dir)/docker-php-ext-sqlsrv.ini \
       /opt/docker-php-extensions

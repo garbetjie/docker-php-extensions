@@ -18,6 +18,7 @@ RUN docker-php-ext-install redis
 COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
 COPY apt /opt/docker-php-extensions/apt/redis
 RUN tar -cf /tmp/files.tar \
+      /usr/local/bin/docker-php-install-ext-deps.sh \
       $(php-config --extension-dir)/redis.so \
       $(php-config --ini-dir)/docker-php-ext-redis.ini \
       /opt/docker-php-extensions

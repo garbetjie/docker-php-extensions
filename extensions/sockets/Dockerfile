@@ -10,6 +10,7 @@ RUN docker-php-ext-install sockets
 # Package
 COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
 RUN tar -cf /tmp/files.tar \
+      /usr/local/bin/docker-php-install-ext-deps.sh \
       $(php-config --extension-dir)/sockets.so \
       $(php-config --ini-dir)/docker-php-ext-sockets.ini
 

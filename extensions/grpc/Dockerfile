@@ -18,6 +18,7 @@ RUN strip --strip-debug /usr/local/lib/php/extensions/*-zts-*/grpc.so
 # Package
 COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
 RUN tar -cf /tmp/files.tar \
+      /usr/local/bin/docker-php-install-ext-deps.sh \
       $(php-config --extension-dir)/grpc.so \
       $(php-config --ini-dir)/docker-php-ext-grpc.ini
 

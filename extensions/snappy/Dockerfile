@@ -18,6 +18,7 @@ RUN docker-php-ext-install snappy
 COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
 COPY apt /opt/docker-php-extensions/apt/snappy
 RUN tar -cf /tmp/files.tar \
+      /usr/local/bin/docker-php-install-ext-deps.sh \
       $(php-config --extension-dir)/snappy.so \
       $(php-config --ini-dir)/docker-php-ext-snappy.ini \
       /opt/docker-php-extensions

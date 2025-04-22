@@ -18,6 +18,7 @@ RUN docker-php-ext-install imagick
 COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
 COPY apt /opt/docker-php-extensions/apt/imagick
 RUN tar -cf /tmp/files.tar \
+      /usr/local/bin/docker-php-install-ext-deps.sh \
       $(php-config --extension-dir)/imagick.so \
       $(php-config --ini-dir)/docker-php-ext-imagick.ini \
       /opt/docker-php-extensions

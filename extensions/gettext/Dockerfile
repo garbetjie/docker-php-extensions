@@ -11,6 +11,7 @@ RUN docker-php-ext-install gettext
 COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
 COPY apt /opt/docker-php-extensions/apt/gettext
 RUN tar -cf /tmp/files.tar \
+      /usr/local/bin/docker-php-install-ext-deps.sh \
       $(php-config --extension-dir)/gettext.so \
       $(php-config --ini-dir)/docker-php-ext-gettext.ini \
       /opt/docker-php-extensions
