@@ -15,10 +15,10 @@ RUN apt-get install -y libzstd-dev
 RUN docker-php-ext-install redis
 
 # Package
-COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
+COPY install.sh /usr/local/bin/docker-php-ext-install-deps
 COPY apt /opt/docker-php-extensions/apt/redis
 RUN tar -cf /tmp/files.tar \
-      /usr/local/bin/docker-php-install-ext-deps.sh \
+      /usr/local/bin/docker-php-ext-install-deps \
       $(php-config --extension-dir)/redis.so \
       $(php-config --ini-dir)/docker-php-ext-redis.ini \
       /opt/docker-php-extensions

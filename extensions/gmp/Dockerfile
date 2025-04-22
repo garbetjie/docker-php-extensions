@@ -8,10 +8,10 @@ RUN apt-get install -y libgmp-dev
 RUN docker-php-ext-install gmp
 
 # Package
-COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
+COPY install.sh /usr/local/bin/docker-php-ext-install-deps
 COPY apt /opt/docker-php-extensions/apt/gmp
 RUN tar -cf /tmp/files.tar \
-      /usr/local/bin/docker-php-install-ext-deps.sh \
+      /usr/local/bin/docker-php-ext-install-deps \
       $(php-config --extension-dir)/gmp.so \
       $(php-config --ini-dir)/docker-php-ext-gmp.ini \
       /opt/docker-php-extensions

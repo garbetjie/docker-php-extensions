@@ -15,10 +15,10 @@ RUN apt-get install -y libyaml-dev
 RUN docker-php-ext-install yaml
 
 # Package
-COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
+COPY install.sh /usr/local/bin/docker-php-ext-install-deps
 COPY apt /opt/docker-php-extensions/apt/yaml
 RUN tar -cf /tmp/files.tar \
-      /usr/local/bin/docker-php-install-ext-deps.sh \
+      /usr/local/bin/docker-php-ext-install-deps \
       $(php-config --extension-dir)/yaml.so \
       $(php-config --ini-dir)/docker-php-ext-yaml.ini \
       /opt/docker-php-extensions

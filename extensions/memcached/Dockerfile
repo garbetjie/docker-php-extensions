@@ -16,10 +16,10 @@ RUN docker-php-ext-configure memcached --enable-memcached-session --enable-memca
 RUN docker-php-ext-install memcached
 
 # Package
-COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
+COPY install.sh /usr/local/bin/docker-php-ext-install-deps
 COPY apt /opt/docker-php-extensions/apt/memcached
 RUN tar -cf /tmp/files.tar \
-      /usr/local/bin/docker-php-install-ext-deps.sh \
+      /usr/local/bin/docker-php-ext-install-deps \
       $(php-config --extension-dir)/memcached.so \
       $(php-config --ini-dir)/docker-php-ext-memcached.ini \
       /opt/docker-php-extensions

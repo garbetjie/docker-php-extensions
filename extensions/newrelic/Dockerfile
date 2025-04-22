@@ -16,10 +16,10 @@ RUN set -e; \
     mkdir /var/log/newrelic
 
 # Package
-COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
+COPY install.sh /usr/local/bin/docker-php-ext-install-deps
 COPY apt /opt/docker-php-extensions/apt/newrelic
 RUN tar -cf /tmp/files.tar \
-      /usr/local/bin/docker-php-install-ext-deps.sh \
+      /usr/local/bin/docker-php-ext-install-deps \
       $(php-config --extension-dir)/newrelic.so \
       $(php-config --ini-dir)/docker-php-ext-newrelic.ini \
       /opt/docker-php-extensions \

@@ -16,10 +16,10 @@ RUN docker-php-ext-configure amqp
 RUN docker-php-ext-install amqp
 
 # Package
-COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
+COPY install.sh /usr/local/bin/docker-php-ext-install-deps
 COPY apt /opt/docker-php-extensions/apt/amqp
 RUN tar -cf /tmp/files.tar \
-      /usr/local/bin/docker-php-install-ext-deps.sh \
+      /usr/local/bin/docker-php-ext-install-deps \
       $(php-config --extension-dir)/amqp.so \
       $(php-config --ini-dir)/docker-php-ext-amqp.ini \
       /opt/docker-php-extensions

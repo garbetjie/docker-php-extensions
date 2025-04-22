@@ -24,10 +24,10 @@ RUN docker-php-ext-configure openswoole \
 RUN docker-php-ext-install openswoole
 
 # Package
-COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
+COPY install.sh /usr/local/bin/docker-php-ext-install-deps
 COPY apt /opt/docker-php-extensions/apt/openswoole
 RUN tar -cf /tmp/files.tar \
-      /usr/local/bin/docker-php-install-ext-deps.sh \
+      /usr/local/bin/docker-php-ext-install-deps \
       $(php-config --extension-dir)/openswoole.so \
       $(php-config --ini-dir)/docker-php-ext-openswoole.ini \
       /opt/docker-php-extensions

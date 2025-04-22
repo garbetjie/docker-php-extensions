@@ -13,9 +13,9 @@ RUN curl https://pecl.php.net/get/protobuf-4.29.3.tgz | tar -C /usr/src/php/ext/
 RUN docker-php-ext-install protobuf
 
 # Package
-COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
+COPY install.sh /usr/local/bin/docker-php-ext-install-deps
 RUN tar -cf /tmp/files.tar \
-      /usr/local/bin/docker-php-install-ext-deps.sh \
+      /usr/local/bin/docker-php-ext-install-deps \
       $(php-config --extension-dir)/protobuf.so \
       $(php-config --ini-dir)/docker-php-ext-protobuf.ini
 

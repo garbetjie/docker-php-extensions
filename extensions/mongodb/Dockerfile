@@ -13,9 +13,9 @@ RUN curl https://pecl.php.net/get/mongodb-1.20.1.tgz | tar -C /usr/src/php/ext/m
 RUN docker-php-ext-install mongodb
 
 # Package
-COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
+COPY install.sh /usr/local/bin/docker-php-ext-install-deps
 RUN tar -cf /tmp/files.tar \
-      /usr/local/bin/docker-php-install-ext-deps.sh \
+      /usr/local/bin/docker-php-ext-install-deps \
       $(php-config --extension-dir)/mongodb.so \
       $(php-config --ini-dir)/docker-php-ext-mongodb.ini
 

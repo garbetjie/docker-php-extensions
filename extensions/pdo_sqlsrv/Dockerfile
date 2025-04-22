@@ -15,11 +15,11 @@ RUN apt-get install -y unixodbc-dev gnupg
 RUN docker-php-ext-install pdo_sqlsrv
 
 # Package
-COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
+COPY install.sh /usr/local/bin/docker-php-ext-install-deps
 COPY apt /opt/docker-php-extensions/apt/pdo_sqlsrv
 COPY shell /opt/docker-php-extensions/shell/pdo_sqlsrv
 RUN tar -cf /tmp/files.tar \
-      /usr/local/bin/docker-php-install-ext-deps.sh \
+      /usr/local/bin/docker-php-ext-install-deps \
       $(php-config --extension-dir)/pdo_sqlsrv.so \
       $(php-config --ini-dir)/docker-php-ext-pdo_sqlsrv.ini \
       /opt/docker-php-extensions

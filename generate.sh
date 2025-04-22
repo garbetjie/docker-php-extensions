@@ -32,7 +32,7 @@ RUN docker-php-ext-configure $1
 RUN docker-php-ext-install $1
 
 # Package
-COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
+COPY install.sh /usr/local/bin/docker-php-ext-install-deps
 COPY apt /opt/docker-php-extensions/apt/$1
 COPY shell /opt/docker-php-extensions/shell/$1
 RUN tar -cf /tmp/files.tar \\
