@@ -13,6 +13,7 @@ RUN curl https://pecl.php.net/get/msgpack-3.0.0.tgz | tar -C /usr/src/php/ext/ms
 RUN docker-php-ext-install msgpack
 
 # Package
+COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/msgpack.so \
       $(php-config --ini-dir)/docker-php-ext-msgpack.ini

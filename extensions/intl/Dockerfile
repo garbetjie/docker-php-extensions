@@ -8,6 +8,7 @@ RUN apt-get install -y libicu-dev
 RUN docker-php-ext-install intl
 
 # Package
+COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
 COPY apt /opt/docker-php-extensions/apt/intl
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/intl.so \

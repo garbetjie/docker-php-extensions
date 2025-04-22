@@ -13,6 +13,7 @@ RUN curl https://pecl.php.net/get/igbinary-3.2.16.tgz | tar -C /usr/src/php/ext/
 RUN docker-php-ext-install igbinary
 
 # Package
+COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/igbinary.so \
       $(php-config --ini-dir)/docker-php-ext-igbinary.ini

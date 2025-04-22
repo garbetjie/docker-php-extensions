@@ -9,6 +9,7 @@ RUN docker-php-ext-configure gd --enable-gd --with-webp --with-jpeg --with-xpm -
 RUN docker-php-ext-install gd
 
 # Package
+COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
 COPY apt /opt/docker-php-extensions/apt/gd
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/gd.so \

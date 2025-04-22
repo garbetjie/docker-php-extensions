@@ -15,6 +15,7 @@ RUN curl https://pecl.php.net/get/ssh2-1.4.1.tgz | tar -C /usr/src/php/ext/ssh2 
 RUN docker-php-ext-install ssh2
 
 # Package
+COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
 COPY apt /opt/docker-php-extensions/apt/ssh2
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/ssh2.so \

@@ -8,6 +8,7 @@ RUN apt-get install -y libxml2-dev
 RUN docker-php-ext-install soap
 
 # Package
+COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/soap.so \
       $(php-config --ini-dir)/docker-php-ext-soap.ini

@@ -15,7 +15,8 @@ RUN set -e; \
     cp daemon/newrelic-daemon.$arch /usr/bin/newrelic-daemon; \
     mkdir /var/log/newrelic
 
-# Package files for the extension.
+# Package
+COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
 COPY apt /opt/docker-php-extensions/apt/newrelic
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/newrelic.so \

@@ -15,6 +15,7 @@ RUN apt-get install -y linux-headers-generic
 RUN docker-php-ext-install xdebug
 
 # Package
+COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/xdebug.so \
       $(php-config --ini-dir)/docker-php-ext-xdebug.ini

@@ -15,6 +15,7 @@ RUN apt-get install -y libmagick++-dev
 RUN docker-php-ext-install imagick
 
 # Package
+COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
 COPY apt /opt/docker-php-extensions/apt/imagick
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/imagick.so \

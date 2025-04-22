@@ -13,6 +13,7 @@ RUN docker-php-ext-configure zip --with-zip
 RUN docker-php-ext-install zip
 
 # Package
+COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
 COPY apt /opt/docker-php-extensions/apt/zip
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/zip.so \

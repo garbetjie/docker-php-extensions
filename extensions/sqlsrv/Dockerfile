@@ -15,6 +15,7 @@ RUN apt-get install -y unixodbc-dev gnupg
 RUN docker-php-ext-install sqlsrv
 
 # Package
+COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
 COPY apt /opt/docker-php-extensions/apt/sqlsrv
 COPY shell /opt/docker-php-extensions/shell/sqlsrv
 RUN tar -cf /tmp/files.tar \

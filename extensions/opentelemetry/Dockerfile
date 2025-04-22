@@ -15,6 +15,7 @@ RUN mv /usr/src/php/ext/opentelemetry.git/ext /usr/src/php/ext/opentelemetry
 RUN docker-php-ext-install opentelemetry
 
 ## Package
+COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/opentelemetry.so \
       $(php-config --ini-dir)/docker-php-ext-opentelemetry.ini

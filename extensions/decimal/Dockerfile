@@ -16,6 +16,7 @@ RUN docker-php-ext-configure decimal
 RUN docker-php-ext-install decimal
 
 # Package
+COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
 COPY shell /opt/docker-php-extensions/shell/decimal
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/decimal.so \

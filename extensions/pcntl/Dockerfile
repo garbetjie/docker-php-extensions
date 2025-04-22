@@ -6,6 +6,7 @@ FROM ${SOURCE_IMAGE}:${PHP_VERSION}-cli-bookworm
 RUN docker-php-ext-install pcntl
 
 # Package
+COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/pcntl.so \
       $(php-config --ini-dir)/docker-php-ext-pcntl.ini

@@ -8,6 +8,7 @@ RUN apt-get install -y libbz2-dev
 RUN docker-php-ext-install bz2
 
 # Package
+COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
 COPY apt /opt/docker-php-extensions/apt/bz2
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/bz2.so \

@@ -8,6 +8,7 @@ RUN apt-get install -y linux-headers-generic
 RUN docker-php-ext-install sockets
 
 # Package
+COPY install.sh /usr/local/bin/docker-php-install-ext-deps.sh
 RUN tar -cf /tmp/files.tar \
       $(php-config --extension-dir)/sockets.so \
       $(php-config --ini-dir)/docker-php-ext-sockets.ini
