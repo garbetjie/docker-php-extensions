@@ -9,7 +9,8 @@ on:
 jobs:
   build:
     name: "${{ matrix.ext }}-${{ matrix.php_version }}${{ matrix.runner_suffix }}"
-    runs-on: "ubuntu-24.04-${{ matrix.runner_suffix }}"
+    runs-on: "ubuntu-24.04"
+#    runs-on: "ubuntu-24.04-${{ matrix.runner_suffix }}"
     timeout-minutes: 600
     strategy:
       max-parallel: 8
