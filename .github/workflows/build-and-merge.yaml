@@ -1,0 +1,35 @@
+# extensions:
+#  ['amqp', 'apcu', 'bcmath', 'bz2', 'decimal', 'ds', 'exif', 'gd', 'gettext', 'gmp', 'grpc', 'igbinary', 'imagick', 'imap', 'intl', 'memcached', 'memprof', 'mongodb', 'msgpack', 'newrelic', 'opcache', 'opentelemetry', 'pcntl', 'pdo_mysql', 'pdo_sqlsrv', 'protobuf', 'redis', 'snappy', 'soap', 'sockets', 'sqlsrv', 'ssh2', 'uopz', 'xdebug', 'yaml', 'zip']
+
+# See https://docs.docker.com/build/ci/github-actions/multi-platform/#distribute-build-across-multiple-runners
+on:
+  workflow_dispatch:
+    inputs: {}
+
+jobs:
+  build:
+    name: "${{ matrix.ext }}-${{ matrix.php_version }}${{ matrix.runner_suffix }}"
+    runs-on: "ubuntu-24.04-${{ matrix.runner_suffix }}"
+    timeout-minutes: 600
+    strategy:
+      max-parallel: 8
+      matrix:
+        ext: ['amqp', 'apcu', 'bcmath', 'bz2', 'decimal', 'ds', 'exif', 'gd', 'gettext', 'gmp', 'grpc', 'igbinary', 'imagick', 'imap', 'intl', 'memcached', 'memprof', 'mongodb', 'msgpack', 'newrelic', 'opcache', 'opentelemetry', 'pcntl', 'pdo_mysql', 'pdo_sqlsrv', 'protobuf', 'redis', 'snappy', 'soap', 'sockets', 'sqlsrv', 'ssh2', 'uopz', 'xdebug', 'yaml', 'zip']
+        php_version: ["8.2", "8.3", "8.4"]
+        runner_suffix: ["", "-arm"]
+        include:
+        - allow_failure: false
+        - ext: sqlsrv
+          runner_suffix: ""
+        - ext: pdo_sqlsrv
+          runner_suffix: ""
+        - ext: uopz
+          php_version: "8.4"
+          allow_failure: true
+    steps:
+      - run: |
+          echo "ext=${{ matrix.ext }}"
+          echo "php_version=${{ matrix.php_version }}"
+          echo "runner_suffix=${{ matrix.runner_suffix }}"
+          echo "----------"
+          uname -a
