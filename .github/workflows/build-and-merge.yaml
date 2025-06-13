@@ -8,15 +8,17 @@ on:
 
 jobs:
   build:
-    name: "${{ matrix.ext }}-${{ matrix.php_version }}${{ matrix.runner_suffix }}"
-    runs-on: ubuntu-24.04-${{ matrix.runner_suffix }}
+    name: "${{ matrix.ext }}-${{ matrix.php_version }}${{ matrix.runner }}"
+    runs-on: ${{ matrix.runner }}
     timeout-minutes: 600
     strategy:
       max-parallel: 8
       matrix:
         ext: ['amqp', 'apcu', 'bcmath', 'bz2', 'decimal', 'ds', 'exif', 'gd', 'gettext', 'gmp', 'grpc', 'igbinary', 'imagick', 'imap', 'intl', 'memcached', 'memprof', 'mongodb', 'msgpack', 'newrelic', 'opcache', 'opentelemetry', 'pcntl', 'pdo_mysql', 'pdo_sqlsrv', 'protobuf', 'redis', 'snappy', 'soap', 'sockets', 'sqlsrv', 'ssh2', 'uopz', 'xdebug', 'yaml', 'zip']
         php_version: ["8.2", "8.3", "8.4"]
-        runner_suffix: [""]
+        runner:
+        - ubuntu-24.04
+        - ubuntu-24.04-arm
         include:
         - allow_failure: false
         - ext: sqlsrv
