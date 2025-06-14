@@ -115,4 +115,4 @@ jobs:
           pattern: digests-*
           merge-multiple: true
 
-      - run: ${{ runner.temp }}/digests
+      - run: ls -lah ${{ runner.temp }}/digests
