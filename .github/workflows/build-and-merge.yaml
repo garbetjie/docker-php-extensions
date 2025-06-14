@@ -84,6 +84,9 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-cache-new
           cache-from: type=local,src=/tmp/.buildx-cache
 
+      - name: Replace cache  # temp fix for https://github.com/docker/build-push-action/issues/252 & https://github.com/moby/buildkit/issues/1896.
+        run: rm -rf /tmp/.buildx-cache && mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
       - name: Export digest
         run: |
           mkdir -p ${{ runner.temp }}/digests
