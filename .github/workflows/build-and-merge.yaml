@@ -94,7 +94,7 @@ jobs:
         run: |
           mkdir -p ${{ runner.temp }}/digests
           digest="${{ steps.build.outputs.digest }}"
-          printf '%s' "${digest#sha256:}" > "${{ runner.temp }}/digests/${{ matrix.php_version }}-${{ matrix.ext }}-${{ matrix.arch }}
+          printf '%s' "${digest#sha256:}" > "${{ runner.temp }}/digests/${{ matrix.php_version }}-${{ matrix.ext }}-${{ matrix.arch }}"
 
       - name: Upload digest
         uses: actions/upload-artifact@v4
