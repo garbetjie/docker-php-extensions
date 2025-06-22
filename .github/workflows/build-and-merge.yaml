@@ -14,7 +14,7 @@ jobs:
     strategy:
       max-parallel: 8
       matrix:
-        ext: [amqp]
+        ext: ['amqp']
         php_version: ["8.2", "8.3", "8.4"]
         runner:
         - ubuntu-24.04
