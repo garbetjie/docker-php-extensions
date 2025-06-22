@@ -23,13 +23,13 @@ jobs:
         include:
         - allow_failure: false
         - no_digest_found_action: error
-        - ext: sqlsrv
-          runner_suffix: ""
-        - ext: pdo_sqlsrv
-          runner_suffix: ""
-        - ext: uopz
-          php_version: "8.4"
-          allow_failure: true
+#        - ext: sqlsrv
+#          runner_suffix: ""
+#        - ext: pdo_sqlsrv
+#          runner_suffix: ""
+#        - ext: uopz
+#          php_version: "8.4"
+#          allow_failure: true
         - runner: ubuntu-24.04
           arch: amd64
         - runner: ubuntu-24.04-arm
