@@ -131,6 +131,9 @@ jobs:
           
           tree .
 
+      - name: Set up buildx
+        uses: docker/setup-buildx-action@v3
+
       - working-directory: ${{ runner.temp }}/digests
         run: |
           set -x
