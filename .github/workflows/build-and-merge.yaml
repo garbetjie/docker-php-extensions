@@ -14,7 +14,8 @@ jobs:
     strategy:
       max-parallel: 8
       matrix:
-        ext: [amqp, apcu, bcmath, bz2, decimal, ds, exif, gd, gettext, gmp, grpc, igbinary, imagick, imap, intl, memcached, memprof, mongodb, msgpack, newrelic, opcache, opentelemetry, pcntl, pdo_mysql, pdo_sqlsrv, protobuf, redis, snappy, soap, sockets, sqlsrv, ssh2, uopz, xdebug, yaml, zip]
+        # ext: [amqp, apcu, bcmath, bz2, decimal, ds, exif, gd, gettext, gmp, grpc, igbinary, imagick, imap, intl, memcached, memprof, mongodb, msgpack, newrelic, opcache, opentelemetry, pcntl, pdo_mysql, pdo_sqlsrv, protobuf, redis, snappy, soap, sockets, sqlsrv, ssh2, uopz, xdebug, yaml, zip]
+        ext: [amqp]
         php_version: ["8.2", "8.3", "8.4"]
         runner:
         - ubuntu-24.04
