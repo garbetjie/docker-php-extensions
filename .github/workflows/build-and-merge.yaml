@@ -114,8 +114,28 @@ jobs:
         with:
           path: ${{ runner.temp }}/digests
           pattern: digests-*
-          merge-multiple: false
+          merge-multiple: true
 
       - run: env
       - run: tree ${{ runner.temp }}/digests
+      - working-directory: ${{ runner.temp }}/digests
+        run: |
+          set -x
+          
+          for filename in *; do
+            ext="${filename%-amd64}"
+            ext="${ext%-arm64}"
+            mkdir -p "$ext"
+            mv $filename $ext/
+          done
+          
+          tree .
 
+      - working-directory: ${{ runner.temp }}/digests
+        run: |
+          set -x
+          
+          for dirname in *; do
+            cd $dirname
+            docker buildx imagetool create *
+          done
