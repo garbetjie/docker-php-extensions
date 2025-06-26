@@ -140,5 +140,7 @@ jobs:
           
           for dirname in *; do
             cd $dirname
-            docker buildx imagetool create "${{ vars.AWS_ECR_DEST }}:$dirname" *
+            docker buildx imagetools create "${{ vars.AWS_ECR_DEST }}:$dirname" *
           done
+          
+          docker image list
