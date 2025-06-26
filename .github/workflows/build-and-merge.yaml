@@ -155,9 +155,12 @@ jobs:
           for dirname in *; do
             tag="$dirname"
           
-            cd $dirname
-            cat *
-            docker buildx imagetools create --dry-run -t "${{ vars.AWS_ECR_DEST }}:$dirname" *
+            args=("-t" "${{ vars.AWS_ECR_DEST }}:$tag")
+            for filepath in "$dirname"/*; do
+              args+=("${{ vars.AWS_ECR_DEST }}@sha256:$(cat "$filepath")")
+            done
+            
+            docker buildx imagetools create --dry-run "${args[@]}"
           done
           
           docker image list
