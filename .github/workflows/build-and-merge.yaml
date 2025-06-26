@@ -160,7 +160,5 @@ jobs:
               args+=("${{ vars.AWS_ECR_DEST }}@sha256:$(cat "$filepath")")
             done
             
-            docker buildx imagetools create --dry-run "${args[@]}"
+            docker buildx imagetools create "${args[@]}"
           done
-          
-          docker image list
