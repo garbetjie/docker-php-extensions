@@ -158,6 +158,13 @@ jobs:
         run: |
           set -x
           
+          # Remove empty files.
+          find . -type f -size 0 -print -delete
+          
+          # Remove empty directories as a result of removing empty files.
+          find . -type d -empty -print -delete
+          
+          # Cycle through each directory, as the directory name is the tag.
           for dirname in *; do
             tag="$dirname"
           
