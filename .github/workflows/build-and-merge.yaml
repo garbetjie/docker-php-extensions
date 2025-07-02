@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: "${{ matrix.ext }}-${{ matrix.php_version }}-${{ matrix.arch }}"
+    name: "${{ matrix.php_version }}-${{ matrix.ext }}-${{ matrix.arch }}"
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 600
     strategy:
@@ -21,7 +21,6 @@ jobs:
         - ubuntu-24.04-arm
         include:
         - allow_failure: false
-        - no_digest_found_action: error
         - ext: sqlsrv
           runner_suffix: ""
         - ext: pdo_sqlsrv
@@ -33,8 +32,6 @@ jobs:
           arch: amd64
         - runner: ubuntu-24.04-arm
           arch: arm64
-        - allow_failure: true
-          no_digest_found_action: warn
     steps:
       - uses: actions/checkout@v4
 
@@ -101,7 +98,7 @@ jobs:
         with:
           name: digests-${{ matrix.php_version }}-${{ matrix.ext }}-${{ matrix.arch }}
           path: ${{ runner.temp }}/digests/*
-          if-no-files-found: ${{ matrix.no_digest_found_action }}
+          if-no-files-found: ${{ matrix.allow_failure && 'warn' || 'error' }}
           retention-days: 1
 
   merge-architectures:
