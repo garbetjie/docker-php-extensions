@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: "${{ matrix.php_version }}-${{ matrix.ext }}-${{ matrix.arch }}"
+    name: "${{ matrix.php_version }}-${{ matrix.ext }}/${{ matrix.arch }}"
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 600
     strategy:
@@ -22,14 +22,14 @@ jobs:
         include:
         - allow_failure: false
         - ext: sqlsrv
-          runner_suffix: ""
+          runner: ubuntu-24.04
         - ext: pdo_sqlsrv
-          runner_suffix: ""
+          runner: ubuntu-24.04
         - ext: uopz
           php_version: "8.4"
           allow_failure: true
         - runner: ubuntu-24.04
-          arch: amd64
+          arch: x86_64
         - runner: ubuntu-24.04-arm
           arch: arm64
     steps:
@@ -119,8 +119,8 @@ jobs:
           
           for filename in *; do
             ext="$filename"
-            ext="${ext%-amd64}"
             ext="${ext%-arm64}"
+            ext="${ext%-x86_64}"
           
             mkdir -p "$ext"
             mv $filename $ext/
