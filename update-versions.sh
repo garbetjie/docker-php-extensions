@@ -34,7 +34,8 @@ do
 
   version="$(curl -s "https://pecl.php.net/package/$ext" | pup 'table.middle td.content > table:nth-of-type(3) tr:nth-child(3) th:first-child a text{}')"
 
-  "$sed" -i "s/https:\/\/pecl.php.net\/get\/$ext-\?.*.tgz/https:\/\/pecl.php.net\/get\/$ext-$version.tgz/" extensions/$ext/Dockerfile
+  "$sed" -i "s/https:\/\/pecl.php.net\/get\/$ext-\?.*.tgz/https:\/\/pecl.php.net\/get\/$ext-$version.tgz/" extensions/alpine/$ext/Dockerfile
+  "$sed" -i "s/https:\/\/pecl.php.net\/get\/$ext-\?.*.tgz/https:\/\/pecl.php.net\/get\/$ext-$version.tgz/" extensions/debian/$ext/Dockerfile
 
   echo "$version [done]"
 done

@@ -4,7 +4,7 @@ set -e -o pipefail
 
 ext="$1"
 php_version="8.1"
-tag_suffix="-cli-alpine"
+tag_suffix="-cli-bookworm"
 skip_cache=""
 
 while [ $# -gt 0 ]; do
@@ -37,7 +37,7 @@ docker images --filter reference=build/php:"$ext"
 cat <<EOT | docker build $skip_cache -t build/php:testing --progress plain -
 FROM php:$image_tag
 COPY --from=build/php:$ext / /
-RUN curl https://raw.githubusercontent.com/garbetjie/docker-php-extensions/refs/heads/main/install-dependencies.sh | sh
+RUN curl https://raw.githubusercontent.com/garbetjie/docker-php-extensions/refs/heads/convert-to-debian/install-dependencies.sh | sh
 EOT
 
 start_size="$(docker image inspect php:$image_tag | jq -r '.[0].Size')"
