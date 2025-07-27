@@ -1,35 +1,168 @@
 # extensions:
-#  ['amqp', 'apcu', 'bcmath', 'bz2', 'decimal', 'ds', 'exif', 'gd', 'gettext', 'gmp', 'grpc', 'igbinary', 'imagick', 'imap', 'intl', 'memcached', 'memprof', 'mongodb', 'msgpack', 'newrelic', 'opcache', 'opentelemetry', 'pcntl', 'pdo_mysql', 'pdo_sqlsrv', 'protobuf', 'redis', 'snappy', 'soap', 'sockets', 'sqlsrv', 'ssh2', 'uopz', 'xdebug', 'yaml', 'zip']
+#  [amqp, apcu, bcmath, bz2, decimal, ds, exif, gd, gettext, gmp, grpc, igbinary, imagick, imap, intl, memcached, memprof, mongodb, msgpack, newrelic, opcache, opentelemetry, pcntl, pdo_mysql, pdo_sqlsrv, protobuf, redis, snappy, soap, sockets, sqlsrv, ssh2, uopz, xdebug, yaml, zip]
 
 # See https://docs.docker.com/build/ci/github-actions/multi-platform/#distribute-build-across-multiple-runners
 on:
   workflow_dispatch:
     inputs: {}
+  schedule:
+    - cron: "0 8 * * 0"
 
 jobs:
   build:
-    name: "${{ matrix.ext }}-${{ matrix.php_version }}${{ matrix.runner_suffix }}"
-    runs-on: "ubuntu-24.04-${{ matrix.runner_suffix }}"
+    name: "build [${{ matrix.php_version }}-${{ matrix.ext }}-${{ matrix.arch }}]"
+    runs-on: ${{ matrix.runner }}
     timeout-minutes: 600
     strategy:
       max-parallel: 8
       matrix:
-        ext: ['amqp', 'apcu', 'bcmath', 'bz2', 'decimal', 'ds', 'exif', 'gd', 'gettext', 'gmp', 'grpc', 'igbinary', 'imagick', 'imap', 'intl', 'memcached', 'memprof', 'mongodb', 'msgpack', 'newrelic', 'opcache', 'opentelemetry', 'pcntl', 'pdo_mysql', 'pdo_sqlsrv', 'protobuf', 'redis', 'snappy', 'soap', 'sockets', 'sqlsrv', 'ssh2', 'uopz', 'xdebug', 'yaml', 'zip']
+        ext: [amqp, apcu, bcmath, bz2, decimal, ds, exif, gd, gettext, gmp, grpc, igbinary, imagick, imap, intl, memcached, memprof, mongodb, msgpack, newrelic, opcache, opentelemetry, pcntl, pdo_mysql, pdo_sqlsrv, protobuf, redis, snappy, soap, sockets, sqlsrv, ssh2, uopz, xdebug, yaml, zip]
         php_version: ["8.2", "8.3", "8.4"]
-        runner_suffix: ["", "-arm"]
+        runner:
+        - ubuntu-24.04
+        - ubuntu-24.04-arm
         include:
         - allow_failure: false
         - ext: sqlsrv
-          runner_suffix: ""
+          runner: ubuntu-24.04
         - ext: pdo_sqlsrv
-          runner_suffix: ""
+          runner: ubuntu-24.04
         - ext: uopz
           php_version: "8.4"
           allow_failure: true
+        - runner: ubuntu-24.04
+          arch: amd64
+        - runner: ubuntu-24.04-arm
+          arch: arm64
     steps:
-      - run: |
-          echo "ext=${{ matrix.ext }}"
-          echo "php_version=${{ matrix.php_version }}"
-          echo "runner_suffix=${{ matrix.runner_suffix }}"
-          echo "----------"
-          uname -a
+      - uses: actions/checkout@v4
+
+      - name: Set up buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Load cache
+        uses: actions/cache@v4
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ matrix.php_version }}-${{ matrix.ext }}-${{ matrix.runner }}-debian-${{ github.sha }}
+          restore-keys: ${{ matrix.php_version }}-${{ matrix.ext }}-${{ matrix.runner }}-debian-
+
+      - name: Log in to Docker
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_LOGIN }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: Set up AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: "${{ secrets.AWS_ACCESS_KEY }}"
+          aws-secret-access-key: "${{ secrets.AWS_SECRET_KEY }}"
+          aws-region: "af-south-1"
+
+      - name: Log in to ECR (private)
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          registries: "489891245217"
+
+      - name: Log in to ECR (public)
+        uses: aws-actions/amazon-ecr-login@v2
+        env:
+          AWS_REGION: us-east-1
+        with:
+          registry-type: public
+
+      - name: Build & push by digest
+        id: build
+        uses: docker/build-push-action@v6
+        continue-on-error: ${{ matrix.allow_failure }}
+        with:
+          context: ./extensions/${{ matrix.ext }}
+          build-args: |
+            PHP_VERSION=${{ matrix.php_version }}
+            SOURCE_IMAGE=${{ vars.AWS_ECR_SRC }}
+          tags: ${{ vars.AWS_ECR_DEST }}
+          outputs: type=image,push-by-digest=true,name-canonical=true,push=true
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+          cache-from: type=local,src=/tmp/.buildx-cache
+
+      - name: Replace cache  # temp fix for https://github.com/docker/build-push-action/issues/252 & https://github.com/moby/buildkit/issues/1896.
+        run: rm -rf /tmp/.buildx-cache && mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
+      - name: Export digest
+        run: |
+          mkdir -p ${{ runner.temp }}/digests
+          digest="${{ steps.build.outputs.digest }}"
+          printf '%s' "${digest#sha256:}" > "${{ runner.temp }}/digests/${{ matrix.php_version }}-${{ matrix.ext }}-${{ matrix.arch }}"
+
+      - name: Upload digest
+        uses: actions/upload-artifact@v4
+        with:
+          name: digests-${{ matrix.php_version }}-${{ matrix.ext }}-${{ matrix.arch }}
+          path: ${{ runner.temp }}/digests/*
+          if-no-files-found: ${{ matrix.allow_failure && 'warn' || 'error' }}
+          retention-days: 1
+
+  merge:
+    runs-on: ubuntu-latest
+    needs: build
+    name: "merge [${{ matrix.php_version }}-${{ matrix.ext }}]"
+    strategy:
+      max-parallel: 8
+      matrix:
+        ext: [amqp, apcu, bcmath, bz2, decimal, ds, exif, gd, gettext, gmp, grpc, igbinary, imagick, imap, intl, memcached, memprof, mongodb, msgpack, newrelic, opcache, opentelemetry, pcntl, pdo_mysql, pdo_sqlsrv, protobuf, redis, snappy, soap, sockets, sqlsrv, ssh2, uopz, xdebug, yaml, zip]
+        php_version: ["8.2", "8.3", "8.4"]
+    steps:
+      - name: Download digests
+        uses: actions/download-artifact@v4
+        with:
+          path: ${{ runner.temp }}/digests
+          pattern: digests-${{ matrix.php_version }}-${{ matrix.ext }}-*
+          merge-multiple: true
+
+      - name: Set up buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_LOGIN }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: Set up AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: "${{ secrets.AWS_ACCESS_KEY }}"
+          aws-secret-access-key: "${{ secrets.AWS_SECRET_KEY }}"
+          aws-region: "af-south-1"
+
+      - name: Log in to ECR (public)
+        uses: aws-actions/amazon-ecr-login@v2
+        env:
+          AWS_REGION: us-east-1
+        with:
+          registry-type: public
+
+      - working-directory: ${{ runner.temp }}/digests
+        run: |
+          set -x
+          
+          # Remove empty files.
+          find . -type f -size 0 -print -delete
+          
+          tag="${{ matrix.php_version }}-${{ matrix.ext }}"
+          
+          # Only run if digest files found.
+          if [ -n "$(ls -A .)" ]; then
+            args=()
+            args+=("-t" "${{ vars.AWS_ECR_DEST }}:$tag")
+            args+=("-t" "${{ vars.DOCKER_HUB_REPO }}/php:${tag}-debian")
+          
+            for filepath in *; do
+              args+=("${{ vars.AWS_ECR_DEST }}@sha256:$(cat "$filepath")")
+            done
+          
+            docker buildx imagetools create "${args[@]}"
+          else
+            echo "No digest files found."
+          fi
