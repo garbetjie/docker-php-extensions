@@ -1,0 +1,30 @@
+#!/usr/bin/env sh
+
+set -e
+
+# Install gpg if not found.
+if ! command -v gpg 1> /dev/null 2> /dev/null; then
+  clean=true
+  apk add --no-cache gnupg
+fi
+
+# Download package & signature
+wget -P /tmp \
+  https://download.microsoft.com/download/b/9/f/b9f3cce4-3925-46d4-9f46-da08869c6486/msodbcsql18_18.1.1.1-1_amd64.apk \
+  https://download.microsoft.com/download/b/9/f/b9f3cce4-3925-46d4-9f46-da08869c6486/msodbcsql18_18.1.1.1-1_amd64.sig
+
+# Import the Microsoft key for verification.
+curl https://packages.microsoft.com/keys/microsoft.asc  | gpg --import -
+
+# Verify & install the package.
+gpg --verify /tmp/msodbcsql18_*.sig /tmp/msodbcsql18_*.apk
+apk add --no-cache --allow-untrusted /tmp/msodbcsql18_*.apk
+
+# Remove gpg package if we had to install it.
+if [ "$clean" = true ]; then
+  apk del --no-cache gnupg
+  rm -rf /root/.gnupg
+fi
+
+# Remove APKs and signatures.
+rm -f /tmp/msodbcsql18_*

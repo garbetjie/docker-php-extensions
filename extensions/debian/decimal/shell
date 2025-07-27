@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -ex -o pipefail
+
+# Download mpdecimal
+curl https://www.bytereef.org/software/mpdecimal/releases/mpdecimal-4.0.0.tar.gz --output /tmp/mpdecimal.tar.gz
+
+# Ensure the checksum is correct.
+if [ "$(sha256sum /tmp/mpdecimal.tar.gz | cut -f1 -d' ')" != "942445c3245b22730fd41a67a7c5c231d11cb1b9936b9c0f76334fb7d0b4468c" ]; then
+  echo "Aborting shell script: invalid SHA256 checksum."
+  exit 1
+fi
+
+tar -C /tmp -xzf /tmp/mpdecimal.tar.gz
+cd /tmp/mpdecimal-*
+./configure
+make
+make install
+rm -rf /tmp/mpdecimal-*
