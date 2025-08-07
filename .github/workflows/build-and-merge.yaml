@@ -80,7 +80,7 @@ jobs:
         uses: docker/build-push-action@v6
         continue-on-error: ${{ matrix.allow_failure }}
         with:
-          context: ./extensions/${{ matrix.ext }}
+          context: ./extensions/debian/${{ matrix.ext }}
           build-args: |
             PHP_VERSION=${{ matrix.php_version }}
             SOURCE_IMAGE=${{ vars.AWS_ECR_SRC }}
