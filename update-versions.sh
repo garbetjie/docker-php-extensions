@@ -10,32 +10,23 @@ if ! command -v pup &> /dev/null; then
   exit 1
 fi
 
-for ext in amqp \
-           apcu \
-           ds \
-           grpc \
-           igbinary \
-           imagick \
-           memcached \
-           memprof \
-           mongodb \
-           msgpack \
-           pdo_sqlsrv \
-           protobuf \
-           redis \
-           sqlsrv \
-           ssh2 \
-           swoole \
-           uopz \
-           xdebug \
-           yaml
-do
-  echo -n "Fetching latest version for extension [$ext]... "
+while IFS= read -r target_dir; do
+  ext="$(basename "$target_dir")"
+  docker_file="$target_dir/Dockerfile"
 
-  version="$(curl -s "https://pecl.php.net/package/$ext" | pup 'table.middle td.content > table:nth-of-type(3) tr:nth-child(3) th:first-child a text{}')"
+  if ! grep -F "https://pecl.php.net/get/$ext-" "$target_dir/Dockerfile" &> /dev/null; then
+    continue
+  fi
 
-  "$sed" -i "s/https:\/\/pecl.php.net\/get\/$ext-\?.*.tgz/https:\/\/pecl.php.net\/get\/$ext-$version.tgz/" extensions/alpine/$ext/Dockerfile
-  "$sed" -i "s/https:\/\/pecl.php.net\/get\/$ext-\?.*.tgz/https:\/\/pecl.php.net\/get\/$ext-$version.tgz/" extensions/debian/$ext/Dockerfile
+  echo -n "Fetching latest version for file '$docker_file'... "
+
+  version="$(curl --compressed -s "https://pecl.php.net/package/$ext" | pup 'table.middle td.content > table:nth-of-type(3) tr:nth-child(3) th:first-child a text{}')"
+  if ! [[ "$version" =~ ^[[:digit:]] ]]; then
+    echo "Invalid version '$version' encountered."
+    continue
+  fi
+
+  "$sed" -i "s/https:\/\/pecl.php.net\/get\/$ext-\?.*.tgz/https:\/\/pecl.php.net\/get\/$ext-$version.tgz/" "$docker_file"
 
   echo "$version [done]"
-done
+done < <(find ./extensions -type d -maxdepth 2 -mindepth 2)
