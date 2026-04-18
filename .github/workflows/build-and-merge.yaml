@@ -83,8 +83,8 @@ jobs:
           context: ./extensions/debian/${{ matrix.ext }}
           build-args: |
             PHP_VERSION=${{ matrix.php_version }}
-            SOURCE_IMAGE=${{ vars.AWS_ECR_SRC }}
-          tags: ${{ vars.AWS_ECR_DEST }}
+            SOURCE_IMAGE=${{ vars.ECR_MIRROR_REPO }}
+          tags: ${{ vars.ECR_TARGET_REPO }}
           outputs: type=image,push-by-digest=true,name-canonical=true,push=true
           cache-to: type=local,dest=/tmp/.buildx-cache-new
           cache-from: type=local,src=/tmp/.buildx-cache
@@ -158,11 +158,11 @@ jobs:
           # Only run if digest files found.
           if [ -n "$(ls -A .)" ]; then
             args=()
-            args+=("-t" "${{ vars.AWS_ECR_DEST }}:$tag")
-            args+=("-t" "${{ vars.DOCKER_HUB_REPO }}/php:${tag}-debian")
+            args+=("-t" "${{ vars.ECR_TARGET_REPO }}:$tag")
+            args+=("-t" "${{ vars.HUB_TARGET_REPO }}:$tag")
           
             for filepath in *; do
-              args+=("${{ vars.AWS_ECR_DEST }}@sha256:$(cat "$filepath")")
+              args+=("${{ vars.ECR_TARGET_REPO }}@sha256:$(cat "$filepath")")
             done
           
             docker buildx imagetools create "${args[@]}"

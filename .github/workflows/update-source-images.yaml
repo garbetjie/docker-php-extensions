@@ -31,7 +31,7 @@ jobs:
     - name: Copy source image
       run: |
         docker buildx imagetools create \
-          --tag "489891245217.dkr.ecr.af-south-1.amazonaws.com/mirrored/php:${{ matrix.php_version }}-cli-trixie" \
+          --tag "${{ vars.ECR_MIRROR_REPO }}:${{ matrix.php_version }}-cli-trixie" \
           "php:${{ matrix.php_version }}-cli-trixie"
 
 #    - name: Push target image
