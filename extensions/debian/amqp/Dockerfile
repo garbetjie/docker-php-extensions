@@ -1,6 +1,6 @@
 ARG SOURCE_IMAGE="php"
 ARG PHP_VERSION="8.4"
-FROM ${SOURCE_IMAGE}:${PHP_VERSION}-cli-bookworm
+FROM ${SOURCE_IMAGE}:${PHP_VERSION}-cli-trixie
 
 # Unpack source
 RUN docker-php-source extract
@@ -25,7 +25,7 @@ RUN tar -cf /tmp/files.tar \
       /opt/docker-php-extensions
 
 
-FROM ${SOURCE_IMAGE}:${PHP_VERSION}-cli-bookworm
+FROM ${SOURCE_IMAGE}:${PHP_VERSION}-cli-trixie
 
 COPY --from=0 /tmp/files.tar /tmp/
 RUN mkdir /tmp/root && tar -xf /tmp/files.tar -C /tmp/root
