@@ -4,7 +4,7 @@ set -e -o pipefail
 
 ext="$1"
 php_version="8.1"
-tag_suffix="-cli-bookworm"
+tag_suffix="-cli-trixie"
 skip_cache=""
 
 while [ $# -gt 0 ]; do
@@ -23,9 +23,9 @@ docker build \
   --platform linux/arm64,linux/amd64 \
   --build-arg "PHP_VERSION=$php_version" \
   $skip_cache \
-  -f extensions/$ext/Dockerfile \
+  -f extensions/debian/$ext/Dockerfile \
   --progress plain \
-  extensions/$ext
+  extensions/debian/$ext
 
 set +x
 echo ""
