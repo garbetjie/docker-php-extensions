@@ -7,7 +7,7 @@ RUN docker-php-source extract
 
 # Download
 RUN mkdir /usr/src/php/ext/ds
-RUN curl https://pecl.php.net/get/ds-1.5.0.tgz | tar -C /usr/src/php/ext/ds -xzf - --strip-components 1
+RUN curl https://pecl.php.net/get/ds-2.0.0.tgz | tar -C /usr/src/php/ext/ds -xzf - --strip-components 1
 
 # Install
 RUN docker-php-ext-configure ds

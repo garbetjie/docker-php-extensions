@@ -7,7 +7,7 @@ RUN docker-php-source extract
 
 # Download
 RUN mkdir /usr/src/php/ext/decimal
-RUN curl https://pecl.php.net/get/decimal-1.5.0.tgz | tar -C /usr/src/php/ext/decimal -xzf - --strip-components 1
+RUN curl https://pecl.php.net/get/decimal-2.0.1.tgz | tar -C /usr/src/php/ext/decimal -xzf - --strip-components 1
 COPY shell /tmp/install.sh
 RUN bash /tmp/install.sh
 
