@@ -16,7 +16,7 @@ fi
 cat <<EOT > "extensions/$1/Dockerfile"
 ARG SOURCE_IMAGE="php"
 ARG PHP_VERSION="8.4"
-FROM \${SOURCE_IMAGE}:\${PHP_VERSION}-cli-bookworm
+FROM \${SOURCE_IMAGE}:\${PHP_VERSION}-cli-trixie
 
 # Unpack source
 RUN docker-php-source extract
@@ -55,7 +55,7 @@ EOT
 # Create file system
 
 # Copy install script.
-cp install-dependencies.sh "extensions/$1/install.sh"
+cp install-dependencies-debian.sh "extensions/$1/install.sh"
 
 # Make package dependency file.
 touch "extensions/$1/apt"
